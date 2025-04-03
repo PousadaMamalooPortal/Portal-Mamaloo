@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # Adicione esta linha (novo volume)
+    environment:           # Adicione esta seção (novas variáveis)
+      NODE_ENV: development
+      npm_config_platform: linux
+      npm_config_arch: x64
+    command: npm run dev
+    stdin_open: true
+    tty: true
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    command: uvicorn main:app --reload --host 0.0.0.0
+    depends_on:
+      - database
+
+  database:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: meubanco
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
