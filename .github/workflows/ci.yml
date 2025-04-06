@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - main   # Somente na branch main
   pull_request:
     branches:
-      - main
+      - main   # Somente na branch main
 
 jobs:
   backend:
@@ -29,6 +29,13 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r backend/requirements.txt
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          sudo apt-get install -y netcat
+          until nc -z -v -w30 127.0.0.1 5432; do
+            echo "Waiting for database connection..."
+            sleep 5
+          done
       - name: Run tests
         run: |
           pytest backend/tests/
@@ -49,3 +56,17 @@ jobs:
         run: |
           cd frontend
           npm test
+
+  deploy:
+    if: github.ref == 'refs/heads/main'  # Só executa o deploy quando a branch for main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request approval before deploying
+        uses: peter-evans/manual-approval-action@v1
+        with:
+          approval_required: true  # Aprovação manual antes do deploy
+      - name: Deploy to Render
+        run: |
+          curl -X POST "https://api.render.com/deploy?key=${{ secrets.RENDER_API_KEY }}"
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
