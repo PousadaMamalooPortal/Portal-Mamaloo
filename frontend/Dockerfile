@@ -17,3 +17,6 @@ EXPOSE 5173
 
 # Comando para iniciar o servidor de desenvolvimento do Vite
 CMD ["npm", "run", "dev"]
+
+# Verificar se o npm está instalado
+RUN npm --version
