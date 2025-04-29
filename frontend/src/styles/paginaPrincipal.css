@@ -1,0 +1,220 @@
+html, body {
+    margin: 0;
+    padding: 0; 
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;  
+    /*background-color: #ebc5ae;*/
+  }
+  
+  /* Primeira seção  */
+  .background-section {
+    width: 100%;
+    height: 100vh; 
+    background-image: url('/src/assets/mamaloo-frente.png'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+
+  }
+  
+  /*   Segunda seção   */
+  .content-section {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    gap: 0px;
+    height: 100vh; 
+    padding: 20px;
+    flex-direction: row;
+   
+  }
+  
+  .inner-content {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    border: 4px solid #6f4f37; 
+    border-radius: 10px; 
+    width: 100%;
+    box-sizing: border-box;
+    margin: 50px; 
+  }
+
+  .content-section .text {
+    flex: 1;
+    padding: 10px;
+    margin-right: -150px; 
+    font-size: 20px;
+    line-height: 1.6; 
+    text-align: left; 
+    margin-left: 70px;
+    color: #4B3527;
+  }
+  
+  
+  .content-section .image {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    margin-left: 200px; 
+  }
+  
+  .content-section .image img {
+    max-width: 80%;
+    height: auto;
+    border-radius: 10px; 
+  }
+  
+
+
+/*  Responsividade   */
+  @media(max-width:1600px){
+    .content-section .image img {
+      max-width: 100%;
+      height: 100%;
+    }
+
+    .content-section .image {
+      margin-left: 150px; 
+    }
+
+
+    .content-section .text {
+      font-size: 18px;
+      margin-right: -120px;
+      margin-left: 20px;
+    }
+  }
+
+  @media(max-width:1300px){
+    .content-section .image img {
+      max-width: 100%;
+      height: 100%;
+    }
+
+    .content-section .image {
+      margin-left: 100px; 
+    }
+
+
+    .content-section .text {
+      font-size: 17px;
+      margin-right: -100px;
+      margin-left: 10px;
+    }
+  }
+
+  @media(max-width:1100px){
+   
+    .content-section .image {
+      margin-left: 60px; 
+      
+    }
+
+
+    .content-section .text {
+      font-size: 15px;
+      margin-right: -80px;
+      margin-left:0px;
+    }
+  } 
+  
+  @media(max-width:1040px){
+   
+    .content-section .image img {
+      max-width: 70%;
+      height: auto;
+    }
+
+    .content-section .image {
+      justify-content: center;
+      margin-left: 8px;
+   
+    }
+    .inner-content{
+      flex-direction: column;
+    
+    }
+    
+
+    .content-section .text {
+      font-size: 17px;
+      max-width: 90%;
+      margin-left: 50px;
+      margin-right: 50px;
+    }
+  }
+
+  @media(max-width:800px) {
+    .content-section {
+      margin-top: 80px; 
+    }
+  }
+
+  @media(max-width:590px) {
+    .content-section {
+      margin-top: 200px; 
+      font-size: 17px;
+      max-width: 100%;
+      
+    }
+  }
+
+  @media(max-width:515px) {
+    .content-section {
+      margin-top: 200px; 
+      font-size: 16px;
+      max-width: 100%;
+      
+    }
+
+    .content-section .text {
+      font-size: 17px;
+      max-width: 100%;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+  
+  @media(max-width:455px) {
+    .content-section {
+      margin-top: 100px; 
+      font-size: 16px;
+      max-width: 100%;
+      padding-left: 0;
+    padding-right: 0; 
+      
+    }
+
+    .content-section .text {
+      font-size: 15px;
+      max-width: 100%;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+  
+  @media(max-width:375px) {
+    .content-section {
+      margin-top: 200px; 
+    }
+  }
+
+  @media(max-width:340px) {
+    .content-section {
+      margin-top:300px; 
+    }
+  }
+
+  @media (max-width: 768px) {
+    .pagina-principal {
+      height: 100vh; 
+    }
+  }
+
+  @media(max-height:600px) {
+    .content-section {
+      margin-top: 200px; 
+    }
+  }
+  
