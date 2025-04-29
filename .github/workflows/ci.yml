@@ -1,16 +1,18 @@
-name: CI/CD Pipeline
+name: CI - Run Tests with Docker
 
 on:
   push:
     branches:
-      - main   # Somente na branch main
+      - desenvolvimento   # Rodar quando houver um push na branch 'main'
   pull_request:
     branches:
-      - main   # Somente na branch main
+      - desenvolvimento   # Rodar para pull requests na branch 'main'
 
 jobs:
-  backend:
+  # Job para testar o backend (FastAPI) e frontend (React/Vite) usando Docker
+  test:
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:13
@@ -20,53 +22,54 @@ jobs:
           POSTGRES_PASSWORD: 1234
         ports:
           - 5432:5432
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-      - name: Install dependencies
-        run: |
-          pip install -r backend/requirements.txt
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          sudo apt-get install -y netcat
-          until nc -z -v -w30 127.0.0.1 5432; do
-            echo "Waiting for database connection..."
-            sleep 5
-          done
-      - name: Run tests
-        run: |
-          pytest backend/tests/
+        options: --health-cmd "pg_isready -U postgres" --health-interval 10s --health-timeout 5s --health-retries 5
 
-  frontend:
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm install
-      - name: Run tests
-        run: |
-          cd frontend
-          npm test
+      # Passo 1: Checkout do código
+      - name: Checkout code
+        uses: actions/checkout@v2
 
+      # Passo 2: Set up Docker (se necessário)
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+
+      # Passo 3: Construir e rodar os containers com Docker Compose
+      - name: Run Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml up -d  # Inicia os containers em background
+          docker-compose ps  # Verifica se os containers estão rodando corretamente
+
+      # Passo 4: Rodar os testes do backend (FastAPI)
+      - name: Run backend tests (FastAPI)
+        run: |
+          docker-compose exec backend pytest backend/tests/  # Executa os testes do backend dentro do container
+
+      # Passo 5: Rodar os testes do frontend (React/Vite)
+      - name: Run frontend tests (React/Vite)
+        run: |
+          docker-compose exec frontend npm test -- --coverage  # Executa os testes do frontend dentro do container
+
+      # Passo 6: Parar os containers após os testes
+      - name: Shut down Docker containers
+        run: |
+          docker-compose down  # Desliga os containers após a execução dos testes
+
+  # Job para deploy (somente na branch 'main')
   deploy:
-    if: github.ref == 'refs/heads/main'  # Só executa o deploy quando a branch for main
+    if: github.ref == 'refs/heads/main'  # Só executa o deploy quando a branch for 'main'
     runs-on: ubuntu-latest
+    needs: test  # Garante que o deploy só aconteça se os testes passarem
+
     steps:
+      # Passo 1: Aprovação manual antes do deploy
       - name: Request approval before deploying
         uses: peter-evans/manual-approval-action@v1
         with:
           approval_required: true  # Aprovação manual antes do deploy
-      - name: Deploy to Render
+
+      # Passo 2: Deploy para o servidor
+      - name: Deploy to Server
         run: |
-          curl -X POST "https://api.render.com/deploy?key=${{ secrets.RENDER_API_KEY }}"
+          curl -X POST "https://seu-servidor.com/deploy?key=${{ secrets.DEPLOY_API_KEY }}"
         env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}  # Adicione sua chave de API no GitHub Secrets
