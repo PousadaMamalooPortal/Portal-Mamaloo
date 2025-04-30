@@ -33,6 +33,33 @@ const PaginaPrincipal = () => {
         </div>
         </div>
       </section>
+
+   {/* Terceira seção */}
+   <section className="rooms-section">
+        <div className="rooms-cards">
+          <div className="room-card">
+            <img src="/src/assets/quartos/mamaloo-quarto-quadruplo.jpg" alt="Quarto Quádruplo" />
+            <div className="room-info">
+              <h3>Quarto Quádruplo de Luxo</h3>
+              <button>Ver quarto</button>
+            </div>
+          </div>
+          <div className="room-card">
+            <img src="/src/assets/quartos/mamaloo-quarto-triplo.jpg" alt="Quarto Triplo" />
+            <div className="room-info">
+              <h3>Quarto Triplo Luxo</h3>
+              <button>Ver quarto</button>
+            </div>
+          </div>
+          <div className="room-card">
+            <img src="/src/assets/quartos/mamaloo-quarto-deluxe.jpg" alt="Estúdio Deluxe" />
+            <div className="room-info">
+              <h3>Estúdio Deluxe</h3>
+              <button>Ver quarto</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
