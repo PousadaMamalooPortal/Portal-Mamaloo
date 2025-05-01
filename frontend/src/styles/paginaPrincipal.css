@@ -3,7 +3,7 @@ html, body {
     padding: 0; 
     height: 100%;
     font-family: 'Montserrat', sans-serif;  
-    /*background-color: #ebc5ae;*/
+    background-color: #F1F1F1;
   }
   
   /* Primeira seção  */
@@ -77,7 +77,7 @@ html, body {
     text-align: center;
     background-color: #4B3527;
     color: white;
-    min-height: 95vh; 
+    min-height: 100vh; 
   }
 
 .rooms-section h2 {
@@ -147,6 +147,80 @@ html, body {
   background-color: #6f4f37; 
 }
 
+/* Quarta Seção - Google Maps Estático */
+.map-section {
+ 
+  padding: 40px 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  min-height: 100vh; /* Garante que a seção ocupe 100% da altura da tela */
+}
+
+.location-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 200px; /* Espaço entre o ícone e o mapa */
+  flex-wrap: wrap; /* Permite que o layout seja flexível */
+}
+
+.location-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.location-icon img {
+  width: 50px; 
+  height: auto;
+  margin-right: 10px; 
+  
+}
+
+.location-text {
+  text-align: left;
+  max-width: 1000px;
+  font-size: 20px;
+}
+
+.location-text h3 {
+  font-size: 30px;
+  color: #4B3527;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.location-text p {
+  font-size: 1em;
+  color: #4B3527;
+  line-height: 1.5;
+}
+
+button {
+  background-color: #4B3527;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  margin-left: 220px;
+}
+
+button:hover {
+  background-color: #6f4f37;
+}
+
+.map-container {
+  flex: 1;
+  max-width: 600px;
+  border: 3px solid #4B3527; /* Borda marrom */
+}
 
 /*  Responsividade   */
   @media(max-width:1600px){

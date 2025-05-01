@@ -60,6 +60,45 @@ const PaginaPrincipal = () => {
           </div>
         </div>
       </section>
+ {/* Quarta seção - Google Maps Estático */}
+ <section className="map-section">
+        <div className="location-container">
+          <div className="location-info">
+            <div className="location-icon">
+            <img src="/src/assets/icones/mamaloo-icone-loc.png" alt="Ícone de Localização" />
+            </div>
+            <div className="location-text">
+              <h3>Venha viver Maceió com a Mamaloo Pousada!</h3>
+              <p>
+                Maceió é um verdadeiro paraíso tropical, com mar azul-turquesa, coqueirais,
+                culinária irresistível e um povo acolhedor que conquista corações. Aqui, cada dia
+                é uma oportunidade de descobrir praias deslumbrantes, como Pajuçara, Jatiúca e Cruz
+                das Almas, e vivenciar passeios únicos pelas piscinas naturais, falésias coloridas
+                e lagoas encantadoras.
+              </p>
+              <p>
+                Venha descobrir o melhor de Maceió. Estamos te esperando na Mamaloo Pousada!
+              </p>
+              <button onClick={() => window.open("https://www.google.com/maps?q=Mamaloo+Pousada,Maceió,Alagoas")}>
+                Abrir Google Maps
+              </button>
+            </div>
+          </div>
+          <div className="map-container">
+            {/* Google Maps Estático */}
+            <iframe
+              title="Mapa Mamaloo Pousada"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3933.4349238195255!2d-35.70833602422409!3d-9.64382820182776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70145033f4722a7%3A0x899a273c4d978552!2sMamaloo%20Pousada!5e0!3m2!1spt-BR!2sbr!4v1746052635987!5m2!1spt-BR!2sbr"
+              width="100%"
+              height="450"
+              style={{ border: '0' }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
