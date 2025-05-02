@@ -153,17 +153,17 @@ html, body {
   padding: 40px 20px;
   text-align: center;
   display: flex;
-  justify-content: center; /* Centraliza o conteúdo horizontalmente */
-  align-items: center; /* Centraliza o conteúdo verticalmente */
-  min-height: 100vh; /* Garante que a seção ocupe 100% da altura da tela */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
 }
 
 .location-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 200px; /* Espaço entre o ícone e o mapa */
-  flex-wrap: wrap; /* Permite que o layout seja flexível */
+  gap: 200px; 
+  flex-wrap: wrap; 
 }
 
 .location-info {
@@ -219,8 +219,96 @@ button:hover {
 .map-container {
   flex: 1;
   max-width: 600px;
-  border: 3px solid #4B3527; /* Borda marrom */
+  border: 3px solid #4B3527; 
 }
+
+/* Quinta Seção - Café da Manhã */
+.sessao-cafe {
+  background-color: #4B3527;
+  padding: 60px 20px;
+  text-align: center;
+  color: white;
+  min-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:end;
+  
+}
+
+.titulo-cafe {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.texto-cafe {
+  max-width: 1200px;
+  font-size: 21px; /* Aumentado */
+  line-height: 1.8; /* Melhor espaçamento */
+  color: white;
+  padding: 0 30px;
+  text-align: left;
+}
+
+
+
+
+/* Primeira imagem grande à esquerda */
+.imagens-cafe {
+  display: grid;
+  grid-template-columns: 3fr 1.5fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 40px;
+}
+
+/* Imagem maior à esquerda */
+.imagens-cafe img:nth-child(1) {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Imagem central */
+.imagens-cafe img:nth-child(2) {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Container da direita com imagens empilhadas */
+.empilhadas {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  grid-column: 3 / 4;
+  grid-row: 1 / 3;
+  gap: 20px;
+}
+
+.empilhadas img {
+  width: 100%;
+  height: calc(50% - 10px);
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+
+
 
 /*  Responsividade   */
   @media(max-width:1600px){

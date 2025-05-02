@@ -34,7 +34,7 @@ const PaginaPrincipal = () => {
         </div>
       </section>
 
-   {/* Terceira seção */}
+   {/* Terceira seção - Quartos*/}
    <section className="rooms-section">
         <div className="rooms-cards">
           <div className="room-card">
@@ -60,7 +60,7 @@ const PaginaPrincipal = () => {
           </div>
         </div>
       </section>
- {/* Quarta seção - Google Maps Estático */}
+ {/* Quarta seção - Google Maps  */}
  <section className="map-section">
         <div className="location-container">
           <div className="location-info">
@@ -85,7 +85,6 @@ const PaginaPrincipal = () => {
             </div>
           </div>
           <div className="map-container">
-            {/* Google Maps Estático */}
             <iframe
               title="Mapa Mamaloo Pousada"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3933.4349238195255!2d-35.70833602422409!3d-9.64382820182776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70145033f4722a7%3A0x899a273c4d978552!2sMamaloo%20Pousada!5e0!3m2!1spt-BR!2sbr!4v1746052635987!5m2!1spt-BR!2sbr"
@@ -99,6 +98,27 @@ const PaginaPrincipal = () => {
           </div>
         </div>
       </section>
+   {/* Quinta seção - Café da manhã */}
+   <section className="sessao-cafe">
+      <h2 className="titulo-cafe">
+        Comece o dia com o sabor de Maceió na Mamaloo Pousada
+      </h2>
+
+      <div className="imagens-cafe">
+        <img src="/src/assets/cafe/mamaloo-cafe-mesas.jpg" alt="Mesa com cadeiras" />
+        <img src="/src/assets/cafe/mamaloo-cafe01.jpg" alt="Balcão de sucos e bebidas" />
+        <div className='empilhadas'>
+        <img src="/src/assets/cafe/mamaloo-cafe02.jpg" alt="Mesa com itens do café" />
+        <img src="/src/assets/cafe/mamaloo-cafe03.jpg" alt="Mesa com frutas e cereais" />
+        </div>
+      </div>
+
+      <p className="texto-cafe">
+        Na Mamaloo Pousada, o café da manhã é mais do que uma refeição — é um
+        convite para começar o dia com energia e sabor. Servido diariamente em um ambiente
+        acolhedor, nosso café oferece diversas opções para agradar todos os paladares.
+      </p>
+    </section>
     </div>
   );
 };
