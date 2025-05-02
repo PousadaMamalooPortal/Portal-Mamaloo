@@ -1,4 +1,5 @@
 import React from 'react';
+import ComentarioCard from './cardComentario';
 import '../styles/paginaPrincipal.css'; 
 
 const PaginaPrincipal = () => {
@@ -119,6 +120,14 @@ const PaginaPrincipal = () => {
         acolhedor, nosso café oferece diversas opções para agradar todos os paladares.
       </p>
     </section>
+    {/* Sexta seção - Comentários */}
+    <section className="secao-comentarios">
+      <h2 className="titulo-comentarios">O que dizem nossos hóspedes</h2>
+      <div className="comentarios-cards">
+        <ComentarioCard />
+       </div>
+    </section>
+
     </div>
   );
 };
