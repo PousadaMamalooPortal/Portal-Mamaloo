@@ -8,6 +8,13 @@ const ComentarioCard = () => {
   const comentariosPorPagina = 4;
 
   useEffect(() => {
+    // Quando o endpoint estiver disponível, substitua o mock abaixo:
+    // fetch('link api comentarios')
+    //   .then(res => res.json())
+    //   .then(data => setComentarios(data))
+    //   .catch(err => console.error('Erro ao buscar comentários:', err));
+
+    // Mock temporário
     const mockData = [
       { nome: 'Beatriz', texto: 'Quarto muito espaçoso e as roupas de cama e toalhas bem limpas.', origem: 'Booking.com' },
       { nome: 'Gina', texto: 'Quarto é espaçoso, tamanho da cama é muito bom e o ar condicionado funciona bem.', origem: 'Booking.com' },
