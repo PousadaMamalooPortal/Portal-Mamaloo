@@ -128,6 +128,48 @@ const PaginaPrincipal = () => {
        </div>
     </section>
 
+   {/* Sétima seção - Área de Convivência */}
+   <section className="secao-convivencia">
+  <h2 className="titulo-convivencia">Área de Convivência</h2>
+  <div className="convivencia-container">
+    <div className="texto-convivencia">
+      <p>
+        Nossa área de convivência é um espaço pensado para acolher todos os tipos de hóspedes.
+        Aqui, você pode relaxar após um dia de passeios, socializar com outros visitantes ou
+        simplesmente apreciar um bom livro com uma xícara de café. Um ambiente que une conforto,
+        praticidade e boas conversas.
+      </p>
+
+      <ul className="lista-convivencia">
+        <li>
+          <img src="/src/assets/icones/mamaloo-icone-livro.png" alt="Ícone livro" className="icone-lista" />
+          Leitura e troca de livros;
+        </li>
+        <li>
+          <img src="/src/assets/icones/mamaloo-icone-cafe.png" alt="Ícone café" className="icone-lista" />
+          Cantinho do café sempre disponível;
+        </li>
+        <li>
+          <img src="/src/assets/icones/mamaloo-icone-criancas.png" alt="Ícone crianças" className="icone-lista" />
+          Espaço para crianças;
+        </li>
+        <li>
+          <img src="/src/assets/icones/mamaloo-icone-socializacao.png" alt="Ícone socialização" className="icone-lista" />
+          Ambiente ideal para socialização;
+        </li>
+      </ul>
+
+    </div>
+
+    <div className="grid-convivencia">
+      <img src="/src/assets/convivencia/mamaloo-conv01.jpg" alt="Espaço leitura" />
+      <img src="/src/assets/convivencia/mamaloo-conv05.jpg" alt="Sala com poltronas" />
+      <img src="/src/assets/convivencia/mamaloo-conv02.jpg" alt="Corredor com brinquedos" />
+      <img src="/src/assets/convivencia/mamaloo-conv03.jpg" alt="Cantinho do café" />
+    </div>
+  </div>
+</section>
+
     </div>
   );
 };
