@@ -170,6 +170,54 @@ const PaginaPrincipal = () => {
   </div>
 </section>
 
+ 
+{/* Oitava seção - Galeria Maceió */}
+<section className="secao-galeria">
+  <h2 className="titulo-galeria">Conheça as belezas de Maceió</h2>
+  <div className="galeria-imagens">
+    <img src="/src/assets/maceio/mamaloo-maceio01.jpg" alt="" />
+    <img src="/src/assets/maceio/mamaloo-maceio02.jpg" alt="" />
+    <img src="/src/assets/maceio/mamaloo-maceio03.jpg" alt="" />
+    <img src="/src/assets/maceio/mamaloo-maceio04.jpg" alt="" />
+    <img src="/src/assets/maceio/mamaloo-maceio05.png" alt="" />
+    <img src="/src/assets/maceio/mamaloo-maceio06.jpg" alt="" />
+    <img src="/src/assets/maceio/mamaloo-maceio07.jpg" alt="" />
+    <img src="/src/assets/maceio/mamaloo-maceio08.jpg" alt="" />
+    <img src="/src/assets/maceio/mamaloo-maceio09.jpg" alt="" />
+  </div>
+</section>
+
+{/* Rodapé */}
+<footer className="rodape">
+<div className="info-contato">
+  <span>
+    <a href="https://www.instagram.com/mamaloopousada/" target="_blank" rel="noopener noreferrer">
+      <img src="/src/assets/icones/mamaloo-icone-instagram.png" alt="Instagram" />
+      @mamaloopousada
+    </a>
+  </span>
+  <span>
+    <a href="mailto:mamaloo@gmail.com">
+      <img src="/src/assets/icones/mamaloo-icone-email.png" alt="Email" />
+      mamaloo@gmail.com
+    </a>
+  </span>
+  <span>
+    <a href="https://api.whatsapp.com/send?phone=5582981815454" target="_blank">
+      <img src="/src/assets/icones/mamaloo-icone-whats.png" alt="Telefone" />
+      +55 (82) 98181-5454
+    </a>
+  </span>
+</div>
+
+  <div className="info-local">
+    <strong>Pousada Mamaloo</strong><br />
+    R. Dr. Waldemíro Alencar, 37, 126 - Jatiúca, Maceió - AL, 57035-860
+  </div>
+
+  <p className="desenvolvimento">Desenvolvido por: <br />2025 © Alunos IFAL</p>
+</footer>
+
     </div>
   );
 };
