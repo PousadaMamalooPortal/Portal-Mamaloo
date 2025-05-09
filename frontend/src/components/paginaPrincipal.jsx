@@ -1,6 +1,7 @@
 import React from 'react';
 import ComentarioCard from './cardComentario';
 import '../styles/paginaPrincipal.css'; 
+import logo from '../assets/mamaloo-recepcao.jpg';
 
 const PaginaPrincipal = () => {
   return (
@@ -30,7 +31,7 @@ const PaginaPrincipal = () => {
           </p>
         </div>
         <div className="image">
-          <img src="/src/assets/mamaloo-recepcao.jpg" alt="Imagem da Pousada" />
+          <img src={logo} alt="Imagem da Pousada" />
         </div>
         </div>
       </section>
