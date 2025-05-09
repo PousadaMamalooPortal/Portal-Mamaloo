@@ -40,21 +40,21 @@ const PaginaPrincipal = () => {
    <section className="rooms-section">
         <div className="rooms-cards">
           <div className="room-card">
-            <img src="/src/assets/quartos/mamaloo-quarto-quadruplo.jpg" alt="Quarto Quádruplo" />
+            <img src="/public/assets/quartos/mamaloo-quarto-quadruplo.jpg" alt="Quarto Quádruplo" />
             <div className="room-info">
               <h3>Quarto Quádruplo de Luxo</h3>
               <button>Ver quarto</button>
             </div>
           </div>
           <div className="room-card">
-            <img src="/src/assets/quartos/mamaloo-quarto-triplo.jpg" alt="Quarto Triplo" />
+            <img src="/public/assets/quartos/mamaloo-quarto-triplo.jpg" alt="Quarto Triplo" />
             <div className="room-info">
               <h3>Quarto Triplo Luxo</h3>
               <button>Ver quarto</button>
             </div>
           </div>
           <div className="room-card">
-            <img src="/src/assets/quartos/mamaloo-quarto-deluxe.jpg" alt="Estúdio Deluxe" />
+            <img src="/public/assets/quartos/mamaloo-quarto-deluxe.jpg" alt="Estúdio Deluxe" />
             <div className="room-info">
               <h3>Estúdio Deluxe</h3>
               <button>Ver quarto</button>
@@ -67,7 +67,7 @@ const PaginaPrincipal = () => {
         <div className="location-container">
           <div className="location-info">
             <div className="location-icon">
-            <img src="/src/assets/icones/mamaloo-icone-loc.png" alt="Ícone de Localização" />
+            <img src="/public/assets/icones/mamaloo-icone-loc.png" alt="Ícone de Localização" />
             </div>
             <div className="location-text">
               <h3>Venha viver Maceió com a Mamaloo Pousada!</h3>
@@ -107,11 +107,11 @@ const PaginaPrincipal = () => {
       </h2>
 
       <div className="imagens-cafe">
-        <img src="/src/assets/cafe/mamaloo-cafe-mesas.jpg" alt="Mesa com cadeiras" />
-        <img src="/src/assets/cafe/mamaloo-cafe01.jpg" alt="Balcão de sucos e bebidas" />
+        <img src="/public/assets/cafe/mamaloo-cafe-mesas.jpg" alt="Mesa com cadeiras" />
+        <img src="/public/assets/cafe/mamaloo-cafe01.jpg" alt="Balcão de sucos e bebidas" />
         <div className='empilhadas'>
-        <img src="/src/assets/cafe/mamaloo-cafe02.jpg" alt="Mesa com itens do café" />
-        <img src="/src/assets/cafe/mamaloo-cafe03.jpg" alt="Mesa com frutas e cereais" />
+        <img src="/public/assets/cafe/mamaloo-cafe02.jpg" alt="Mesa com itens do café" />
+        <img src="/public/assets/cafe/mamaloo-cafe03.jpg" alt="Mesa com frutas e cereais" />
         </div>
       </div>
 
@@ -143,19 +143,19 @@ const PaginaPrincipal = () => {
 
       <ul className="lista-convivencia">
         <li>
-          <img src="/src/assets/icones/mamaloo-icone-livro.png" alt="Ícone livro" className="icone-lista" />
+          <img src="/public/assets/icones/mamaloo-icone-livro.png" alt="Ícone livro" className="icone-lista" />
           Leitura e troca de livros;
         </li>
         <li>
-          <img src="/src/assets/icones/mamaloo-icone-cafe.png" alt="Ícone café" className="icone-lista" />
+          <img src="/public/assets/icones/mamaloo-icone-cafe.png" alt="Ícone café" className="icone-lista" />
           Cantinho do café sempre disponível;
         </li>
         <li>
-          <img src="/src/assets/icones/mamaloo-icone-criancas.png" alt="Ícone crianças" className="icone-lista" />
+          <img src="/public/assets/icones/mamaloo-icone-criancas.png" alt="Ícone crianças" className="icone-lista" />
           Espaço para crianças;
         </li>
         <li>
-          <img src="/src/assets/icones/mamaloo-icone-socializacao.png" alt="Ícone socialização" className="icone-lista" />
+          <img src="/public/assets/icones/mamaloo-icone-socializacao.png" alt="Ícone socialização" className="icone-lista" />
           Ambiente ideal para socialização;
         </li>
       </ul>
@@ -163,10 +163,10 @@ const PaginaPrincipal = () => {
     </div>
 
     <div className="grid-convivencia">
-      <img src="/src/assets/convivencia/mamaloo-conv01.jpg" alt="Espaço leitura" />
-      <img src="/src/assets/convivencia/mamaloo-conv05.jpg" alt="Sala com poltronas" />
-      <img src="/src/assets/convivencia/mamaloo-conv02.jpg" alt="Corredor com brinquedos" />
-      <img src="/src/assets/convivencia/mamaloo-conv03.jpg" alt="Cantinho do café" />
+      <img src="/public/assets/convivencia/mamaloo-conv01.jpg" alt="Espaço leitura" />
+      <img src="/public/assets/convivencia/mamaloo-conv05.jpg" alt="Sala com poltronas" />
+      <img src="/public/assets/convivencia/mamaloo-conv02.jpg" alt="Corredor com brinquedos" />
+      <img src="/public/assets/convivencia/mamaloo-conv03.jpg" alt="Cantinho do café" />
     </div>
   </div>
 </section>
@@ -176,15 +176,15 @@ const PaginaPrincipal = () => {
 <section className="secao-galeria">
   <h2 className="titulo-galeria">Conheça as belezas de Maceió</h2>
   <div className="galeria-imagens">
-    <img src="/src/assets/maceio/mamaloo-maceio01.jpg" alt="" />
-    <img src="/src/assets/maceio/mamaloo-maceio02.jpg" alt="" />
-    <img src="/src/assets/maceio/mamaloo-maceio03.jpg" alt="" />
-    <img src="/src/assets/maceio/mamaloo-maceio04.jpg" alt="" />
-    <img src="/src/assets/maceio/mamaloo-maceio05.png" alt="" />
-    <img src="/src/assets/maceio/mamaloo-maceio06.jpg" alt="" />
-    <img src="/src/assets/maceio/mamaloo-maceio07.jpg" alt="" />
-    <img src="/src/assets/maceio/mamaloo-maceio08.jpg" alt="" />
-    <img src="/src/assets/maceio/mamaloo-maceio09.jpg" alt="" />
+    <img src="/public/assets/maceio/mamaloo-maceio01.jpg" alt="" />
+    <img src="/public/assets/maceio/mamaloo-maceio02.jpg" alt="" />
+    <img src="/public/assets/maceio/mamaloo-maceio03.jpg" alt="" />
+    <img src="/public/assets/maceio/mamaloo-maceio04.jpg" alt="" />
+    <img src="/public/assets/maceio/mamaloo-maceio05.png" alt="" />
+    <img src="/public/assets/maceio/mamaloo-maceio06.jpg" alt="" />
+    <img src="/public/assets/maceio/mamaloo-maceio07.jpg" alt="" />
+    <img src="/public/assets/maceio/mamaloo-maceio08.jpg" alt="" />
+    <img src="/public/assets/maceio/mamaloo-maceio09.jpg" alt="" />
   </div>
 </section>
 
@@ -193,19 +193,19 @@ const PaginaPrincipal = () => {
 <div className="info-contato">
   <span>
     <a href="https://www.instagram.com/mamaloopousada/" target="_blank" rel="noopener noreferrer">
-      <img src="/src/assets/icones/mamaloo-icone-instagram.png" alt="Instagram" />
+      <img src="/public/assets/icones/mamaloo-icone-instagram.png" alt="Instagram" />
       @mamaloopousada
     </a>
   </span>
   <span>
     <a href="mailto:mamaloo@gmail.com">
-      <img src="/src/assets/icones/mamaloo-icone-email.png" alt="Email" />
+      <img src="/public/assets/icones/mamaloo-icone-email.png" alt="Email" />
       mamaloo@gmail.com
     </a>
   </span>
   <span>
     <a href="https://api.whatsapp.com/send?phone=5582981815454" target="_blank">
-      <img src="/src/assets/icones/mamaloo-icone-whats.png" alt="Telefone" />
+      <img src="/public/assets/icones/mamaloo-icone-whats.png" alt="Telefone" />
       +55 (82) 98181-5454
     </a>
   </span>
