@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './components/Header';
 import PaginaPrincipal from './components/paginaPrincipal';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
     <div className="App">
       <Header />
       <PaginaPrincipal/>
+      <Footer />
       <section id="home">
   
       </section>

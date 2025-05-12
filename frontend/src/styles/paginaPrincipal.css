@@ -430,45 +430,6 @@ button:hover {
 }
 
 
-/* Rodapé */
-.rodape {
-  background-color: #4B3527;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-}
-
-.rodape .info-contato span {
-  display: inline-block;
-  margin: 10px 20px;
-  font-size: 14px;
-}
-
-.rodape .info-contato img {
-  width: 25px;
-  vertical-align: middle;
-  margin-right: 6px;
-}
-
-.rodape .info-local {
-  margin-top: 20px;
-  font-size: 14px;
-}
-
-.rodape .desenvolvimento {
-  margin-top: 15px;
-  font-size: 12px;
-  opacity: 0.8;
-}
-
-.info-contato a {
-  text-decoration: none;
-  color: white; 
-}
-
-.info-contato a:hover {
-  color: #ff6600; 
-}
 
 /*  Responsividade   */
 
