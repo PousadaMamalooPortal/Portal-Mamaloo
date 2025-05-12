@@ -1,0 +1,122 @@
+/* src/styles/Avaliacoes.css */
+
+.avaliacoes-container {
+  max-width: 800px;
+  margin: 120px auto 60px;
+  padding: 30px;
+  border: 3px solid #4B3527;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #4B3527;
+  font-family: 'Montserrat', sans-serif;
+  height: auto; /* Ajuste a altura */
+  width: 100%; /* Flexível para qualquer tamanho */
+  box-sizing: border-box; 
+}
+
+.avaliacoes-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.comentarios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.comentario-box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #f9f9f9;
+}
+
+.comentario-topo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.comentario-topo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comentario-box p {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Removido: .responder-btn, .apagar-btn */
+
+/* .acoes-admin removed */
+
+/* Estilo do formulário de envio de comentário */
+.formulario-avaliacao {
+  display: flex;
+  border: 1px solid #4B3527;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.formulario-avaliacao input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  font-size: 14px;
+  outline: none;
+}
+
+.formulario-avaliacao button {
+  padding: 0 20px;
+  background-color: #fff;
+  border: 1px solid #4B3527;
+  font-size: 20px;
+  cursor: pointer;
+  color: #4B3527;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.formulario-avaliacao button:hover {
+  background-color: #f0f0f0;
+}
+
+.resposta-input {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resposta-input textarea {
+  width: 95%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.resposta-input button {
+  background-color: #4B3527;
+  color: white;
+  padding: 8px 5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 150px;
+  margin-left: 300px;
+}
+
+.resposta-input button:hover {
+  background-color: #6f4f37;
+}
