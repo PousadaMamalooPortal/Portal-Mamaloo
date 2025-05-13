@@ -14,7 +14,6 @@ html, body {
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat;
-
   }
   
   /*   Segunda seção   */
@@ -707,6 +706,56 @@ button {
 
 
 @media (max-width: 480px) {
+
+    /* GUSTAVO AQUI  */
+  .background-section {
+    height: 60vh; 
+  }
+  .content-section {
+    height: auto;
+  }
+  .image{
+    margin-left: 0; 
+  }
+  .image img {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+   .room-card {
+    width: 90%;
+   }
+   button {
+  font-size: 18px;
+   }
+   sessao-cafe {
+  height: 100%;
+   }
+   .titulo-comentarios{
+    padding-top: 0px;
+   }
+   .grid-convivencia img {
+    width: 100%;
+    height: auto;
+  }
+  .secao-comentarios{
+    padding-bottom: ;
+  }
+  .comentarios-grade{
+gap: 20px 20px;
+margin-top: 10px;
+  }
+  .grid-convivencia {
+    margin-top: 0px;
+  }
+  .texto-convivencia{
+    margin-top: 0px;
+    padding-top: 50px;
+  }
+
+
+
+
+
    /* Seção 2 */
    .inner-content {
     flex-direction: column;
