@@ -688,8 +688,8 @@ button {
 
 .secao-galeria .galeria-imagens {
   grid-template-columns: repeat(2, 1fr);
-  justify-items: center;  /* Centraliza as imagens horizontalmente */
-  align-items: center;    /* Centraliza as imagens verticalmente */
+  justify-items: center; 
+  align-items: center;   
   padding: 40px 230px; 
 }
 .secao-galeria .galeria-imagens img[src*="mamaloo-maceio09.jpg"] {
@@ -738,7 +738,7 @@ button {
     height: auto;
   }
   .secao-comentarios{
-    padding-bottom: ;
+    padding-bottom: 0px;
   }
   .comentarios-grade{
 gap: 20px 20px;

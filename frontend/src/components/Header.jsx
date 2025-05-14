@@ -14,7 +14,6 @@ const Header = () => {
           <li><Link to="/quartos">Quartos</Link></li>
           <li><Link to="/atracoes">Atrações</Link></li>
           <li><Link to="/avaliacoes">Avaliações</Link></li>
-          <li><a href="#book">Reservar</a></li>
         </ul>
       </nav>
     </header>

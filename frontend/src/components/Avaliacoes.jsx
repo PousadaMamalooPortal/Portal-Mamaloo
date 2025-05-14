@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import '../styles/Avaliacoes.css';
 
 function Avaliacoes() {
@@ -81,7 +79,7 @@ function Avaliacoes() {
       texto: novoComentario
     };
 
-    // Simulando adição
+    
     setComentarios(prev => [...prev, payload]);
     setNovoComentario('');
   };
