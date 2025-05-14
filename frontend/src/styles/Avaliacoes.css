@@ -4,13 +4,14 @@
   padding: 30px;
   border: 3px solid #4B3527;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: white;
   color: #4B3527;
   font-family: 'Montserrat', sans-serif;
   height: auto; 
   width: 100%;
   box-sizing: border-box; 
 }
+
 
 .avaliacoes-container h2 {
   font-size: 24px;
@@ -52,18 +53,66 @@
 
 
 .formulario-avaliacao {
+  background-color: #f9f9f9;
   display: flex;
+  flex-direction: column;
+  gap: 12px;
   border: 1px solid #4B3527;
   border-radius: 8px;
-  overflow: hidden;
+  padding: 15px;
+  margin-bottom: 30px;
+  box-sizing: border-box;
 }
+
+.inputs-superiores {
+  display: flex;
+  gap: 12px;
+  
+}
+
+.input-nome {
+  flex: 1;
+  min-width: 150px;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #4B3527;
+  border-radius: 6px;
+  outline: none;
+}
+
+.input-data {
+  width: 180px;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #4B3527;
+  border-radius: 6px;
+  outline: none;
+}
+
+
+.input-comentario-container {
+  display: flex;
+  gap: 8px;
+}
+
+.input-comentario {
+  background-color: #f9f9f9;
+  border:none;
+  padding: 12px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
 
 .formulario-avaliacao input {
   flex: 1;
   padding: 12px;
-  border: none;
   font-size: 14px;
   outline: none;
+  flex-grow: 1;
+  min-width: 120px;
+  box-sizing: border-box;
 }
 
 .formulario-avaliacao button {
@@ -79,38 +128,47 @@
   margin-right: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
+  
 }
 
 .formulario-avaliacao button:hover {
   background-color: #f0f0f0;
 }
 
-.resposta-input {
-  margin-top: 10px;
+.data-comentario {
+  font-size: 13px;
+  color: #888;
+  margin-left: 12px;
+  font-style: italic;
+}
+
+.resposta-box {
+  background-color: #f5f5f5;
+  border: 1px solid #4B3527;
+  padding: 15px 20px;
+  margin-top: 12px;
+  border-radius: 8px;
+  color: #4B3527;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.resposta-header {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
-.resposta-input textarea {
-  width: 95%;
-  padding: 10px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+.resposta-logo {
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.resposta-input button {
-  background-color: #4B3527;
-  color: white;
-  padding: 8px 5px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 150px;
-  margin-left: 300px;
-}
-
-.resposta-input button:hover {
-  background-color: #6f4f37;
+.resposta-nome {
+  font-weight: 700;
+  font-size: 16px;
 }

@@ -6,7 +6,6 @@ function Atracoes() {
   const [atracoes, setAtracoes] = useState([]);
 
   useEffect(() => {
-    // Simula busca via API (comentada)
     // async function fetchAtracoes() {
     //   try {
     //     const response = await axios.get('/api/atracoes');
@@ -17,7 +16,6 @@ function Atracoes() {
     // }
     // fetchAtracoes();
 
-    // Dados mockados para demo
     setAtracoes([
       {
         id: 1,
