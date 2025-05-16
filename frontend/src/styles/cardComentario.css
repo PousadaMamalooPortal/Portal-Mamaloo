@@ -147,7 +147,7 @@
  .seta-esquerda,
  .seta-direita {
    position: absolute;
-   top: -100px;
+   top: -110px;
  }
  
  .seta-esquerda {
@@ -155,6 +155,6 @@
  }
  
  .seta-direita {
-   left: 50%;
+   right: 35%;
  }
   } 

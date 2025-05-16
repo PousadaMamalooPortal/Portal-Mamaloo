@@ -31,8 +31,7 @@ const Footer = () => {
       </div>
 
       <p className="desenvolvimento">
-        Desenvolvido por: <br />
-        2025 © Alunos IFAL
+      2025 © Todos os direitos reservados. <br></br>Desenvolvido por: Alunos IFAL
       </p>
     </footer>
   );
