@@ -19,19 +19,19 @@ services:
       - app_network
 
   backend:
-    build: ./backend
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./backend:/app
-    environment:
-      - DATABASE_URL=postgresql://postgres:1234@database:5432/meubanco
-    command: sh -c "sleep 5 && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000"
-    depends_on:
-      database:
-        condition: service_healthy
-    networks: 
-      - app_network
+      build: ./backend
+      ports:
+        - "8000:8000"
+      volumes:
+        - ./backend:/app
+      environment:
+        - DATABASE_URL=postgresql://postgres:1234@database:5432/meubanco
+      command: sh -c "sleep 5 && python -m app.seeds && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000"
+      depends_on:
+        database:
+          condition: service_healthy
+      networks: 
+        - app_network
 
   database:
     image: postgres:16
@@ -50,6 +50,7 @@ services:
       retries: 10
     networks: 
       - app_network
+    restart: unless-stopped 
 
 volumes:
   pg_data:
