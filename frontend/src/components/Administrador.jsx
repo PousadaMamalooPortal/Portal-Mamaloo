@@ -72,10 +72,10 @@ export default function Administrador() {
     <div className="card-item">
       <span>{nome}</span>
       <div className="card-icons">
-       <button aria-label="Editar" title="Editar" className="btn-icon" onClick={onEdit}>
+       <button aria-label="Editar" title="Editar" className="btn-icon btn-editar" onClick={onEdit}>
           <img src="/assets/icones/mamaloo-icone-editar.png" alt="Editar" className="icon" />
         </button>
-        <button aria-label="Deletar" title="Deletar" className="btn-icon" onClick={onDelete}>
+        <button aria-label="Deletar" title="Deletar" className="btn-icon btn-delete" onClick={onDelete}>
           <img src="/assets/icones/mamaloo-icone-lixeira.png" alt="Deletar" className="icon" />
         </button>
       </div>
@@ -84,6 +84,7 @@ export default function Administrador() {
 
   return (
     <>
+    <div className="admin-page"> 
       <header className="header">
         <img
           src="/assets/mamaloo-logo.png"
@@ -141,6 +142,8 @@ export default function Administrador() {
           </button>
         </section>
       </main>
+    </div>
     </>
   );
+
 }
