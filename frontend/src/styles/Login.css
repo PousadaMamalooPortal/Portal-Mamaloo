@@ -46,13 +46,13 @@ html, body {
   position: relative;
 }
 
-/* Ícones embutidos no input com SVG base64 */
+
 .login-card input[type="text"] {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBzdHJva2U9IiMzRjJGMjAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iNCIvPjxwYXRoIGQ9Ik01LjUgMjFhNyA3IDAgMTEzIDB6Ii8+PC9zdmc+");
+  background-image: url("/assets/icones/mamaloo-icone-perfil.png");
 }
 
 .login-card input[type="password"] {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBzdHJva2U9IiMzRjJGMjAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxzdmc+PHJlY3Qgd2lkdGg9IjE4IiBoZWlnaHQ9IjEyIiB4PSIzIiB5PSIxMSIgcng9IjIiIHJ5PSIyIi8+PHBhdGggZD0iTTcgMTFWN2E1IDUgMCAwMTEwIDB2NCIvPjwvc3ZnPg==");
+  background-image: url("/assets/icones/mamaloo-icone-senha.png");
 }
 
 .login-card button {
