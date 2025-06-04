@@ -1,20 +1,19 @@
-/* Container geral da página */
 .atracoes-container {
   font-family: 'Montserrat', sans-serif;
   background-color: #f1f1f1;
   min-height: 100vh;
-  padding: 140px 20px 120px; /* topo maior para descer o conteúdo */
+  padding: 140px 20px 120px;
   display: flex;
   justify-content: center;
 }
 
-/* Área central onde ficam as atrações */
+
 .atracoes-main {
   max-width: 1600px;
   width: 100%;
 }
 
-/* Card de cada atração */
+
 .atracao-card {
   background-color: #4B3527;
   border-radius: 10px;

@@ -172,3 +172,35 @@
   font-weight: 700;
   font-size: 16px;
 }
+
+/*  Responsividade   */
+
+@media (min-width: 1025px) and (max-width: 1200px) {
+
+
+  
+}
+
+@media (min-width: 768px) and (max-width: 1130px) {
+
+.avaliacoes-container {
+  width: 80%;
+}
+}
+
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+.avaliacoes-container {
+  width: 80%;
+}
+
+.avaliacoes-container h2 {
+  font-size: 20px;
+}
+
+}
+
+@media (max-width: 480px) {
+
+}
