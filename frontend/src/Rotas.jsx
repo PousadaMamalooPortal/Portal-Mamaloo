@@ -3,13 +3,27 @@ import { Routes, Route } from 'react-router-dom';
 import PaginaPrincipal from "./components/paginaPrincipal";
 import Avaliacoes from "./components/Avaliacoes";
 import Atracoes from "./components/Atracoes";
+import Administrador from "./components/Administrador";
+import Login from "./components/Login"; 
+import ProtecaoRotas from './ProtecaoRotas';
 
 const Rotas = () => {
   return (
     <Routes>
       <Route path="/" element={<PaginaPrincipal />} />
       <Route path="/avaliacoes" element={<Avaliacoes />} />
-       <Route path="/Atracoes" element={<Atracoes />} />
+      <Route path="/atracoes" element={<Atracoes />} />
+
+
+       <Route path="/adm/login" element={<Login />} />
+      <Route 
+        path="/adm/*" 
+        element={
+          <ProtecaoRotas>
+            <Administrador />
+          </ProtecaoRotas>
+        } 
+      />
     </Routes>
   );
 };
