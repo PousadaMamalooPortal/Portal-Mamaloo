@@ -76,3 +76,7 @@
 .login-card button:hover {
   background-color: #633f22;
 }
+
+.login-logo{
+  height: 120px;
+}
