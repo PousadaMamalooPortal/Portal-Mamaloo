@@ -19,6 +19,7 @@ const Login = () => {
   };
 
   return (
+    <div className='loginPage'>
     <form className="login-card" onSubmit={handleLogin}>
       <img src="/assets/mamaloo-logo.png" alt="Logo" className="login-logo" />
       <h2>Login Administrativo</h2>
@@ -36,6 +37,7 @@ const Login = () => {
       />
       <button type="submit">Entrar</button>
     </form>
+    </div>
   );
 };
 
