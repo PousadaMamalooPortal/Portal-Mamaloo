@@ -1,0 +1,80 @@
+.modal-quarto-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-quarto h2 {
+  color: #4B3527;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.modal-quarto {
+  background-color: #e5e5e5;
+  padding: 25px;
+  border-radius: 10px;
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-quarto input,
+.modal-quarto textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.modal-quarto label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.modal-quarto .botoes {
+  display: flex;
+  justify-content: flex-start; 
+  gap: 12px;
+  margin-top: 14px;
+   margin-left: -210px;
+}
+
+.modal-quarto button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap; 
+  font-size: 14px;
+}
+
+.modal-quarto button:first-child {
+  background-color: #6b6b6b;
+}
+
+.modal-quarto button:last-child {
+  background-color: #4B3527;
+  color: white;
+}
+
+.modal-quarto button:first-child:hover {
+  background-color: #5a5a5a;
+  transform: scale(1.03);
+}
+
+.modal-quarto button:last-child:hover {
+  background-color: #3a281d;
+  transform: scale(1.03);
+}
