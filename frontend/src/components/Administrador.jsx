@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
 import '../styles/Administrador.css';
+import ModalAtracao from './Modais/modalAtracao';
+import ModalQuarto from './Modais/ModalQuarto';
 
 export default function Administrador() {
-  // Removido quartosHome
   const [quartos, setQuartos] = useState([]);
   const [atracoes, setAtracoes] = useState([]);
+
+  const [modalAberto, setModalAberto] = useState(false);
+  const [modoModal, setModoModal] = useState("adicionar");
+  const [dadosEdicao, setDadosEdicao] = useState({});
+  const [idEditando, setIdEditando] = useState(null);
+  const [tipoModal, setTipoModal] = useState(null);
+  const [modoSubModal, setModoSubModal] = useState("adicionar");
 
   useEffect(() => {
     /*
@@ -20,9 +28,30 @@ export default function Administrador() {
     */
 
     setQuartos([
-      { id: 4, nome: "Quarto Quádruplo de Luxo" },
-      { id: 5, nome: "Quarto Triplo de Luxo" },
-      { id: 6, nome: "Estúdio Deluxe" },
+      {
+        id: 4,
+        nome: "Quarto Quádruplo de Luxo",
+        descricao: "Descrição do quarto 4",
+        preco: "300",
+        promocao: "250",
+        itens: "Ar condicionado, TV, Wi-Fi"
+      },
+      {
+        id: 5,
+        nome: "Quarto Triplo de Luxo",
+        descricao: "Descrição do quarto 5",
+        preco: "250",
+        promocao: "230",
+        itens: "Frigobar, Wi-Fi"
+      },
+      {
+        id: 6,
+        nome: "Estúdio Deluxe",
+        descricao: "Descrição do estúdio",
+        preco: "400",
+        promocao: "350",
+        itens: "Jacuzzi, TV 50', Wi-Fi Premium"
+      }
     ]);
     setAtracoes([
       { id: 7, nome: "Piscinas Naturais de Pajuçara" },
@@ -33,8 +62,33 @@ export default function Administrador() {
     ]);
   }, []);
 
-  const handleEdit = (id) => {
-    console.log("Editar item com id:", id);
+  const handleEdit = (id, tipo) => {
+    if (tipo === "atracoes") {
+      const atracao = atracoes.find(item => item.id === id);
+      if (atracao) {
+        setModoSubModal("editar");
+        setTipoModal("atracoes");
+        setDadosEdicao({ titulo: atracao.nome, descricao: "" });
+        setIdEditando(id);
+        setModalAberto(true);
+      }
+    } else if (tipo === "quartos") {
+      const quarto = quartos.find(item => item.id === id);
+      if (quarto) {
+        setModoSubModal("editar");
+        setTipoModal("quartos");
+        setDadosEdicao({
+          titulo: quarto.nome || '',
+          descricao: quarto.descricao || '',
+          preco: quarto.preco || '',
+          promocao: quarto.promocao || '',
+          itens: quarto.itens || '',
+          imagem: null
+        });
+        setIdEditando(id);
+        setModalAberto(true);
+      }
+    }
   };
 
   const handleDelete = (id, tipo) => {
@@ -56,15 +110,95 @@ export default function Administrador() {
   };
 
   const adicionarItem = (tipo) => {
-    const nomeNovo = prompt(`Digite o nome do novo item para ${tipo}:`);
-    if (!nomeNovo) return;
+    setTipoModal(tipo);
+    setModoSubModal("adicionar");
+    setDadosEdicao({});
+    setModalAberto(true);
+  };
 
-    if (tipo === "quartos") {
-      const novoItem = { id: gerarNovoId(quartos), nome: nomeNovo };
-      setQuartos((prev) => [...prev, novoItem]);
-    } else if (tipo === "atracoes") {
-      const novoItem = { id: gerarNovoId(atracoes), nome: nomeNovo };
-      setAtracoes((prev) => [...prev, novoItem]);
+  const handleConfirmarModal = async ({ titulo, descricao, imagem }) => {
+    const formData = new FormData();
+    formData.append('titulo', titulo);
+    formData.append('descricao', descricao);
+    if (imagem) {
+      formData.append('imagem', imagem);
+    }
+
+    try {
+      if (modoSubModal === "editar") {
+        const response = await fetch(`link api${idEditando}`, {
+          method: 'PUT',
+          body: formData,
+        });
+
+        if (!response.ok) throw new Error('Erro ao editar atração');
+
+        const dadosAtualizados = await response.json();
+
+        setAtracoes(prev =>
+          prev.map(item =>
+            item.id === idEditando ? dadosAtualizados : item
+          )
+        );
+
+      } else {
+        const response = await fetch('link api', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) throw new Error('Erro ao adicionar atração');
+
+        const novaAtracao = await response.json();
+        setAtracoes(prev => [...prev, novaAtracao]);
+      }
+
+    } catch (error) {
+      console.error('Erro ao salvar atração:', error);
+      alert('Erro ao salvar atração. Verifique o console para mais detalhes.');
+    }
+  };
+
+  const handleConfirmarModalQuarto = async ({ titulo, descricao, preco, promocao, itens, imagem }) => {
+    const formData = new FormData();
+    formData.append('titulo', titulo);
+    formData.append('descricao', descricao);
+    formData.append('preco', preco);
+    formData.append('promocao', promocao);
+    formData.append('itens', itens);
+    if (imagem) {
+      formData.append('imagem', imagem);
+    }
+
+    try {
+      if (modoSubModal === "editar") {
+        const response = await fetch(`https://suaapi.com/quartos/${idEditando}`, {
+          method: 'PUT',
+          body: formData,
+        });
+
+        if (!response.ok) throw new Error('Erro ao editar quarto');
+        const dadosAtualizados = await response.json();
+
+        setQuartos(prev =>
+          prev.map(item =>
+            item.id === idEditando ? dadosAtualizados : item
+          )
+        );
+      } else {
+        const response = await fetch('https://suaapi.com/quartos', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) throw new Error('Erro ao adicionar quarto');
+        const novoQuarto = await response.json();
+        setQuartos(prev => [...prev, novoQuarto]);
+      }
+
+    } catch (error) {
+      console.error('Erro ao salvar quarto:', error);
+      alert('Erro ao salvar quarto. Verifique o console para mais detalhes.');
     }
   };
 
@@ -108,7 +242,7 @@ export default function Administrador() {
                 key={item.id}
                 id={item.id}
                 nome={item.nome}
-                onEdit={() => handleEdit(item.id)}
+                onEdit={() => handleEdit(item.id, "quartos")}
                 onDelete={() => handleDelete(item.id, "quartos")}
               />
             ))}
@@ -129,7 +263,7 @@ export default function Administrador() {
                 key={item.id}
                 id={item.id}
                 nome={item.nome}
-                onEdit={() => handleEdit(item.id)}
+                onEdit={() => handleEdit(item.id, "atracoes")}
                 onDelete={() => handleDelete(item.id, "atracoes")}
               />
             ))}
@@ -143,7 +277,26 @@ export default function Administrador() {
         </section>
       </main>
     </div>
+
+    {/* Modal de Atrações */}
+    {modalAberto && tipoModal === 'atracoes' && (
+      <ModalAtracao
+        modo={modoSubModal}
+        dadosIniciais={dadosEdicao}
+        onClose={() => setModalAberto(false)}
+        onConfirmar={handleConfirmarModal}
+      />
+    )}
+
+    {/* Modal de Quartos */}
+    {modalAberto && tipoModal === 'quartos' && (
+      <ModalQuarto
+        modo={modoSubModal}
+        dadosIniciais={dadosEdicao}
+        onClose={() => setModalAberto(false)}
+        onConfirmar={handleConfirmarModalQuarto}
+      />
+    )}
     </>
   );
-
 }
