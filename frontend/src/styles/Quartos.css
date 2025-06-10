@@ -1,0 +1,156 @@
+.pagina-quartos {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #F1F1F1;
+  color: #4B3527;
+}
+
+.conteudo {
+  padding: 40px 16px;
+  max-width: 1000px;
+  margin: 100px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.card-quarto {
+  background-color: #4B3527;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  padding: 12px;
+  gap: 20px;
+}
+
+
+.carousel-wrapper {
+  width: 350px;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.carousel-wrapper .slick-dots {
+  bottom: -30px;
+}
+
+.carousel-wrapper .imagem-quarto {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.carousel-wrapper .slick-prev,
+.carousel-wrapper .slick-next {
+  top: 50%; 
+  transform: translateY(-50%);
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-size: 20px;
+  color: white;
+}
+
+.carousel-wrapper .slick-prev {
+  left: -210px;
+}
+
+.carousel-wrapper .slick-next {
+  right: 8px;
+}
+
+
+.carousel-wrapper .slick-dots li button:before {
+  font-size: 5px;
+  color: #ffffff;
+  opacity: 0.6;
+}
+
+
+.carousel-wrapper .slick-dots li.slick-active button:before {
+  color: #ffffff;
+  opacity: 1;
+}
+
+
+
+.card-quarto .info-quarto {
+  flex: 1;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-quarto .info-quarto h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.icones-itens {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.descricao {
+  font-size: 14px;
+  margin-bottom: 16px;
+  color: #f0f0f0;
+}
+
+.precos {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.preco-original {
+  text-decoration: line-through;
+  color: #d2c2b0;
+  font-size: 15px;
+}
+
+.preco-promocional {
+  color: #ffd700;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.preco-unico {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.btn-reservar {
+  align-self:center;
+  background-color: #fff;
+  color: #4B3527;
+  padding: 15px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+   margin-top: 12px;
+  
+}
+
+.btn-reservar:hover {
+  background-color: #ddd;
+}

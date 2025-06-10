@@ -6,11 +6,13 @@ import Atracoes from "./components/Atracoes";
 import Administrador from "./components/Administrador";
 import Login from "./components/Login"; 
 import ProtecaoRotas from './ProtecaoRotas';
+import Quartos from "./components/Quartos";
 
 const Rotas = () => {
   return (
     <Routes>
       <Route path="/" element={<PaginaPrincipal />} />
+      <Route path="/quartos" element={<Quartos />} />
       <Route path="/avaliacoes" element={<Avaliacoes />} />
       <Route path="/atracoes" element={<Atracoes />} />
 
