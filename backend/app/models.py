@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text, Numeric
 from .database import Base
 
 class PontoTuristico(Base):
@@ -8,7 +8,7 @@ class PontoTuristico(Base):
     nomepontoturistico = Column(String(100), nullable=False)
     descricaopontoturistico = Column(Text, nullable=False)
     linkpontoturistico = Column(String(255), nullable=False)
-    
+
 class Administrador(Base):
     __tablename__ = "tab_administrador"
     
@@ -16,3 +16,13 @@ class Administrador(Base):
     nomeadministrador = Column(String(100), nullable=False)
     username = Column(String(50), unique=True, nullable=False)  # Alterado de email para username
     senha = Column(String(255), nullable=False)
+
+
+class Quarto(Base):
+    __tablename__ = "tab_quartos"
+
+    IdQuarto = Column(Integer, primary_key=True, index=True)
+    NomeQuarto = Column(String(50), nullable=False)
+    descricaoQuarto = Column(String(250), nullable=False)
+    CapacidadeQuarto = Column(Integer, nullable=False)
+    ValorQuarto = Column(Numeric(10, 2), nullable=False)

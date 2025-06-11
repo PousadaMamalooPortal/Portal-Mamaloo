@@ -130,3 +130,63 @@ def read_ponto_turistico(ponto_id: int, db: Session = Depends(get_db)):
     if ponto is None:
         raise HTTPException(status_code=404, detail="Ponto turístico não encontrado")
     return ponto
+
+
+
+# Rotas para Quartos
+@app.get("/quartos/", response_model=list[schemas.Quarto])
+def read_quartos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    try:
+        quartos = db.query(models.Quarto).offset(skip).limit(limit).all()
+        return quartos
+    except Exception as e:
+        logger.error(f"Erro ao buscar quartos: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao buscar quartos")
+
+@app.get("/quartos/{quarto_id}", response_model=schemas.Quarto)
+def read_quarto(quarto_id: int, db: Session = Depends(get_db)):
+    quarto = db.query(models.Quarto).filter(models.Quarto.IdQuarto == quarto_id).first()
+    if quarto is None:
+        raise HTTPException(status_code=404, detail="Quarto não encontrado")
+    return quarto
+
+@app.post("/quartos/", response_model=schemas.Quarto)
+def create_quarto(
+    quarto: schemas.QuartoCreate, 
+    db: Session = Depends(get_db),
+    current_administrador: schemas.Administrador = Depends(get_current_administrador)
+):
+    try:
+        db_quarto = models.Quarto(**quarto.dict())
+        db.add(db_quarto)
+        db.commit()
+        db.refresh(db_quarto)
+        return db_quarto
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Erro ao criar quarto: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao criar quarto")
+
+@app.put("/quartos/{quarto_id}", response_model=schemas.Quarto)
+def update_quarto(
+    quarto_id: int,
+    quarto_update: schemas.QuartoUpdate, 
+    db: Session = Depends(get_db),
+    current_administrador: schemas.Administrador = Depends(get_current_administrador)
+):
+    try:
+        db_quarto = db.query(models.Quarto).filter(models.Quarto.IdQuarto == quarto_id).first()
+        if db_quarto is None:
+            raise HTTPException(status_code=404, detail="Quarto não encontrado")
+        
+        update_data = quarto_update.dict(exclude_unset=True)
+        for key, value in update_data.items():
+            setattr(db_quarto, key, value)
+        
+        db.commit()
+        db.refresh(db_quarto)
+        return db_quarto
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Erro ao atualizar quarto: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao atualizar quarto")

@@ -40,3 +40,26 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Optional[str] = None
+
+
+
+class QuartoBase(BaseModel):
+    NomeQuarto: str
+    descricaoQuarto: str
+    CapacidadeQuarto: int
+    ValorQuarto: float
+
+class QuartoCreate(QuartoBase):
+    pass
+
+class Quarto(QuartoBase):
+    IdQuarto: int
+
+    class Config:
+        orm_mode = True
+
+class QuartoUpdate(BaseModel):
+    NomeQuarto: Optional[str] = None
+    descricaoQuarto: Optional[str] = None
+    CapacidadeQuarto: Optional[int] = None
+    ValorQuarto: Optional[float] = None
