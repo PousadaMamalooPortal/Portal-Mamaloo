@@ -1,12 +1,26 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from . import models, schemas
-from .database import SessionLocal, engine, init_db
+from sqlalchemy.exc import OperationalError
+from datetime import timedelta
 import logging
 import time
-from sqlalchemy.exc import OperationalError
-from fastapi.responses import JSONResponse  # Adicionado esta linha
+from typing import Optional
 
+# Importações dos módulos internos
+from . import models, schemas
+from .database import SessionLocal, engine, init_db, get_db
+from .auth import (
+    get_current_administrador,
+    create_access_token,
+    authenticate_administrador,
+    ACCESS_TOKEN_EXPIRE_MINUTES,
+    get_password_hash,
+    verify_password
+)
+
+# Configuração de logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -37,19 +51,53 @@ def on_startup():
         logger.error(f"Erro ao inicializar o banco de dados: {e}")
         raise
 
-# Endpoint de health check corrigido
+# Endpoint de health check
 @app.get("/health", response_class=JSONResponse)
 async def health_check():
     return {"status": "healthy"}
 
-# Dependência para obter a sessão do banco de dados
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
+@app.post("/token")
+async def login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+):
+    administrador = authenticate_administrador(db, form_data.username, form_data.password)
+    if not administrador:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Username ou senha incorretos",
+        )
+    access_token = create_access_token({"sub": administrador.username})
+    return {"access_token": access_token, "token_type": "bearer"}
+
+@app.post("/administradores/")
+def create_administrador(
+    administrador: schemas.AdministradorCreate,
+    db: Session = Depends(get_db)
+):
+    # Verificar se username já existe
+    if db.query(models.Administrador).filter(models.Administrador.username == administrador.username).first():
+        raise HTTPException(status_code=400, detail="Username já existe")
+    
+    hashed_password = get_password_hash(administrador.senha)
+    db_admin = models.Administrador(
+        nomeadministrador=administrador.nomeadministrador,
+        username=administrador.username,
+        senha=hashed_password
+    )
+    db.add(db_admin)
+    db.commit()
+    db.refresh(db_admin)
+    return db_admin
+
+@app.get("/administradores/me/", response_model=schemas.Administrador)
+async def read_administrador_me(
+    current_administrador: schemas.Administrador = Depends(get_current_administrador)
+):
+    return current_administrador
+
+# Rotas para Pontos Turísticos
 @app.get("/pontos-turisticos/", response_model=list[schemas.PontoTuristico])
 def read_pontos_turisticos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     try:
@@ -60,7 +108,11 @@ def read_pontos_turisticos(skip: int = 0, limit: int = 100, db: Session = Depend
         raise HTTPException(status_code=500, detail="Erro interno ao buscar pontos turísticos")
 
 @app.post("/pontos-turisticos/", response_model=schemas.PontoTuristico)
-def create_ponto_turistico(ponto: schemas.PontoTuristicoCreate, db: Session = Depends(get_db)):
+def create_ponto_turistico(
+    ponto: schemas.PontoTuristicoCreate, 
+    db: Session = Depends(get_db),
+    current_administrador: schemas.Administrador = Depends(get_current_administrador)
+):
     try:
         db_ponto = models.PontoTuristico(**ponto.dict())
         db.add(db_ponto)
