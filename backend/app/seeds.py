@@ -1,7 +1,9 @@
-# app/seeds.py
 from sqlalchemy.exc import IntegrityError
-from .models import Base, PontoTuristico
+from .models import Base, PontoTuristico, Quarto, Administrador
 from .database import engine, SessionLocal
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def criar_dados_iniciais():
     # Cria as tabelas se não existirem
@@ -12,7 +14,7 @@ def criar_dados_iniciais():
     try:
         # Verifica se já existem dados para não duplicar
         if db.query(PontoTuristico).count() == 0:
-            dados_iniciais = [
+            pontos_turisticos = [
                 PontoTuristico(
                     nomepontoturistico="Piscinas Naturais de Pajuçara",
                     descricaopontoturistico="Imagine um lugar onde águas cristalinas se encontram com o céu azul, e você pode nadar em meio a peixes coloridos em um cenário natural deslumbrante. Esse lugar existe e se chama Piscinas Naturais de Pajuçara, em Maceió, Alagoas. A poucos metros da costa, essas piscinas formadas por recifes de corais oferecem uma experiência única de contato com a natureza. Em um passeio de barco, você pode explorar essas águas calmas e transparentes, mergulhar em um mundo subaquático encantador e relaxar em um dos cenários mais paradisíacos do Brasil.",
@@ -39,14 +41,47 @@ def criar_dados_iniciais():
                     linkpontoturistico="./assets/museu_theo_brandao.jpg"
                 ),
             ]
-            
-            try:
-                db.add_all(dados_iniciais)
-                db.commit()
-                print("✅ Dados iniciais criados com sucesso!")
-            except IntegrityError as e:
-                db.rollback()
-                print(f"⚠️ Erro ao criar dados iniciais: {e}")
+            db.add_all(pontos_turisticos)
+        
+        # Adiciona um administrador fictício se não existir
+        if db.query(Administrador).count() == 0:
+            admin = Administrador(
+                nomeadministrador="Admin Master",
+                username="admin",
+                senha=pwd_context.hash("admin123")
+            )
+            db.add(admin)
+        
+        # Adiciona quartos fictícios se não existirem
+        if db.query(Quarto).count() == 0:
+            quartos = [
+                Quarto(
+                    NomeQuarto="Suíte Premium Vista Mar",
+                    descricaoQuarto="Suíte espaçosa com vista para o mar, cama king size, varanda privativa e banheira de hidromassagem.",
+                    CapacidadeQuarto=2,
+                    ValorQuarto=450.00
+                ),
+                Quarto(
+                    NomeQuarto="Quarto Familiar",
+                    descricaoQuarto="Amplo quarto com duas camas de casal e uma de solteiro, ideal para famílias.",
+                    CapacidadeQuarto=5,
+                    ValorQuarto=320.00
+                ),
+                Quarto(
+                    NomeQuarto="Suíte Executiva",
+                    descricaoQuarto="Confortável suíte com mesa de trabalho, acesso premium à internet e serviços executivos.",
+                    CapacidadeQuarto=2,
+                    ValorQuarto=380.00
+                )
+            ]
+            db.add_all(quartos)
+        
+        db.commit()
+        print("✅ Dados iniciais criados com sucesso!")
+    
+    except IntegrityError as e:
+        db.rollback()
+        print(f"⚠️ Erro ao criar dados iniciais: {e}")
     finally:
         db.close()
 

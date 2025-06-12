@@ -22,7 +22,7 @@ class AdministradorBase(BaseModel):
     nomeadministrador: str
     username: str
 
-    model_config = ConfigDict(from_attributes=True)  # Substitui a classe Config antiga
+    model_config = ConfigDict(from_attributes=True) 
 
 class AdministradorCreate(AdministradorBase):
     senha: str
