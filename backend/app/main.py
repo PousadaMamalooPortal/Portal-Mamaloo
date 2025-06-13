@@ -8,6 +8,15 @@ import logging
 import time
 from typing import Optional
 
+
+# from fastapi import Request
+# import requests
+# from dotenv import load_dotenv
+# import os
+# # Carrega variáveis de ambiente
+# load_dotenv()
+
+
 # Importações dos módulos internos
 from . import models, schemas
 from .database import SessionLocal, engine, init_db, get_db
@@ -25,6 +34,37 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
+
+
+async def verify_captcha(captcha_response: str):
+    """Verifica o CAPTCHA usando o serviço do Google reCAPTCHA"""
+    secret_key = os.getenv("RECAPTCHA_SECRET_KEY")
+    if not secret_key:
+        raise HTTPException(
+            status_code=500,
+            detail="Configuração de CAPTCHA não encontrada"
+        )
+    
+    data = {
+        "secret": secret_key,
+        "response": captcha_response
+    }
+    
+    try:
+        response = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data=data,
+            timeout=5
+        )
+        result = response.json()
+        return result.get("success", False)
+    except requests.RequestException as e:
+        logger.error(f"Erro ao verificar CAPTCHA: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Erro ao verificar CAPTCHA"
+        )
+        
 
 def wait_for_db(max_retries=5, delay_seconds=5):
     """Tenta conectar ao banco de dados com várias tentativas"""
@@ -190,3 +230,72 @@ def update_quarto(
         db.rollback()
         logger.error(f"Erro ao atualizar quarto: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao atualizar quarto")
+
+
+@app.post("/avaliacoes/", response_model=schemas.Avaliacao)
+async def create_avaliacao(
+    avaliacao: schemas.AvaliacaoCreate, 
+    db: Session = Depends(get_db),
+    # request: Request
+):
+    # Verifica o CAPTCHA primeiro
+    # if not await verify_captcha(avaliacao.captcha):
+    #     raise HTTPException(
+    #         status_code=400,
+    #         detail="CAPTCHA inválido ou não verificado"
+    #     )
+    
+    try:
+        # Remove o campo captcha antes de salvar no banco
+        # avaliacao_data = 
+        # avaliacao_data.pop("captcha")
+        
+        db_avaliacao = models.Avaliacao(**avaliacao.dict())
+        db.add(db_avaliacao)
+        db.commit()
+        db.refresh(db_avaliacao)
+        return db_avaliacao
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Erro ao criar avaliação: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao criar avaliação")
+
+
+@app.get("/avaliacoes/", response_model=list[schemas.Avaliacao])
+def read_avaliacoes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    try:
+        avaliacoes = db.query(models.Avaliacao).offset(skip).limit(limit).all()
+        return avaliacoes
+    except Exception as e:
+        logger.error(f"Erro ao buscar avaliações: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao buscar avaliações")
+
+@app.get("/avaliacoes/{avaliacao_id}", response_model=schemas.Avaliacao)
+def read_avaliacao(avaliacao_id: int, db: Session = Depends(get_db)):
+    avaliacao = db.query(models.Avaliacao).filter(models.Avaliacao.idavaliacao == avaliacao_id).first()
+    if avaliacao is None:
+        raise HTTPException(status_code=404, detail="Avaliação não encontrada")
+    return avaliacao
+
+@app.put("/avaliacoes/{avaliacao_id}", response_model=schemas.Avaliacao)
+def update_avaliacao(
+    avaliacao_id: int,
+    avaliacao_update: schemas.AvaliacaoUpdate, 
+    db: Session = Depends(get_db),
+    current_administrador: schemas.Administrador = Depends(get_current_administrador)
+):
+    try:
+        db_avaliacao = db.query(models.Avaliacao).filter(models.Avaliacao.idavaliacao == avaliacao_id).first()
+        if db_avaliacao is None:
+            raise HTTPException(status_code=404, detail="Avaliação não encontrada")
+        
+        # Apenas atualiza a resposta
+        db_avaliacao.respostaavaliacao = avaliacao_update.respostaavaliacao
+        
+        db.commit()
+        db.refresh(db_avaliacao)
+        return db_avaliacao
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Erro ao atualizar avaliação: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao atualizar avaliação")

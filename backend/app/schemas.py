@@ -55,11 +55,29 @@ class QuartoCreate(QuartoBase):
 class Quarto(QuartoBase):
     IdQuarto: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True) 
 
 class QuartoUpdate(BaseModel):
     NomeQuarto: Optional[str] = None
     descricaoQuarto: Optional[str] = None
     CapacidadeQuarto: Optional[int] = None
     ValorQuarto: Optional[float] = None
+
+
+class AvaliacaoBase(BaseModel):
+    nomeavaliacao: str
+    comentarioavaliacao: str
+    dataavaliacao: str
+    # captcha: str  # Adicionando o campo para o CAPTCHA
+
+class AvaliacaoCreate(AvaliacaoBase):
+    pass
+
+class Avaliacao(AvaliacaoBase):
+    idavaliacao: int
+    respostaavaliacao: Optional[str] = None
+
+    model_config = ConfigDict(from_attributes=True) 
+
+class AvaliacaoUpdate(BaseModel):
+    respostaavaliacao: str

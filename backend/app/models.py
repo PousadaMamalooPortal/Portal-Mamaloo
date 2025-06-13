@@ -17,7 +17,6 @@ class Administrador(Base):
     username = Column(String(50), unique=True, nullable=False)  # Alterado de email para username
     senha = Column(String(255), nullable=False)
 
-
 class Quarto(Base):
     __tablename__ = "tab_quartos"
 
@@ -26,3 +25,12 @@ class Quarto(Base):
     descricaoQuarto = Column(String(250), nullable=False)
     CapacidadeQuarto = Column(Integer, nullable=False)
     ValorQuarto = Column(Numeric(10, 2), nullable=False)
+
+class Avaliacao(Base):
+    __tablename__ = "tab_avaliacao"
+    
+    idavaliacao = Column(Integer, primary_key=True, index=True)
+    nomeavaliacao = Column(String(100), nullable=False)
+    comentarioavaliacao = Column(Text, nullable=False)
+    respostaavaliacao = Column(Text, nullable=True)  # Será preenchido pelo admin
+    dataavaliacao = Column(String(50), nullable=False)
