@@ -1,5 +1,5 @@
 from sqlalchemy.exc import IntegrityError
-from .models import Base, PontoTuristico, Quarto, Administrador
+from .models import Base, PontoTuristico, Quarto, Administrador, Avaliacao
 from .database import engine, SessionLocal
 from passlib.context import CryptContext
 
@@ -75,6 +75,33 @@ def criar_dados_iniciais():
                 )
             ]
             db.add_all(quartos)
+        
+        if db.query(Avaliacao).count() == 0:
+            avaliacoes = [
+                Avaliacao(
+                    nomeavaliacao="Beatriz Silva",
+                    comentarioavaliacao="Quarto muito espaçoso e limpo.",
+                    dataavaliacao="15/10/2024",  # Data como string formatada
+                    respostaavaliacao="Obrigada pelo feedback!"
+                ),
+                Avaliacao(
+                    nomeavaliacao="Gina Oliveira",
+                    comentarioavaliacao="Cama confortável e ar condicionado ótimo.",
+                    dataavaliacao="02/11/2024"  # Data como string formatada
+                ),
+                Avaliacao(
+                    nomeavaliacao="Carlos Mendes",
+                    comentarioavaliacao="Funcionários muito atenciosos.",
+                    dataavaliacao="20/11/2024",  # Data como string formatada
+                    respostaavaliacao="Agradecemos pela avaliação!"
+                ),
+                Avaliacao(
+                    nomeavaliacao="Renan Costa",
+                    comentarioavaliacao="Café da manhã excelente!",
+                    dataavaliacao="05/04/2024"  # Data como string formatada
+                )
+            ]
+            db.add_all(avaliacoes)
         
         db.commit()
         print("✅ Dados iniciais criados com sucesso!")
