@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas import PontoTuristico, PontoTuristicoCreate, Administrador
 from app.models import PontoTuristico as PontoModel
 from app.auth import get_current_administrador
+from app.file_uploads import save_uploaded_file
 
 router = APIRouter(prefix="/api/pontos-turisticos", tags=["Pontos Turísticos"])
 
@@ -19,8 +20,23 @@ def get_by_id(ponto_id: int, db: Session = Depends(get_db)):
     return ponto
 
 @router.post("/", response_model=PontoTuristico)
-def create(ponto: PontoTuristicoCreate, db: Session = Depends(get_db), current_admin: Administrador = Depends(get_current_administrador)):
-    db_ponto = PontoModel(**ponto.dict())
+async def create_ponto(
+    nomepontoturistico: str = Form(...),
+    descricaopontoturistico: str = Form(...),
+    imagem: UploadFile = File(None),
+    db: Session = Depends(get_db),
+    current_admin: Administrador = Depends(get_current_administrador)
+):
+    imagem_url = None
+    if imagem:
+        imagem_url = save_uploaded_file(imagem, "ponto_turistico")
+    
+    db_ponto = PontoModel(
+        nomepontoturistico=nomepontoturistico,
+        descricaopontoturistico=descricaopontoturistico,
+        imagem_url=imagem_url
+    )
+    
     db.add(db_ponto)
     db.commit()
     db.refresh(db_ponto)

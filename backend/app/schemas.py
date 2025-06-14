@@ -6,16 +6,16 @@ from fastapi import UploadFile
 class PontoTuristicoBase(BaseModel):
     nomepontoturistico: str
     descricaopontoturistico: str
-    linkpontoturistico: str
 
 class PontoTuristicoCreate(PontoTuristicoBase):
-    pass
+    imagem: UploadFile = None
 
 class PontoTuristico(PontoTuristicoBase):
     idpontoturistico: int
+    imagem_url: Optional[str] = None
     
 class Config:
-    from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 
@@ -51,11 +51,11 @@ class QuartoBase(BaseModel):
     ValorQuarto: float
 
 class QuartoCreate(QuartoBase):
-    imagem: UploadFile = None  # Adicionado campo para upload de arquivo
+    imagem: UploadFile = None 
 
 class Quarto(QuartoBase):
     IdQuarto: int
-    imagem_url: Optional[str] = None
+    imagemQuartos: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True) 
 

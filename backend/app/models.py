@@ -7,14 +7,14 @@ class PontoTuristico(Base):
     idpontoturistico = Column(Integer, primary_key=True, index=True)
     nomepontoturistico = Column(String(100), nullable=False)
     descricaopontoturistico = Column(Text, nullable=False)
-    linkpontoturistico = Column(String(255), nullable=False)
+    imagem_url = Column(String(255), nullable=True)
 
 class Administrador(Base):
     __tablename__ = "tab_administrador"
     
     idadministrador = Column(Integer, primary_key=True, index=True)
     nomeadministrador = Column(String(100), nullable=False)
-    username = Column(String(50), unique=True, nullable=False)  # Alterado de email para username
+    username = Column(String(50), unique=True, nullable=False)  
     senha = Column(String(255), nullable=False)
 
 class Quarto(Base):
@@ -25,7 +25,7 @@ class Quarto(Base):
     descricaoQuarto = Column(String(250), nullable=False)
     CapacidadeQuarto = Column(Integer, nullable=False)
     ValorQuarto = Column(Numeric(10, 2), nullable=False)
-    imagem_url = Column(String(255), nullable=True)  # Novo campo para armazenar o caminho da imagem
+    imagemQuartos = Column(String(255), nullable=True)
 
 class Avaliacao(Base):
     __tablename__ = "tab_avaliacao"

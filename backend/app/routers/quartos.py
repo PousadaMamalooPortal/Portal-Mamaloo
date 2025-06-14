@@ -32,9 +32,9 @@ async def create_quarto(
     current_admin: Administrador = Depends(get_current_administrador)
 ):
     # Salva a imagem se foi enviada
-    imagem_url = None
+    imagemquartos = None
     if imagem:
-        imagem_url = save_uploaded_file(imagem)
+        imagemquartos = save_uploaded_file(imagem)
     
     # Cria o quarto no banco de dados
     db_quarto = QuartoModel(
@@ -42,7 +42,7 @@ async def create_quarto(
         descricaoQuarto=descricaoquarto,
         CapacidadeQuarto=capacidadequarto,
         ValorQuarto=valorquarto,
-        imagem_url=imagem_url
+        imagemQuartos=imagemquartos
     )
     
     db.add(db_quarto)
