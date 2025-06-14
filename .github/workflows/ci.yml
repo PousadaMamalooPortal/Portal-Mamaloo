@@ -3,33 +3,21 @@ name: CI - Run Tests with Docker
 on:
   push:
     branches:
-      - desenvolvimento   # Rodar quando houver um push na branch 'main'
+      - desenvolvimento
   pull_request:
     branches:
-      - desenvolvimento   # Rodar para pull requests na branch 'main'
+      - desenvolvimento
 
 jobs:
-  # Job para testar o backend (FastAPI) e frontend (React/Vite) usando Docker
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_DB: meubanco
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 1234
-        ports:
-          - 5433:5432
-        options: --health-cmd "pg_isready -U postgres" --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
-      # Passo 1: Checkout do código
+      # Passo 1: Clonar o repositório
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Passo 2: Set up Docker (se necessário)
+      # Passo 2: Set up Docker
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
 
@@ -38,45 +26,43 @@ jobs:
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version  # Verifica a versão do Docker Compose instalado
+          docker-compose --version
 
-      # Passo 3: Construir e rodar os containers com Docker Compose
+      # Passo 4: Derrubar containers anteriores (evita erro de porta)
+      - name: Clean up previous containers
+        run: docker-compose down --remove-orphans
+
+      # Passo 5: Subir os containers com Docker Compose
       - name: Run Docker Compose
         run: |
-          docker-compose -f docker-compose.yml up -d  # Inicia os containers em background
-          docker-compose ps  # Verifica se os containers estão rodando corretamente
+          docker-compose up -d --build
+          docker-compose ps
 
-      # Passo 4: Rodar os testes do backend (FastAPI)
+      # Passo 6: Testes do Backend (FastAPI)
       - name: Run backend tests (FastAPI)
-        run: |
-          docker-compose exec backend pytest backend/tests/  # Executa os testes do backend dentro do container
+        run: docker-compose run --rm backend pytest backend/tests/
 
-      # Passo 5: Rodar os testes do frontend (React/Vite)
+      # Passo 7: Testes do Frontend (React/Vite)
       - name: Run frontend tests (React/Vite)
-        run: |
-          docker-compose exec frontend npm test -- --coverage  # Executa os testes do frontend dentro do container
+        run: docker-compose run --rm frontend npm test -- --coverage
 
-      # Passo 6: Parar os containers após os testes
+      # Passo 8: Encerrar os containers
       - name: Shut down Docker containers
-        run: |
-          docker-compose down  # Desliga os containers após a execução dos testes
+        run: docker-compose down
 
-  # Job para deploy (somente na branch 'main')
   deploy:
-    if: github.ref == 'refs/heads/main'  # Só executa o deploy quando a branch for 'main'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: test  # Garante que o deploy só aconteça se os testes passarem
+    needs: test
 
     steps:
-      # Passo 1: Aprovação manual antes do deploy
       - name: Request approval before deploying
         uses: peter-evans/manual-approval-action@v1
         with:
-          approval_required: true  # Aprovação manual antes do deploy
+          approval_required: true
 
-      # Passo 2: Deploy para o servidor
       - name: Deploy to Server
         run: |
           curl -X POST "https://seu-servidor.com/deploy?key=${{ secrets.DEPLOY_API_KEY }}"
         env:
-          DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}  # Adicione sua chave de API no GitHub Secrets
+          DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
