@@ -1,6 +1,7 @@
 
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
+from fastapi import UploadFile
 
 class PontoTuristicoBase(BaseModel):
     nomepontoturistico: str
@@ -50,10 +51,11 @@ class QuartoBase(BaseModel):
     ValorQuarto: float
 
 class QuartoCreate(QuartoBase):
-    pass
+    imagem: UploadFile = None  # Adicionado campo para upload de arquivo
 
 class Quarto(QuartoBase):
     IdQuarto: int
+    imagem_url: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True) 
 

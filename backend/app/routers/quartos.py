@@ -1,9 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Optional
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas import Quarto, QuartoCreate, QuartoUpdate, Administrador
 from app.models import Quarto as QuartoModel
 from app.auth import get_current_administrador
+from app.file_uploads import save_uploaded_file
+import os 
 
 router = APIRouter(prefix="/api/quartos", tags=["Quartos"])
 
@@ -19,8 +22,29 @@ def read_quarto(quarto_id: int, db: Session = Depends(get_db)):
     return quarto
 
 @router.post("/", response_model=Quarto)
-def create_quarto(quarto: QuartoCreate, db: Session = Depends(get_db), current_admin: Administrador = Depends(get_current_administrador)):
-    db_quarto = QuartoModel(**quarto.dict())
+async def create_quarto(
+    nomequarto: str = Form(...),
+    descricaoquarto: str = Form(...),
+    capacidadequarto: int = Form(...),
+    valorquarto: float = Form(...),
+    imagem: Optional[UploadFile] = File(None),
+    db: Session = Depends(get_db),
+    current_admin: Administrador = Depends(get_current_administrador)
+):
+    # Salva a imagem se foi enviada
+    imagem_url = None
+    if imagem:
+        imagem_url = save_uploaded_file(imagem)
+    
+    # Cria o quarto no banco de dados
+    db_quarto = QuartoModel(
+        NomeQuarto=nomequarto,
+        descricaoQuarto=descricaoquarto,
+        CapacidadeQuarto=capacidadequarto,
+        ValorQuarto=valorquarto,
+        imagem_url=imagem_url
+    )
+    
     db.add(db_quarto)
     db.commit()
     db.refresh(db_quarto)

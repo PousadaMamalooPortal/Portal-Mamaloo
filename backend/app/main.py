@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 from app.routers import auth, administradores, quartos, pontos_turisticos, avaliacoes
 from app.database import init_db
+from fastapi.staticfiles import StaticFiles
+import os
 
 app = FastAPI(
     title="API da Pousada Mamaloo",
@@ -46,6 +48,14 @@ def on_startup():
 @app.get("/", tags=["Inicial"])
 async def health_check():
     return {"status": "Funcionando"}
+
+
+# Cria o diretório se não existir
+os.makedirs("uploads/quartos", exist_ok=True)
+os.makedirs("uploads/pontos_turisticos", exist_ok=True)
+
+# Depois monte o StaticFiles
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 app.include_router(auth.router)
 app.include_router(administradores.router)

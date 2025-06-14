@@ -25,6 +25,7 @@ class Quarto(Base):
     descricaoQuarto = Column(String(250), nullable=False)
     CapacidadeQuarto = Column(Integer, nullable=False)
     ValorQuarto = Column(Numeric(10, 2), nullable=False)
+    imagem_url = Column(String(255), nullable=True)  # Novo campo para armazenar o caminho da imagem
 
 class Avaliacao(Base):
     __tablename__ = "tab_avaliacao"
