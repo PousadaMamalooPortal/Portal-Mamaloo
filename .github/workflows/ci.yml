@@ -32,7 +32,7 @@ jobs:
       - name: Clean up previous containers
         run: docker-compose down --remove-orphans
 
-      # Passo 5: Subir os containers com Docker Compose
+      # Passo 5: Subir os containers com Docker Compose (com build)
       - name: Run Docker Compose
         run: |
           docker-compose up -d --build
