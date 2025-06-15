@@ -38,9 +38,9 @@ jobs:
           docker-compose up -d --build
           docker-compose ps
 
-      # Passo 6: Testes do Backend (FastAPI)
-      - name: Run backend tests (FastAPI)
-        run: docker-compose run --rm backend pytest backend/tests/
+      # Passo 6: Testes do Backend (FastAPI) -- necessario fazer a criação do arquivo de teste na pasta backend
+      # - name: Run backend tests (FastAPI)
+      #  run: docker-compose run --rm backend pytest backend/tests/
 
       # Passo 7: Testes do Frontend (React/Vite)
       - name: Run frontend tests (React/Vite)
