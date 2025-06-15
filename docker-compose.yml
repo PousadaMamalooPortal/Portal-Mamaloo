@@ -34,13 +34,13 @@ services:
         - app_network
 
   database:
-    image: postgres:16
+    image: postgres:13
     environment:
       POSTGRES_DB: meubanco
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
     ports:
-      - "5433:5432"
+      - "5435:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
