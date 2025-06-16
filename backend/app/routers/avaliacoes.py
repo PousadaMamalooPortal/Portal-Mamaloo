@@ -20,7 +20,7 @@ def get_by_id(avaliacao_id: int, db: Session = Depends(get_db)):
 
 @router.post("/", response_model=Avaliacao)
 def create(avaliacao: AvaliacaoCreate, db: Session = Depends(get_db)):
-    db_avaliacao = AvaliacaoModel(**avaliacao.dict())
+    db_avaliacao = AvaliacaoModel(**avaliacao.model_dump())
     db.add(db_avaliacao)
     db.commit()
     db.refresh(db_avaliacao)

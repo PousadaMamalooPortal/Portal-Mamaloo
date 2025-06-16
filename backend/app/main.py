@@ -4,8 +4,17 @@ from app.routers import auth, administradores, quartos, pontos_turisticos, avali
 from app.database import init_db
 from fastapi.staticfiles import StaticFiles
 import os
+# Por (novo):
+from contextlib import asynccontextmanager
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
 
 app = FastAPI(
+    lifespan=lifespan,
     title="API da Pousada Mamaloo",
     description="Sistema para gestão de quartos, pontos turísticos e avaliações.",
     version="1.0.0",
@@ -41,9 +50,10 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
-@app.on_event("startup")
-def on_startup():
-    init_db()
+# @app.on_event("startup")
+# def on_startup():
+#     init_db()
+
 
 @app.get("/", tags=["Inicial"])
 async def health_check():
