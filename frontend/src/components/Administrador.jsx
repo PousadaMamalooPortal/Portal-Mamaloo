@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../styles/Administrador.css';
-import ModalAtracao from './Modais/modalAtracao';
+import ModalAtracao from './Modais/ModalAtracao';
 import ModalQuarto from './Modais/ModalQuarto';
 import AvaliacoesAdmin from "./AvaliacoesAdm";
 import { Link } from 'react-router-dom';
