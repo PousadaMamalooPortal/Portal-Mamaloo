@@ -12,7 +12,6 @@ def test_create_avaliacao(client, db):
     assert "idavaliacao" in response.json()
 
 def test_get_avaliacoes(client, db):
-    # Teste para listar avaliações
     response = client.get("/api/avaliacoes/")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
