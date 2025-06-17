@@ -13,7 +13,7 @@ RUN npm install --include=optional --force
 COPY . .
 
 # Expor a porta 5173 (que é a porta padrão do Vite)
-EXPOSE 5173
+EXPOSE 5185
 
 # Comando para iniciar o servidor de desenvolvimento do Vite
 CMD ["npm", "run", "dev"]
