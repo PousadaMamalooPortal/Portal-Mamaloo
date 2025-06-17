@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../styles/StyleModais/modalQuarto.css';
+import '../../styles/StyleModais/ModalQuarto.css';
 
 export default function ModalQuarto({ modo, dadosIniciais = {}, onClose, onConfirmar }) {
   const [titulo, setTitulo] = useState(dadosIniciais.titulo || '');
