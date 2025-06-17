@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import '../styles/Administrador.css';
 import ModalAtracao from './Modais/modalAtracao';
 import ModalQuarto from './Modais/ModalQuarto';
+import AvaliacoesAdmin from "./AvaliacoesAdm";
+import { Link } from 'react-router-dom';
+import HeaderAdm from './HeaderAdm';
+
 
 export default function Administrador() {
   const [quartos, setQuartos] = useState([]);
@@ -100,10 +104,7 @@ export default function Administrador() {
     }
   };
 
-  const realizarLogout = () => { 
-    localStorage.removeItem('token'); 
-    navegar("/adm/login"); 
-  };
+ 
 
   const gerarNovoId = (lista) => {
     return lista.length > 0 ? Math.max(...lista.map((item) => item.id)) + 1 : 1;
@@ -218,20 +219,8 @@ export default function Administrador() {
 
   return (
     <>
-    <div className="admin-page"> 
-      <header className="header">
-        <img
-          src="/assets/mamaloo-logo.png"
-          alt="Logo Mamaloo Pousada"
-          className="logo"
-        />
-        <nav>
-          <a href="#quartos" className="nav-link">Editar</a>
-          <a href="#atracoes" className="nav-link">Avaliações</a>
-           <a href="#" className="nav-link" onClick={realizarLogout}>Sair</a>
-        </nav>
-
-      </header>
+   <div className="admin-page">
+        <HeaderAdm />
 
       <main className="container">
         <section id="quartos" className="section">

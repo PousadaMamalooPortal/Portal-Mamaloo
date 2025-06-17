@@ -7,6 +7,7 @@ import Administrador from "./components/Administrador";
 import Login from "./components/Login"; 
 import ProtecaoRotas from './ProtecaoRotas';
 import Quartos from "./components/Quartos";
+import AvaliacoesAdm from "./components/AvaliacoesAdm"; 
 
 const Rotas = () => {
   return (
@@ -16,13 +17,20 @@ const Rotas = () => {
       <Route path="/avaliacoes" element={<Avaliacoes />} />
       <Route path="/atracoes" element={<Atracoes />} />
 
-
-       <Route path="/adm/login" element={<Login />} />
+      <Route path="/adm/login" element={<Login />} />
       <Route 
         path="/adm/*" 
         element={
           <ProtecaoRotas>
             <Administrador />
+          </ProtecaoRotas>
+        } 
+      />
+      <Route 
+        path="/adm/avaliacoesadm" 
+        element={
+          <ProtecaoRotas>
+            <AvaliacoesAdm />
           </ProtecaoRotas>
         } 
       />
