@@ -55,7 +55,7 @@ def update_quarto(quarto_id: int, quarto_update: QuartoUpdate, db: Session = Dep
     db_quarto = db.query(QuartoModel).filter_by(IdQuarto=quarto_id).first()
     if not db_quarto:
         raise HTTPException(status_code=404, detail="Quarto não encontrado")
-    for key, value in quarto_update.dict(exclude_unset=True).items():
+    for key, value in quarto_update.model_dump(exclude_unset=True).items():
         setattr(db_quarto, key, value)
     db.commit()
     db.refresh(db_quarto)
