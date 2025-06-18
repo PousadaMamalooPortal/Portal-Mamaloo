@@ -3,6 +3,8 @@ version: '3.8'
 services:
   frontend:
     build: ./frontend
+    image: portal-mamaloo_frontend
+    container_name: devFrontend-portalMamaloo
     ports:
       - "5185:5185"
     volumes:
@@ -20,6 +22,8 @@ services:
 
   backend:
       build: ./backend
+      image: portal-mamaloo_backend
+      container_name: devBackend-portalMamaloo
       ports:
         - "8025:8025"
       volumes:
@@ -33,7 +37,8 @@ services:
         - swag_default
 
   database:
-    image: postgres:13
+    image: postgres:13  
+    container_name: database-portalMamaloo
     environment:
       POSTGRES_DB: meubanco
       POSTGRES_USER: postgres
