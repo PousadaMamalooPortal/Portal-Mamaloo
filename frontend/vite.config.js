@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5185,
-    allowedHosts: ['profbrenojac.com.br'], // Libera o domínio da VPS
+    allowedHosts: ['mamaloopousada.com.br'], // Libera o domínio da VPS
     proxy: {
       // Quando sua aplicação React fizer uma requisição para '/api',
       // o Vite vai encaminhá-la para 'http://localhost:8025'
