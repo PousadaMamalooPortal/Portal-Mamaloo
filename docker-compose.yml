@@ -25,7 +25,7 @@ services:
       volumes:
         - ./backend:/app
       environment:
-        - DATABASE_URL=postgresql://postgres:1234@database:5436/meubanco
+        - DATABASE_URL=postgresql://postgres:1234@database:5432/meubanco
       command: sh -c "sleep 5 && python -m app.seeds && uvicorn app.main:app --reload --host 0.0.0.0 --port 8025"
       depends_on:
         - database
@@ -33,13 +33,13 @@ services:
         - swag_default
 
   database:
-    image: postgres:13
+    image: postgres:16
     environment:
       POSTGRES_DB: meubanco
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
     ports:
-      - "5436:5436"
+      - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:

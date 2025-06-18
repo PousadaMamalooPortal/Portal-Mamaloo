@@ -8,7 +8,9 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import Administrador
 from app.schemas import TokenData
+from fastapi import APIRouter
 
+router = APIRouter() 
 # Configurações de segurança
 SECRET_KEY = "sua-chave-secreta-super-segura"  # Em produção, use uma chave segura e variável de ambiente
 ALGORITHM = "HS256"

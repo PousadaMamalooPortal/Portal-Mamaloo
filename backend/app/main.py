@@ -28,6 +28,8 @@ app = FastAPI(
 )
 
 
+app.include_router(auth.router)  # Usando o router definido
+
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
