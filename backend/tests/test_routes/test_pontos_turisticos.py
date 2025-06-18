@@ -16,7 +16,7 @@ def test_get_all_pontos(client, db, ponto_data):
     db.commit()
     
     # Testa listagem
-    response = client.get("/api/pontos-turisticos/")
+    response = client.get("/pontos-turisticos/")
     assert response.status_code == 200
     assert len(response.json()) == 1
     assert response.json()[0]["nomepontoturistico"] == ponto_data["nomepontoturistico"]
@@ -27,7 +27,7 @@ def test_get_ponto_by_id(client, db, ponto_data):
     db.add(ponto)
     db.commit()
     
-    response = client.get(f"/api/pontos-turisticos/{ponto.idpontoturistico}")
+    response = client.get(f"/pontos-turisticos/{ponto.idpontoturistico}")
     assert response.status_code == 200
     assert response.json()["nomepontoturistico"] == ponto_data["nomepontoturistico"]
 
@@ -40,7 +40,7 @@ def test_create_ponto_turistico(client, db, admin_data, ponto_data):
     
     # Testa criação com autenticação usando Form data
     response = client.post(
-        "/api/pontos-turisticos/",
+        "/pontos-turisticos/",
         headers={"Authorization": f"Bearer {token}"},
         data={
             "nomepontoturistico": ponto_data["nomepontoturistico"],

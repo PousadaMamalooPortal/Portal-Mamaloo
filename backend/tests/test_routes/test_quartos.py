@@ -18,7 +18,7 @@ def test_get_all_quartos(client, db, quarto_data):
     db.commit()
     
     # Testa listagem
-    response = client.get("/api/quartos/")
+    response = client.get("/quartos/")
     assert response.status_code == 200
     assert len(response.json()) == 1
     assert response.json()[0]["NomeQuarto"] == quarto_data["NomeQuarto"]
@@ -29,7 +29,7 @@ def test_get_quarto_by_id(client, db, quarto_data):
     db.add(quarto)
     db.commit()
     
-    response = client.get(f"/api/quartos/{quarto.IdQuarto}")
+    response = client.get(f"/quartos/{quarto.IdQuarto}")
     assert response.status_code == 200
     assert response.json()["NomeQuarto"] == quarto_data["NomeQuarto"]
 
@@ -42,7 +42,7 @@ def test_create_quarto(client, db, admin_data, quarto_data):
     
     # Testa criação com autenticação usando Form data
     response = client.post(
-        "/api/quartos/",
+        "/quartos/",
         headers={"Authorization": f"Bearer {token}"},
         data={
             "nomequarto": quarto_data["NomeQuarto"],
@@ -68,7 +68,7 @@ def test_update_quarto(client, db, admin_data, quarto_data):
     
     # Testa atualização
     response = client.put(
-        f"/api/quartos/{quarto.IdQuarto}",
+        f"/quartos/{quarto.IdQuarto}",
         headers={"Authorization": f"Bearer {token}"},
         json=update_data
     )

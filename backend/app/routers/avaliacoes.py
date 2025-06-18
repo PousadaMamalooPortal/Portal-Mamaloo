@@ -5,7 +5,7 @@ from app.schemas import Avaliacao, AvaliacaoCreate, AvaliacaoUpdate, Administrad
 from app.models import Avaliacao as AvaliacaoModel
 from app.auth import get_current_administrador
 
-router = APIRouter(prefix="/api/avaliacoes", tags=["Avaliações"])
+router = APIRouter(prefix="/avaliacoes", tags=["Avaliações"])
 
 @router.get("/", response_model=list[Avaliacao])
 def get_all(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):

@@ -19,17 +19,18 @@ class Config:
 
 
 
+
 class AdministradorBase(BaseModel):
     nomeadministrador: str
     username: str
 
-    model_config = ConfigDict(from_attributes=True) 
-
 class AdministradorCreate(AdministradorBase):
     senha: str
+    model_config = ConfigDict(from_attributes=True)  # Movido para a classe concreta
 
 class Administrador(AdministradorBase):
     idadministrador: int
+    model_config = ConfigDict(from_attributes=True)
 
 class LoginSchema(BaseModel):
     username: str

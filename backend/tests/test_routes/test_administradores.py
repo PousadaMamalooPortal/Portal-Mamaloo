@@ -1,5 +1,5 @@
 def test_create_administrador(client, db, admin_data):
-    response = client.post("/api/administradores/", json=admin_data)
+    response = client.post("/administradores/", json=admin_data)
     assert response.status_code == 200
     data = response.json()
     assert data["nomeadministrador"] == admin_data["nomeadministrador"]
@@ -7,10 +7,10 @@ def test_create_administrador(client, db, admin_data):
     assert "senha" not in data 
 
 def test_create_duplicate_username(client, db, admin_data):
-    response = client.post("/api/administradores/", json=admin_data)
+    response = client.post("/administradores/", json=admin_data)
     assert response.status_code == 200
     
-    response = client.post("/api/administradores/", json=admin_data)
+    response = client.post("/administradores/", json=admin_data)
     assert response.status_code == 400
     assert response.json()["detail"] == "Username já existe"
 
@@ -19,6 +19,6 @@ def test_create_admin_missing_fields(client, db):
         "username": "incomplete",
         "senha": "password123"
     }
-    response = client.post("/api/administradores/", json=incomplete_data)
+    response = client.post("/administradores/", json=incomplete_data)
     assert response.status_code == 422  # Unprocessable Entity
 

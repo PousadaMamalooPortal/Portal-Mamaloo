@@ -17,7 +17,7 @@
     
 #     # Testa o login
 #     response = client.post(
-#         "/api/auth/token",
+#         "/auth/token",
 #         data={"username": admin_data["username"], "password": admin_data["senha"]}
 #     )
 #     assert response.status_code == 200
@@ -35,7 +35,7 @@
     
 #     # Testa com credenciais inválidas
 #     response = client.post(
-#         "/api/auth/token",
+#         "/auth/token",
 #         data={"username": "wronguser", "password": "wrongpass"}
 #     )
 #     assert response.status_code == 401
@@ -55,7 +55,7 @@
     
 #     # Testa o endpoint /me
 #     response = client.get(
-#         "/api/auth/me",
+#         "/auth/me",
 #         headers={"Authorization": f"Bearer {token}"}
 #     )
 #     assert response.status_code == 200

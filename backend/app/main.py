@@ -28,8 +28,6 @@ app = FastAPI(
 )
 
 
-app.include_router(auth.router)  # Usando o router definido
-
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
@@ -69,7 +67,7 @@ os.makedirs("uploads/pontos_turisticos", exist_ok=True)
 # Depois monte o StaticFiles
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
-app.include_router(auth.router)
+app.include_router(auth.router, prefix="/auth", tags=["Autenticação"])
 app.include_router(administradores.router)
 app.include_router(quartos.router)
 app.include_router(pontos_turisticos.router)

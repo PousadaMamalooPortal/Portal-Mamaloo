@@ -8,7 +8,7 @@ from app.auth import get_current_administrador
 from app.file_uploads import save_uploaded_file
 import os 
 
-router = APIRouter(prefix="/api/quartos", tags=["Quartos"])
+router = APIRouter(prefix="/quartos", tags=["Quartos"])
 
 @router.get("/", response_model=list[Quarto])
 def read_quartos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):

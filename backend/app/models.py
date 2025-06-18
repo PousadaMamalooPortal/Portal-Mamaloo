@@ -33,5 +33,5 @@ class Avaliacao(Base):
     idavaliacao = Column(Integer, primary_key=True, index=True)
     nomeavaliacao = Column(String(100), nullable=False)
     comentarioavaliacao = Column(Text, nullable=False)
-    respostaavaliacao = Column(Text, nullable=True)  # Será preenchido pelo admin
+    respostaavaliacao = Column(Text, nullable=True)
     dataavaliacao = Column(String(50), nullable=False)

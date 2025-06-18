@@ -6,7 +6,7 @@ from app.models import PontoTuristico as PontoModel
 from app.auth import get_current_administrador
 from app.file_uploads import save_uploaded_file
 
-router = APIRouter(prefix="/api/pontos-turisticos", tags=["Pontos Turísticos"])
+router = APIRouter(prefix="/pontos-turisticos", tags=["Pontos Turísticos"])
 
 @router.get("/", response_model=list[PontoTuristico])
 def get_all(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
