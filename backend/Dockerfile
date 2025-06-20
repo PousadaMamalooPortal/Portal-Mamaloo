@@ -7,7 +7,7 @@ COPY ./requirements.txt /app/requirements.txt
 
 # 2. Instala as dependências (incluindo bcrypt e passlib atualizados)
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt && \
-    pip install --no-cache-dir --upgrade bcrypt passlib
+    pip install bcrypt==3.2.0 passlib==1.7.4
 
 # 3. Copia o restante do aplicativo
 COPY ./app /app

@@ -1,6 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from fastapi import UploadFile
+from typing import List
 
 class PontoTuristicoBase(BaseModel):
     nomepontoturistico: str
@@ -43,26 +44,41 @@ class TokenData(BaseModel):
 
 
 
+
+class QuartoImagemBase(BaseModel):
+    caminhoImagem: str
+
+class QuartoImagemCreate(QuartoImagemBase):
+    pass
+
+class QuartoImagem(QuartoImagemBase):
+    IdImagem: int
+    IdQuarto: int
+    
+    model_config = ConfigDict(from_attributes=True)
+
 class QuartoBase(BaseModel):
     NomeQuarto: str
     descricaoQuarto: str
     CapacidadeQuarto: int
     ValorQuarto: float
+    valorPromocaoQuarto: Optional[float] = None
 
 class QuartoCreate(QuartoBase):
-    imagem: UploadFile = None 
+    imagens: List[UploadFile] = []
 
 class Quarto(QuartoBase):
     IdQuarto: int
-    imagemQuartos: Optional[str] = None
-
-    model_config = ConfigDict(from_attributes=True) 
+    imagens: List[QuartoImagem] = []
+    
+    model_config = ConfigDict(from_attributes=True)
 
 class QuartoUpdate(BaseModel):
     NomeQuarto: Optional[str] = None
     descricaoQuarto: Optional[str] = None
     CapacidadeQuarto: Optional[int] = None
     ValorQuarto: Optional[float] = None
+    valorPromocaoQuarto: Optional[float] = None
 
 
 class AvaliacaoBase(BaseModel):
