@@ -3,54 +3,64 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/Quartos.css";
+import { URL_API } from '../Api'; // Importa a URL_API do seu arquivo compartilhado
 
 export default function PaginaQuartos() {
   const [quartos, setQuartos] = useState([]);
 
   useEffect(() => {
-    // Dados simulados (em produção, substitua por fetch da API)
-    setQuartos([
-      {
-        id: 1,
-        nome: "Quarto Quádruplo de Luxo",
-        imagens: [
-          "/assets/quartos/mamaloo-quarto-quadruplo.jpg",
-          "/assets/quartos/mamaloo-quarto-quadruplo-2.jpg",
-          "/assets/quartos/mamaloo-quarto-quadruplo-3.jpg",
-        ],
-        descricao:
-          "Este quarto quadruplo deluxe oferece ar-condicionado, TV de tela plana, WiFi gratuito e banheiro privativo. A unidade dispõe de cama extra.",
-        preco: "520",
-        promocao: "420",
-        itens: ["TV de tela plana", "Ar-condicionado", "WiFi gratuito"],
-      },
-      {
-        id: 2,
-        nome: "Quarto Triplo Luxo",
-        imagens: [
-          "/assets/quartos/mamaloo-quarto-triplo.jpg",
-          "/assets/quartos/mamaloo-quarto-triplo-2.jpg",
-        ],
-        descricao:
-          "Oferecendo amenidades de luxo e muito espaço, este quarto triplo é ideal para famílias ou grupos pequenos. Com Wi-Fi gratuito, ar-condicionado e TV de tela plana.",
-        preco: "530",
-        promocao: "",
-        itens: ["TV de tela plana", "Ar-condicionado", "WiFi gratuito"],
-      },
-      {
-        id: 3,
-        nome: "Estúdio Deluxe",
-        imagens: [
-          "/assets/quartos/mamaloo-quarto-deluxe.jpg",
-          "/assets/quartos/mamaloo-quarto-deluxe-2.jpg",
-        ],
-        descricao:
-          "Oferecendo amenidades de quarto e cozinha, este estúdio deluxe é ideal para estadias mais longas. Conta com Wi-Fi gratuito, ar-condicionado, TV de tela plana e cozinha compacta.",
-        preco: "540",
-        promocao: "480",
-        itens: ["TV de tela plana", "Ar-condicionado", "WiFi gratuito", "Cozinha compacta"],
-      },
-    ]);
+    async function fetchQuartos() {
+      try {
+        const response = await fetch(`${URL_API}/quartos/`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        const formattedData = data.map(item => {
+          const defaultItens = ["TV de tela plana", "Ar-condicionado", "WiFi gratuito"];
+          
+          // Imagens temporarias para o carrossel
+          const defaultLocalImages = [
+            "/assets/quartos/mamaloo-quarto-deluxe.jpg",
+            "/assets/quartos/mamaloo-quarto-quadruplo.jpg",
+            "/assets/quartos/mamaloo-quarto-triplo.jpg",
+          ];
+          
+          let imagensDoQuarto = [];
+          if (Array.isArray(item.imagemQuartos) && item.imagemQuartos.length > 0) {
+              imagensDoQuarto = item.imagemQuartos;
+          } else if (typeof item.imagemQuartos === 'string' && item.imagemQuartos.trim() !== '') {
+              imagensDoQuarto = item.imagemQuartos.split(',').map(img => img.trim());
+          }
+
+          // Se após tentar obter as imagens da API, o array ainda estiver vazio, use as imagens locais padrão
+          if (imagensDoQuarto.length === 0) {
+              imagensDoQuarto = defaultLocalImages;
+          }
+          // --- FIM DA MUDANÇA ---
+
+          return {
+            id: item.IdQuarto, 
+            nome: item.NomeQuarto, 
+            imagens: imagensDoQuarto, // Usará imagens da API ou as padrão locais
+            descricao: item.descricaoQuarto,
+            preco: item.ValorQuarto,
+            promocao: item.promocao || "", 
+            itens: item.itens && item.itens.length > 0 ? item.itens : defaultItens, 
+          };
+        });
+
+        setQuartos(formattedData);
+      } catch (error) {
+        console.error('Erro ao buscar quartos:', error);
+        setQuartos([]); 
+      }
+    }
+
+    fetchQuartos();
   }, []);
 
   const formatarPreco = (valor) =>
@@ -71,44 +81,54 @@ export default function PaginaQuartos() {
   return (
     <div className="pagina-quartos">
       <main className="conteudo">
-        {quartos.map((quarto) => (
-          <div key={quarto.id} className="card-quarto">
-            <div className="carousel-wrapper">
-              <Slider {...settings}>
-                {quarto.imagens.map((src, i) => (
-                  <img key={i} src={src} alt={`Imagem ${i + 1}`} className="imagem-quarto" />
-                ))}
-              </Slider>
-            </div>
-            <div className="info-quarto">
-              <h3>{quarto.nome}</h3>
-              <ul className="icones-itens">
-                {quarto.itens.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-              <p className="descricao">{quarto.descricao}</p>
-              <div className="precos">
-                {quarto.promocao ? (
-                  <>
-                    <span className="preco-original">{formatarPreco(quarto.preco)}</span>
-                    <span className="preco-promocional">{formatarPreco(quarto.promocao)}</span>
-                  </>
-                ) : (
-                  <span className="preco-unico">{formatarPreco(quarto.preco)}</span>
-                )}
+        {quartos.length > 0 ? ( 
+          quartos.map((quarto) => (
+            <div key={quarto.id} className="card-quarto">
+              <div className="carousel-wrapper">
+                <Slider {...settings}>
+                  {/* Agora o quarto.imagens JÁ terá imagens (da API ou locais padrão) */}
+                  {quarto.imagens.map((src, i) => (
+                    <img 
+                      key={i} 
+                      src={src} 
+                      alt={`${quarto.nome} - Imagem ${i + 1}`} 
+                      className="imagem-quarto" 
+                    />
+                  ))}
+                </Slider>
               </div>
-              <a
-  className="btn-reservar"
-  href="https://api.whatsapp.com/send?phone=5582981815454"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  Reservar
-</a>
+              <div className="info-quarto">
+                <h3>{quarto.nome}</h3>
+                <ul className="icones-itens">
+                  {quarto.itens && quarto.itens.length > 0 && quarto.itens.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+                <p className="descricao">{quarto.descricao}</p>
+                <div className="precos">
+                  {quarto.promocao ? (
+                    <>
+                      <span className="preco-original">{formatarPreco(quarto.preco)}</span>
+                      <span className="preco-promocional">{formatarPreco(quarto.promocao)}</span>
+                    </>
+                  ) : (
+                    <span className="preco-unico">{formatarPreco(quarto.preco)}</span>
+                  )}
+                </div>
+                <a
+                  className="btn-reservar"
+                  href="https://api.whatsapp.com/send?phone=5582981815454"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Reservar
+                </a>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="mensagem-carregando-erro">Carregando quartos... ou nenhum quarto encontrado.</p>
+        )}
       </main>
     </div>
   );
