@@ -28,25 +28,30 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
 
-      # Passo 4: Derrubar containers anteriores (evita erro de porta)
+      # Passo 4: Criar a rede swag_default manualmente (se não existir)
+      - name: Create swag_default network
+        run: |
+          docker network create swag_default || echo "Network swag_default already exists"
+
+      # Passo 5: Derrubar containers anteriores (evita erro de porta)
       - name: Clean up previous containers
         run: docker-compose down --remove-orphans
 
-      # Passo 5: Subir os containers com Docker Compose (com build)
+      # Passo 6: Subir os containers com Docker Compose (com build)
       - name: Run Docker Compose
         run: |
           docker-compose up -d --build
           docker-compose ps
 
-      # Passo 6: Testes do Backend (FastAPI) -- necessario fazer a criação do arquivo de teste na pasta backend
+      # Passo 7: Testes do Backend (FastAPI) -- necessário fazer a criação do arquivo de teste na pasta backend
       # - name: Run backend tests (FastAPI)
       #  run: docker-compose run --rm backend pytest backend/tests/
 
-      # Passo 7: Testes do Frontend (React/Vite) -- alinhar com o frontend os testes que devem ser feitos
+      # Passo 8: Testes do Frontend (React/Vite) -- alinhar com o frontend os testes que devem ser feitos
       # - name: Run frontend tests (React/Vite)
       #  run: docker-compose run --rm frontend npm test -- --coverage
 
-      # Passo 8: Encerrar os containers
+      # Passo 9: Encerrar os containers
       - name: Shut down Docker containers
         run: docker-compose down
 
