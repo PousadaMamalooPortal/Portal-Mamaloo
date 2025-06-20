@@ -1,6 +1,6 @@
 import pytest
 from app.models import PontoTuristico, Administrador
-from app.auth import create_access_token
+from app.auth import criar_acesso_token
 
 @pytest.fixture
 def ponto_data():
@@ -9,7 +9,7 @@ def ponto_data():
         "descricaopontoturistico": "Descrição teste"
     }
 
-def test_get_all_pontos(client, db, ponto_data):
+def test_obter_tudo_pontos(client, db, ponto_data):
     # Cria um ponto turístico
     ponto = PontoTuristico(**ponto_data)
     db.add(ponto)
@@ -36,7 +36,7 @@ def test_create_ponto_turistico(client, db, admin_data, ponto_data):
     admin = Administrador(**admin_data)
     db.add(admin)
     db.commit()
-    token = create_access_token({"sub": admin_data["username"]})
+    token = criar_acesso_token({"sub": admin_data["username"]})
     
     # Testa criação com autenticação usando Form data
     response = client.post(

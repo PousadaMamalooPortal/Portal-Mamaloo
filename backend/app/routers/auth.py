@@ -27,24 +27,23 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # Configuração do esquema OAuth2
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verifica se a senha plain corresponde ao hash"""
-    return pwd_context.verify(plain_password, hashed_password)
+def verificar_senha(senha_simples: str, senha_hashed: str) -> bool:
+    return pwd_context.verify(senha_simples, senha_hashed)
 
-def get_password_hash(password: str) -> str:
+def obter_senha_hash(password: str) -> str:
     """Gera o hash da senha"""
     return pwd_context.hash(password)
 
-def authenticate_administrador(db: Session, username: str, password: str) -> Optional[Administrador]:
+def autenticar_administrador(db: Session, username: str, password: str) -> Optional[Administrador]:
     """Autentica um administrador"""
     administrador = db.query(Administrador).filter(Administrador.username == username).first()
     if not administrador:
         return None
-    if not verify_password(password, administrador.senha):
+    if not verificar_senha(password, administrador.senha):
         return None
     return administrador
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def criar_acesso_token(data: dict, expires_delta: Optional[timedelta] = None):
     """Cria um token JWT"""
     to_encode = data.copy()
     if expires_delta:
@@ -55,7 +54,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-async def get_current_administrador(
+async def obter_atual_administrador(
     token: str = Depends(oauth2_scheme), 
     db: Session = Depends(get_db)
 ):
@@ -80,26 +79,26 @@ async def get_current_administrador(
     return administrador
 
 @router.post("/token")
-async def login_for_access_token(
+async def login_para_acesso_token(
     username: str, 
     password: str, 
     db: Session = Depends(get_db)
 ):
-    administrador = authenticate_administrador(db, username, password)
+    administrador = autenticar_administrador(db, username, password)
     if not administrador:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Usuário ou senha incorretos",
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
+    access_token = criar_acesso_token(
         data={"sub": administrador.username}, 
         expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/eu")
-async def read_administrador_atual(
-    current_administrador: Administrador = Depends(get_current_administrador)
+async def ler_administrador_atual(
+    current_administrador: Administrador = Depends(obter_atual_administrador)
 ):
     return current_administrador

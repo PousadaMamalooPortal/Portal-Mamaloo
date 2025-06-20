@@ -1,4 +1,4 @@
-def test_create_administrador(client, db, admin_data):
+def test_criar_administrador(client, db, admin_data):
     response = client.post("/administradores/", json=admin_data)
     assert response.status_code == 200
     data = response.json()

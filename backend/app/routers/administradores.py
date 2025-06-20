@@ -3,16 +3,16 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas import AdministradorCreate, Administrador
 from app.models import Administrador as AdministradorModel
-from app.auth import get_password_hash, get_current_administrador
+from app.auth import obter_senha_hash, obter_atual_administrador
 from fastapi import status
 
 router = APIRouter(
     prefix="/administradores",
     tags=["Administradores"]
-)  # Removido o Depends(get_current_administrador) aqui
+)  # Removido o Depends(obter_atual_administrador) aqui
 
 @router.post("/", response_model=Administrador, status_code=201)
-async def create_administrador(
+async def criar_administrador(
     administrador: AdministradorCreate,  # Use o schema correto
     db: Session = Depends(get_db)
 ):
@@ -26,7 +26,7 @@ async def create_administrador(
     db_admin = AdministradorModel(
         nomeadministrador=administrador.nomeadministrador,
         username=administrador.username,
-        senha=get_password_hash(administrador.senha)
+        senha=obter_senha_hash(administrador.senha)
     )
     
     db.add(db_admin)
@@ -35,11 +35,10 @@ async def create_administrador(
     return db_admin
 
 @router.get("/", response_model=list[Administrador])
-def list_administradores(
+def listar_administradores(
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db),
-    current_admin: Administrador = Depends(get_current_administrador)  # Protege apenas esta rota
+    current_admin: Administrador = Depends(obter_atual_administrador) 
 ):
-    """Lista todos os administradores (requer autenticação)"""
     return db.query(AdministradorModel).offset(skip).limit(limit).all()

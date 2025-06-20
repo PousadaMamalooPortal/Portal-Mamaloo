@@ -1,16 +1,16 @@
 # import pytest
 # from app.models import Administrador
-# from app.auth import create_access_token, get_password_hash  # Adicione esta importação
+# from app.auth import criar_acesso_token, obter_senha_hash  # Adicione esta importação
 
 
 # def test_login_success(client, db, admin_data):
-#     from app.auth import get_password_hash
+#     from app.auth import obter_senha_hash
     
 #     # Cria admin com senha hasheada
 #     admin = Administrador(
 #         nomeadministrador=admin_data["nomeadministrador"],
 #         username=admin_data["username"],
-#         senha=get_password_hash(admin_data["senha"])  # Aqui hash da senha
+#         senha=obter_senha_hash(admin_data["senha"])  # Aqui hash da senha
 #     )
 #     db.add(admin)
 #     db.commit()
@@ -28,7 +28,7 @@
 #     admin = Administrador(
 #         nomeadministrador=admin_data["nomeadministrador"],
 #         username=admin_data["username"],
-#         senha=get_password_hash(admin_data["senha"])
+#         senha=obter_senha_hash(admin_data["senha"])
 #     )
 #     db.add(admin)
 #     db.commit()
@@ -46,12 +46,12 @@
 #     admin = Administrador(
 #         nomeadministrador=admin_data["nomeadministrador"],
 #         username=admin_data["username"],
-#         senha=get_password_hash(admin_data["senha"])
+#         senha=obter_senha_hash(admin_data["senha"])
 #     )
 #     db.add(admin)
 #     db.commit()
     
-#     token = create_access_token({"sub": admin_data["username"]})
+#     token = criar_acesso_token({"sub": admin_data["username"]})
     
 #     # Testa o endpoint /me
 #     response = client.get(
