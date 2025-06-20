@@ -154,3 +154,160 @@
 .btn-reservar:hover {
   background-color: #ddd;
 }
+
+/*  Responsividade   */
+
+@media (min-width: 1025px) and (max-width: 1200px) {
+
+}
+
+@media (min-width: 768px) and (max-width: 1130px) {
+.carousel-wrapper .slick-prev {
+  left: 10px;
+}
+
+.carousel-wrapper .slick-prev,
+.carousel-wrapper .slick-next {
+  top: 40%; 
+}
+
+}
+
+@media (min-width: 601px) and (max-width: 767px){
+ .btn-reservar {
+    margin: 20px auto 0 auto !important;
+    display: block !important;
+    align-self: unset !important;
+    text-align: center;
+  }
+
+  .card-quarto {
+    flex-direction: column; 
+    align-items: center;
+    text-align: center;
+  }
+
+  .info-quarto {
+    align-items: center;
+  }
+
+.card-quarto .info-quarto h3 {
+  font-size: 23px;
+}
+
+.icones-itens {
+  font-size: 17px;
+}
+
+.descricao {
+  font-size: 16px;
+}
+
+.carousel-wrapper {
+  width: 100%; 
+  max-width: 500px; 
+  flex-shrink: 0;
+  margin: 0;
+}
+.carousel-wrapper .imagem-quarto {
+  width: 100%;
+  height: 320px; 
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.carousel-wrapper .slick-prev,
+.carousel-wrapper .slick-next {
+  top: 40%; 
+
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-size: 20px;
+  color: white;
+}
+
+.carousel-wrapper .slick-prev {
+  left: 10px;
+}
+
+.carousel-wrapper .slick-next {
+  right: 8px;
+}
+
+}
+
+@media (min-width: 481px) and (max-width: 600px) {
+ .btn-reservar {
+    margin: 20px auto 0 auto !important;
+    display: block !important;
+    align-self: unset !important;
+    text-align: center;
+  }
+
+  .card-quarto {
+    flex-direction: column; 
+    align-items: center;
+    text-align: center;
+  }
+
+  .info-quarto {
+    align-items: center;
+  }
+
+  .carousel-wrapper .slick-prev {
+  left: 10px;
+}
+
+.carousel-wrapper .slick-prev,
+.carousel-wrapper .slick-next {
+  top: 40%; 
+}
+}
+
+
+@media (max-width: 480px) {
+.btn-reservar {
+    margin: 20px auto 0 auto !important;
+    display: block !important;
+    align-self: unset !important;
+    text-align: center;
+  }
+
+  .card-quarto {
+    flex-direction: column; 
+    align-items: center;
+    text-align: center;
+  }
+
+  .info-quarto {
+    align-items: center;
+  }
+
+  .carousel-wrapper .slick-prev {
+  left: 10px;
+}
+
+.carousel-wrapper .slick-prev,
+.carousel-wrapper .slick-next {
+  top: 40%; 
+}
+
+.carousel-wrapper {
+  width: 100%; 
+  max-width: 350px; 
+  flex-shrink: 0;
+  margin: 0;
+}
+.carousel-wrapper .imagem-quarto {
+  width: 100%;
+  height: 320px; 
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+}
+
+  
+
