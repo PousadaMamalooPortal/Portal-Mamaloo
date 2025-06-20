@@ -61,7 +61,8 @@ volumes:
 
 networks:
   swag_default:
-    driver: bridge
+    external: true
+
 
 ##teste
 
