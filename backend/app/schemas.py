@@ -1,4 +1,3 @@
-
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from fastapi import UploadFile
@@ -19,14 +18,13 @@ class Config:
 
 
 
-
 class AdministradorBase(BaseModel):
     nomeadministrador: str
     username: str
 
 class AdministradorCreate(AdministradorBase):
     senha: str
-    model_config = ConfigDict(from_attributes=True)  # Movido para a classe concreta
+    model_config = ConfigDict(from_attributes=True) 
 
 class Administrador(AdministradorBase):
     idadministrador: int

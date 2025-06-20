@@ -1,6 +1,6 @@
 import pytest
 from app.models import Quarto, Administrador
-from app.auth import create_access_token
+from app.auth import criar_acesso_token
 
 @pytest.fixture
 def quarto_data():
@@ -11,7 +11,7 @@ def quarto_data():
         "ValorQuarto": 100.0
     }
 
-def test_get_all_quartos(client, db, quarto_data):
+def test_obter_tudo_quartos(client, db, quarto_data):
     # Cria um quarto
     quarto = Quarto(**quarto_data)
     db.add(quarto)
@@ -38,7 +38,7 @@ def test_create_quarto(client, db, admin_data, quarto_data):
     admin = Administrador(**admin_data)
     db.add(admin)
     db.commit()
-    token = create_access_token({"sub": admin_data["username"]})
+    token = criar_acesso_token({"sub": admin_data["username"]})
     
     # Testa criação com autenticação usando Form data
     response = client.post(
@@ -61,7 +61,7 @@ def test_update_quarto(client, db, admin_data, quarto_data):
     quarto = Quarto(**quarto_data)
     db.add(quarto)
     db.commit()
-    token = create_access_token({"sub": admin_data["username"]})
+    token = criar_acesso_token({"sub": admin_data["username"]})
     
     # Dados para atualização
     update_data = {"NomeQuarto": "Quarto Atualizado", "ValorQuarto": 150.0}

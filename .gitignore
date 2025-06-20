@@ -1,0 +1,21 @@
+# Ignora arquivos de cache do Python
+__pycache__/
+*.py[cod]
+
+# Ignora pastas __pycache__ em qualquer lugar
+**/__pycache__/
+
+# Outros arquivos que geralmente são ignorados
+*.log
+*.sqlite3
+.env
+.env.*
+*.db
+.DS_Store
+
+# Arquivos/pastas do Alembic (caso não queira versionar os migrations)
+# alembic/
+
+# Pastas de build do Docker
+*.egg-info/
+*.dockerignore

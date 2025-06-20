@@ -16,24 +16,24 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+def verificar_senha(senha_simples, senha_hashed):
+    return pwd_context.verify(senha_simples, senha_hashed)
 
-def get_password_hash(password):
+def obter_senha_hash(password):
     return pwd_context.hash(password)
 
 def get_administrador(db: Session, username: str):
     return db.query(models.Administrador).filter(models.Administrador.username == username).first()
 
-def authenticate_administrador(db: Session, username: str, password: str):
+def autenticar_administrador(db: Session, username: str, password: str):
     administrador = get_administrador(db, username)
     if not administrador:
         return False
-    if not verify_password(password, administrador.senha):
+    if not verificar_senha(password, administrador.senha):
         return False
     return administrador
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def criar_acesso_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -43,7 +43,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-async def get_current_administrador(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+async def obter_atual_administrador(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
