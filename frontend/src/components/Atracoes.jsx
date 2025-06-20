@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Atracoes.css';
 
-const URL_API = '/api';
+const URL_API = 'https://dev-portal.mamaloopousada.com.br'; 
 function Atracoes() {
   const [atracoes, setAtracoes] = useState([]);
 
