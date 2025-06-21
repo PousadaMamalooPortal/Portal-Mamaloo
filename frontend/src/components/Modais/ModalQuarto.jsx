@@ -1,17 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/StyleModais/ModalQuarto.css';
 
 export default function ModalQuarto({ modo, dadosIniciais = {}, onClose, onConfirmar }) {
-  const [titulo, setTitulo] = useState(dadosIniciais.titulo || '');
-  const [descricao, setDescricao] = useState(dadosIniciais.descricao || '');
-  const [preco, setPreco] = useState(dadosIniciais.preco || '');
-  const [promocao, setPromocao] = useState(dadosIniciais.promocao || '');
-  const [itens, setItens] = useState(dadosIniciais.itens || '');
+  const [titulo, setTitulo] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [capacidade, setCapacidade] = useState('');
+  const [valor, setValor] = useState('');
+  const [promocao, setPromocao] = useState('');
   const [imagem, setImagem] = useState(null);
+  const [imagemUrlExistente, setImagemUrlExistente] = useState('');
+
+  useEffect(() => {
+    if (modo === 'editar' && dadosIniciais) {
+      setTitulo(dadosIniciais.titulo || '');
+      setDescricao(dadosIniciais.descricao || '');
+      setCapacidade(dadosIniciais.capacidade || '');
+      setValor(dadosIniciais.valor || '');
+      setPromocao(dadosIniciais.promocao || '');
+      setImagemUrlExistente(dadosIniciais.imagem || '');
+      setImagem(null);
+    } else if (modo === 'adicionar') {
+      setTitulo('');
+      setDescricao('');
+      setCapacidade('');
+      setValor('');
+      setPromocao('');
+      setImagem(null);
+      setImagemUrlExistente('');
+    }
+  }, [dadosIniciais, modo]);
 
   const handleConfirmar = () => {
-    onConfirmar({ titulo, descricao, preco, promocao, itens, imagem });
-    onClose();
+    onConfirmar({
+      id: dadosIniciais.id,
+      titulo,
+      descricao,
+      capacidade,
+      valor,
+      promocao,
+      imagem,
+    });
   };
 
   return (
@@ -21,38 +49,56 @@ export default function ModalQuarto({ modo, dadosIniciais = {}, onClose, onConfi
 
         <input
           type="text"
-          placeholder="Digite o título"
+          placeholder="Digite o título (Nome do Quarto)"
           value={titulo}
           onChange={(e) => setTitulo(e.target.value)}
         />
 
         <textarea
-          placeholder="Digite a descrição"
+          placeholder="Digite a descrição do quarto"
           value={descricao}
           onChange={(e) => setDescricao(e.target.value)}
         />
 
         <input
           type="number"
-          placeholder="Preço (R$)"
-          value={preco}
-          onChange={(e) => setPreco(e.target.value)}
+          placeholder="Capacidade do Quarto"
+          value={capacidade}
+          onChange={(e) => setCapacidade(e.target.value)}
         />
 
         <input
           type="number"
-          placeholder="Preço promocional (R$)"
+          placeholder="Valor do Quarto (R$)"
+          value={valor}
+          onChange={(e) => setValor(e.target.value)}
+        />
+
+        
+        <input
+          type="text"
+          placeholder="Promoção (valor promocional)"
           value={promocao}
           onChange={(e) => setPromocao(e.target.value)}
         />
 
-        <textarea
-          placeholder="Itens do quarto (separados por vírgula)"
-          value={itens}
-          onChange={(e) => setItens(e.target.value)}
-        />
+        {modo === 'editar' && imagemUrlExistente && (
+          <div className="imagem-preview">
+            <p>Imagem atual:</p>
+            <img
+              src={imagemUrlExistente}
+              alt="Imagem atual do quarto"
+              style={{
+                maxWidth: '100px',
+                maxHeight: '100px',
+                objectFit: 'cover',
+                borderRadius: '6px',
+              }}
+            />
+          </div>
+        )}
 
-        <label htmlFor="imagemUpload">Realize o upload da imagem:</label>
+        <label htmlFor="imagemUpload">Realize o upload da nova imagem:</label>
         <input
           type="file"
           id="imagemUpload"
@@ -60,9 +106,7 @@ export default function ModalQuarto({ modo, dadosIniciais = {}, onClose, onConfi
         />
 
         <div className="botoes">
-          <button onClick={onClose}>
-            {modo === 'editar' ? 'Cancelar' : 'Cancelar'}
-          </button>
+          <button onClick={onClose}>Cancelar</button>
           <button onClick={handleConfirmar}>
             {modo === 'editar' ? 'Concluir edição' : 'Concluir adição'}
           </button>
