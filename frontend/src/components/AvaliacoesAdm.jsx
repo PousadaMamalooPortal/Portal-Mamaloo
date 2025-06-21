@@ -1,75 +1,109 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import '../styles/AvaliacoesAdm.css';
 import HeaderAdm from './HeaderAdm';
+import { URL_API } from '../Api'; 
 
 function AvaliacoesAdm() {
   const [comentarios, setComentarios] = useState([]);
-  const [respostaAberta, setRespostaAberta] = useState(null);
+  const [respostaAbertaId, setRespostaAbertaId] = useState(null); // Usar ID em vez de índice
   const [respostaTexto, setRespostaTexto] = useState('');
 
-  useEffect(() => {
-    // API real (comentada para testes)
-    /*
-    async function fetchComentarios() {
-      try {
-        const response = await axios.get('/api/comentarios');
-        setComentarios(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar comentários:', error);
-      }
-    }
-    fetchComentarios();
-    */
-
-    // ✅ Dados mockados para testes locais
-    setComentarios([
-      {
-        nome: 'Caymi',
-        texto: 'Pousada muito boa. Adorei conhecer Maceió!',
-        data: '13-05-2025',
-        resposta: 'Obrigado pelo feedback, Caymi! Esperamos te ver novamente em breve.'
-      },
-      {
-        nome: 'Ferreira',
-        texto: 'Local legal.',
-        data: '10-05-2025',
-        resposta: null
-      },
-      {
-        nome: 'Ana',
-        texto: 'Excelente local. Atendimento ótimo!',
-        data: '11-05-2025',
-        resposta: ''
-      }
-    ]);
-  }, []);
-
-  const deletarComentario = async (index) => {
-    const comentario = comentarios[index];
+  
+  async function fetchComentarios() {
     try {
-      // await axios.delete(`/api/comentarios/${comentario.id}`);
-      setComentarios(prev => prev.filter((_, i) => i !== index));
+      const response = await fetch(`${URL_API}/avaliacoes`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      
+      
+      const formattedComentarios = data.map(item => ({
+        id: item.idavaliacao, 
+        nome: item.nomeavaliacao,
+        texto: item.comentarioavaliacao,
+        data: item.dataavaliacao, 
+        resposta: item.respostaavaliacao || null, 
+      }));
+      setComentarios(formattedComentarios);
     } catch (error) {
-      console.error('Erro ao deletar comentário:', error);
+      console.error('Erro ao buscar avaliações:', error);
+      setComentarios([]); 
+    }
+  }
+
+  useEffect(() => {
+    fetchComentarios(); 
+  }, []); 
+
+  const deletarComentario = async (idToDelete) => {
+    try {
+      const response = await fetch(`${URL_API}/avaliacoes/${idToDelete}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      setComentarios(prev => prev.filter(c => c.id !== idToDelete));
+    } catch (error) {
+      console.error('Erro ao deletar avaliação:', error);
+      alert('Erro ao deletar avaliação. Verifique o console.');
     }
   };
 
-  const responderComentario = async (index) => {
-    const comentario = comentarios[index];
+  const responderComentario = async (idToRespond) => {
     const novaResposta = respostaTexto.trim();
     if (!novaResposta) return;
 
     try {
-      const updated = { ...comentario, resposta: novaResposta };
-      // await axios.put(`/api/comentarios/${comentario.id}`, updated);
+      
+      const comentarioOriginal = comentarios.find(c => c.id === idToRespond);
+      if (!comentarioOriginal) {
+        console.error("Comentário não encontrado para responder.");
+        return;
+      }
+
+      
+      const payload = {
+        idavaliacao: comentarioOriginal.id,
+        nomeavaliacao: comentarioOriginal.nome,
+        comentarioavaliacao: comentarioOriginal.texto,
+        dataavaliacao: comentarioOriginal.data,
+        respostaavaliacao: novaResposta, 
+      };
+
+      const response = await fetch(`${URL_API}/avaliacoes/${idToRespond}`, {
+        method: 'PUT', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const updatedData = await response.json(); 
+      
+      
+      const updatedComentario = {
+        id: updatedData.idavaliacao,
+        nome: updatedData.nomeavaliacao,
+        texto: updatedData.comentarioavaliacao,
+        data: updatedData.dataavaliacao,
+        resposta: updatedData.respostaavaliacao,
+      };
+
       setComentarios(prev =>
-        prev.map((c, i) => (i === index ? updated : c))
+        prev.map(c => (c.id === idToRespond ? updatedComentario : c))
       );
-      setRespostaAberta(null);
-      setRespostaTexto('');
+      setRespostaAbertaId(null); 
+      setRespostaTexto(''); 
     } catch (error) {
-      console.error('Erro ao responder comentário:', error);
+      console.error('Erro ao responder avaliação:', error);
+      alert('Erro ao responder avaliação. Verifique o console.');
     }
   };
 
@@ -78,8 +112,8 @@ function AvaliacoesAdm() {
       <HeaderAdm />
       <h2>Avaliações de hóspedes</h2>
       <div className="comentarios-admin-lista">
-        {comentarios.map((c, idx) => (
-          <div key={idx} className="comentario-admin-box">
+        {comentarios.map((c) => ( 
+          <div key={c.id} className="comentario-admin-box"> 
             <div className="comentario-admin-topo">
               <img
                 src="/assets/icones/mamaloo-icone-perfil.png"
@@ -90,8 +124,16 @@ function AvaliacoesAdm() {
                 <div className="comentario-data">{c.data}</div>
               </div>
               <div className="comentario-botoes">
-                <button onClick={() => setRespostaAberta(respostaAberta === idx ? null : idx)}>↩</button>
-                <button onClick={() => deletarComentario(idx)}>🗑</button>
+                
+                {(!c.resposta || respostaAbertaId === c.id) && (
+                  <button 
+                    onClick={() => setRespostaAbertaId(respostaAbertaId === c.id ? null : c.id)}
+                    title={respostaAbertaId === c.id ? "Fechar resposta" : "Responder"}
+                  >
+                    ↩
+                  </button>
+                )}
+                <button onClick={() => deletarComentario(c.id)} title="Deletar">🗑</button>
               </div>
             </div>
             <p>{c.texto}</p>
@@ -110,14 +152,14 @@ function AvaliacoesAdm() {
               </div>
             )}
 
-            {respostaAberta === idx && (
+            {respostaAbertaId === c.id && ( 
               <div className="resposta-formulario">
                 <textarea
                   placeholder="Digite sua resposta..."
                   value={respostaTexto}
                   onChange={(e) => setRespostaTexto(e.target.value)}
                 ></textarea>
-                <button onClick={() => responderComentario(idx)}>
+                <button onClick={() => responderComentario(c.id)}> 
                   Enviar resposta
                 </button>
               </div>

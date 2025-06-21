@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/Quartos.css";
-import { URL_API } from '../Api'; // Importa a URL_API do seu arquivo compartilhado
+import { URL_API } from '../Api';    
 
 export default function PaginaQuartos() {
   const [quartos, setQuartos] = useState([]);
@@ -36,16 +36,16 @@ export default function PaginaQuartos() {
               imagensDoQuarto = item.imagemQuartos.split(',').map(img => img.trim());
           }
 
-          // Se após tentar obter as imagens da API, o array ainda estiver vazio, use as imagens locais padrão
+          
           if (imagensDoQuarto.length === 0) {
               imagensDoQuarto = defaultLocalImages;
           }
-          // --- FIM DA MUDANÇA ---
+          
 
           return {
             id: item.IdQuarto, 
             nome: item.NomeQuarto, 
-            imagens: imagensDoQuarto, // Usará imagens da API ou as padrão locais
+            imagens: imagensDoQuarto, 
             descricao: item.descricaoQuarto,
             preco: item.ValorQuarto,
             promocao: item.promocao || "", 
@@ -86,7 +86,7 @@ export default function PaginaQuartos() {
             <div key={quarto.id} className="card-quarto">
               <div className="carousel-wrapper">
                 <Slider {...settings}>
-                  {/* Agora o quarto.imagens JÁ terá imagens (da API ou locais padrão) */}
+                  
                   {quarto.imagens.map((src, i) => (
                     <img 
                       key={i} 
@@ -127,7 +127,7 @@ export default function PaginaQuartos() {
             </div>
           ))
         ) : (
-          <p className="mensagem-carregando-erro">Carregando quartos... ou nenhum quarto encontrado.</p>
+          <p className="mensagem-carregando-erro">Carregando quartos...</p>
         )}
       </main>
     </div>
