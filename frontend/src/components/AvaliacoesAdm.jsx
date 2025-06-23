@@ -5,18 +5,17 @@ import { URL_API } from '../Api';
 
 function AvaliacoesAdm() {
   const [comentarios, setComentarios] = useState([]);
-  const [respostaAbertaId, setRespostaAbertaId] = useState(null); // Usar ID em vez de índice
+  const [respostaAbertaId, setRespostaAbertaId] = useState(null); 
   const [respostaTexto, setRespostaTexto] = useState('');
 
   
   async function fetchComentarios() {
     try {
-      const response = await fetch(`${URL_API}/avaliacoes`);
+      const response = await fetch(`${URL_API}/avaliacoes`); 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      
       
       const formattedComentarios = data.map(item => ({
         id: item.idavaliacao, 
@@ -36,16 +35,33 @@ function AvaliacoesAdm() {
     fetchComentarios(); 
   }, []); 
 
+  
+  useEffect(() => {
+    if (respostaAbertaId !== null) {
+      const comentarioAtual = comentarios.find(c => c.id === respostaAbertaId);
+      if (comentarioAtual) {
+        setRespostaTexto(comentarioAtual.resposta || ''); 
+      }
+    } else {
+      setRespostaTexto(''); 
+    }
+  }, [respostaAbertaId, comentarios]);
+
+
   const deletarComentario = async (idToDelete) => {
+    if (!window.confirm("Tem certeza que deseja deletar esta avaliação?")) {
+      return; 
+    }
     try {
-      const response = await fetch(`${URL_API}/avaliacoes/${idToDelete}`, {
+      const response = await fetch(`${URL_API}/avaliacoes/${idToDelete}`, { 
         method: 'DELETE',
       });
-      if (!response.ok) {
+      if (!response.ok && response.status !== 204) { 
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
       setComentarios(prev => prev.filter(c => c.id !== idToDelete));
+      alert("Avaliação deletada com sucesso!");
     } catch (error) {
       console.error('Erro ao deletar avaliação:', error);
       alert('Erro ao deletar avaliação. Verifique o console.');
@@ -54,31 +70,33 @@ function AvaliacoesAdm() {
 
   const responderComentario = async (idToRespond) => {
     const novaResposta = respostaTexto.trim();
-    if (!novaResposta) return;
+    if (!novaResposta && !comentarios.find(c => c.id === idToRespond)?.resposta) {
+        
+        return; 
+    }
 
     try {
-      
       const comentarioOriginal = comentarios.find(c => c.id === idToRespond);
       if (!comentarioOriginal) {
         console.error("Comentário não encontrado para responder.");
+        alert("Erro: Comentário não encontrado.");
         return;
       }
 
-      
       const payload = {
         idavaliacao: comentarioOriginal.id,
         nomeavaliacao: comentarioOriginal.nome,
         comentarioavaliacao: comentarioOriginal.texto,
         dataavaliacao: comentarioOriginal.data,
-        respostaavaliacao: novaResposta, 
+        respostaavaliacao: novaResposta === '' ? null : novaResposta, 
       };
 
-      const response = await fetch(`${URL_API}/avaliacoes/${idToRespond}`, {
+      const response = await fetch(`${URL_API}/avaliacoes/${idToRespond}`, { 
         method: 'PUT', 
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', 
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payload), 
       });
 
       if (!response.ok) {
@@ -86,7 +104,6 @@ function AvaliacoesAdm() {
       }
 
       const updatedData = await response.json(); 
-      
       
       const updatedComentario = {
         id: updatedData.idavaliacao,
@@ -101,6 +118,8 @@ function AvaliacoesAdm() {
       );
       setRespostaAbertaId(null); 
       setRespostaTexto(''); 
+      alert("Resposta atualizada com sucesso!"); 
+
     } catch (error) {
       console.error('Erro ao responder avaliação:', error);
       alert('Erro ao responder avaliação. Verifique o console.');
@@ -125,15 +144,14 @@ function AvaliacoesAdm() {
               </div>
               <div className="comentario-botoes">
                 
-                {(!c.resposta || respostaAbertaId === c.id) && (
-                  <button 
-                    onClick={() => setRespostaAbertaId(respostaAbertaId === c.id ? null : c.id)}
-                    title={respostaAbertaId === c.id ? "Fechar resposta" : "Responder"}
-                  >
-                    ↩
-                  </button>
-                )}
-                <button onClick={() => deletarComentario(c.id)} title="Deletar">🗑</button>
+                <button 
+                  onClick={() => setRespostaAbertaId(respostaAbertaId === c.id ? null : c.id)}
+                  title={respostaAbertaId === c.id ? "Fechar resposta" : (c.resposta ? "Editar resposta" : "Responder")}
+                  className="btn-responder" 
+                >
+                  ↩
+                </button>
+                <button onClick={() => deletarComentario(c.id)} title="Deletar" className="btn-deletar">🗑</button>
               </div>
             </div>
             <p>{c.texto}</p>
@@ -156,7 +174,7 @@ function AvaliacoesAdm() {
               <div className="resposta-formulario">
                 <textarea
                   placeholder="Digite sua resposta..."
-                  value={respostaTexto}
+                  value={respostaTexto} 
                   onChange={(e) => setRespostaTexto(e.target.value)}
                 ></textarea>
                 <button onClick={() => responderComentario(c.id)}> 
