@@ -55,19 +55,4 @@ jobs:
       - name: Shut down Docker containers
         run: docker-compose down
 
-  deploy:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    needs: test
 
-    steps:
-      - name: Request approval before deploying
-        uses: peter-evans/manual-approval-action@v1
-        with:
-          approval_required: true
-
-      - name: Deploy to Server
-        run: |
-          curl -X POST "https://seu-servidor.com/deploy?key=${{ secrets.DEPLOY_API_KEY }}"
-        env:
-          DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
