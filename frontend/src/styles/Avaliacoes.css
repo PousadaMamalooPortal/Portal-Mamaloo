@@ -203,4 +203,29 @@
 
 @media (max-width: 480px) {
 
+.avaliacoes-container {
+  width: 90%;
+}
+
+ .inputs-superiores {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+ .input-comentario::placeholder {
+  font-size: 11px;
+}
+
+ .comentario-box p {
+    font-size: 15px;
+  }
+
+  .comentario-topo strong {
+    font-size: 14px;
+  }
+
+  .data-comentario {
+    font-size: 12px;
+  }
+
 }
