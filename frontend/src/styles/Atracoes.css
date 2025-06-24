@@ -83,3 +83,122 @@
 .btn-mapa:hover {
   background-color: #ddd;
 }
+
+@media (min-width: 1025px) and (max-width: 1200px){
+
+ .atracao-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  
+}
+
+@media (min-width: 768px) and (max-width: 1024px){
+
+  .atracao-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+   .atracao-titulo {
+    font-size: 25px;
+   }
+
+  .atracao-descricao {
+    font-size: 18px;
+  }
+
+   .atracao-imagem {
+    width: 100% !important;
+    max-width: 800px !important;
+    height: 550px !important;
+    max-height: 550px !important;
+    object-fit: cover !important;
+    display: block;
+    margin: 0 auto;
+  }
+
+   .btn-mapa {
+    padding: 12px 28px;
+    font-size: 14px;
+  }
+
+}
+
+@media (min-width: 481px) and (max-width: 767px){
+
+   .atracao-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+     .atracao-titulo {
+    font-size: 21px;
+   }
+
+  .atracao-descricao {
+    font-size: 17px;
+  }
+
+  .atracao-imagem {
+    width: 100% !important;
+    max-width: 600px !important;
+    height: 400px !important;
+    max-height: 400px !important;
+    object-fit: cover !important;
+    display: block;
+    margin: 0 auto;
+  }
+
+   .btn-mapa {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+
+ .atracoes-container {
+    padding-bottom: 0px !important;
+  }
+
+}
+
+@media (max-width: 480px){
+
+  .atracao-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+     .atracao-titulo {
+    font-size: 18px;
+   }
+
+  .atracao-descricao {
+    font-size: 13px;
+  }
+
+   .atracao-imagem {
+    max-width: 80%;
+    height: 150px;
+  }
+  
+   .btn-mapa {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+   .atracao-imagem {
+    width: 100% !important;
+    max-width: 360px !important;
+    height: 250px !important;
+    max-height: 250px !important;
+    object-fit: cover !important;
+    display: block;
+    margin: 0 auto;
+  }
+
+}
