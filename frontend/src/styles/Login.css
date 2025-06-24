@@ -80,3 +80,30 @@
 .login-logo{
   height: 120px;
 }
+
+@media (max-width: 480px) {
+  .login-card {
+    width: 85%;
+    padding: 16px 20px;
+  }
+
+  .login-card h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .login-card input {
+    font-size: 12px;
+    height: 36px;
+  }
+
+  .login-card button {
+    font-size: 13px;
+    height: 36px;
+  }
+
+  .login-logo {
+    height: 70px;
+  }
+}
+
