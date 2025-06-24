@@ -124,3 +124,44 @@
 .resposta-formulario button:hover {
   background-color: #3a271a;
 }
+
+@media (max-width: 900px) {
+  .avaliacoes-admin-container {
+    max-width: 80%;
+    padding: 24px;
+    margin: 120px auto 30px;
+  }
+
+  .comentario-botoes {
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .avaliacoes-admin-container h2 {
+    font-size: 20px;
+  }
+
+  .comentario-admin-topo strong {
+    font-size: 15px;
+  }
+
+  .comentario-data {
+    font-size: 13px;
+  }
+
+  .comentario-admin-box {
+    font-size: 15px;
+  }
+
+  .resposta-formulario textarea {
+    font-size: 15px;
+  }
+
+  .resposta-formulario button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
