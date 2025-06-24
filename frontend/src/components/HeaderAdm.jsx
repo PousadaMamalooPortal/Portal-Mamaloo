@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import '../styles/HeaderAdm.css'; 
 
 function HeaderAdm() {
   const navigate = useNavigate();
@@ -10,16 +11,16 @@ function HeaderAdm() {
   };
 
   return (
-    <header className="header">
+    <header className="header-adm">
       <img
         src="/assets/mamaloo-logo.png"
         alt="Logo Mamaloo Pousada"
-        className="logo"
+        className="logo-adm"
       />
-      <nav>
-        <Link to="/adm/administrador">Editar</Link>
-        <Link to="/adm/avaliacoesadm">Avaliações</Link>
-        <a href="#" className="nav-link" onClick={realizarLogout}>
+      <nav className="nav-adm">
+        <Link  className="nav-link-adm" to="/adm/administrador">Editar</Link>
+        <Link  className="nav-link-adm" to="/adm/avaliacoesadm">Avaliações</Link>
+        <a href="#" className="nav-link-adm" onClick={realizarLogout}>
           Sair
         </a>
       </nav>
