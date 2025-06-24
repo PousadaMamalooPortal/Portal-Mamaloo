@@ -133,8 +133,8 @@ nav a:hover {
 
 @media (max-width: 480px) {
   .card-item {
-    width: 100%;
-    padding: 12px 14px;
+    width: 95%;
+    padding: 12px 20px;
     font-size: 14px;
   }
 
