@@ -48,10 +48,10 @@
 
 .modal-atracao .botoes {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-top: 16px;
   gap: 12px;
-  margin-left: -220px;
+  
 }
 
 .modal-atracao button {
@@ -85,4 +85,38 @@
 .modal-atracao button:last-child:hover {
   background-color: #3a281d;
   transform: scale(1.03);
+}
+
+@media (max-width: 600px) {
+  .modal-atracao {
+    width: 80%;
+    padding: 20px;
+  }
+
+  .modal-atracao h2 {
+    font-size: 18px;
+  }
+
+  .modal-atracao input,
+  .modal-atracao textarea {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .modal-atracao button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .modal-atracao .botoes {
+    margin-left: 0;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-atracao {
+    width: 75%;
+    padding: 15px;
+  }
 }

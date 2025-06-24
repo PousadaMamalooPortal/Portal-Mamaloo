@@ -44,10 +44,10 @@
 
 .modal-quarto .botoes {
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-end; 
   gap: 12px;
   margin-top: 14px;
-   margin-left: -210px;
+  
 }
 
 .modal-quarto button {
@@ -77,4 +77,36 @@
 .modal-quarto button:last-child:hover {
   background-color: #3a281d;
   transform: scale(1.03);
+}
+
+@media (max-width: 600px) {
+  .modal-quarto {
+    width: 80%;
+    padding: 20px;
+  }
+
+  .modal-quarto h2 {
+    font-size: 18px;
+  }
+
+  .modal-quarto input,
+  .modal-quarto textarea {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .modal-quarto button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+ .modal-quarto {
+    width: 75%;
+    padding: 15px;
+  }
+
 }
