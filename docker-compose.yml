@@ -61,7 +61,7 @@ volumes:
 
 networks:
   swag_default:
-    driver: true
+     external: true
 
 
 ##testeeee
