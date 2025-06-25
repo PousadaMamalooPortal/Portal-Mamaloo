@@ -24,7 +24,6 @@
   gap: 20px;
 }
 
-
 .carousel-wrapper {
   width: 350px;
   flex-shrink: 0;
@@ -67,20 +66,16 @@
   right: 8px;
 }
 
-
 .carousel-wrapper .slick-dots li button:before {
   font-size: 5px;
   color: #ffffff;
   opacity: 0.6;
 }
 
-
 .carousel-wrapper .slick-dots li.slick-active button:before {
   color: #ffffff;
   opacity: 1;
 }
-
-
 
 .card-quarto .info-quarto {
   flex: 1;
@@ -107,7 +102,14 @@
 
 .descricao {
   font-size: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 16px; 
+  color: #f0f0f0;
+}
+
+.capacidade-quarto {
+  font-size: 16px;
+  margin-top: -8px; 
+  margin-bottom: 12px; 
   color: #f0f0f0;
 }
 
@@ -147,15 +149,12 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   text-decoration: none;
-   margin-top: 12px;
-  
+  margin-top: 12px;
 }
 
 .btn-reservar:hover {
   background-color: #ddd;
 }
-
-/*  Responsividade   */
 
 @media (min-width: 1025px) and (max-width: 1200px) {
 
@@ -175,21 +174,21 @@
 
 @media (min-width: 601px) and (max-width: 767px){
  .btn-reservar {
-    margin: 20px auto 0 auto !important;
-    display: block !important;
-    align-self: unset !important;
-    text-align: center;
-  }
+   margin: 20px auto 0 auto !important;
+   display: block !important;
+   align-self: unset !important;
+   text-align: center;
+ }
 
-  .card-quarto {
-    flex-direction: column; 
-    align-items: center;
-    text-align: center;
-  }
+ .card-quarto {
+   flex-direction: column; 
+   align-items: center;
+   text-align: center;
+ }
 
-  .info-quarto {
-    align-items: center;
-  }
+ .info-quarto {
+   align-items: center;
+ }
 
 .card-quarto .info-quarto h3 {
   font-size: 23px;
@@ -240,23 +239,23 @@
 
 @media (min-width: 481px) and (max-width: 600px) {
  .btn-reservar {
-    margin: 20px auto 0 auto !important;
-    display: block !important;
-    align-self: unset !important;
-    text-align: center;
-  }
+   margin: 20px auto 0 auto !important;
+   display: block !important;
+   align-self: unset !important;
+   text-align: center;
+ }
 
-  .card-quarto {
-    flex-direction: column; 
-    align-items: center;
-    text-align: center;
-  }
+ .card-quarto {
+   flex-direction: column; 
+   align-items: center;
+   text-align: center;
+ }
 
-  .info-quarto {
-    align-items: center;
-  }
+ .info-quarto {
+   align-items: center;
+ }
 
-  .carousel-wrapper .slick-prev {
+ .carousel-wrapper .slick-prev {
   left: 10px;
 }
 
@@ -269,23 +268,23 @@
 
 @media (max-width: 480px) {
 .btn-reservar {
-    margin: 20px auto 0 auto !important;
-    display: block !important;
-    align-self: unset !important;
-    text-align: center;
-  }
+   margin: 20px auto 0 auto !important;
+   display: block !important;
+   align-self: unset !important;
+   text-align: center;
+ }
 
-  .card-quarto {
-    flex-direction: column; 
-    align-items: center;
-    text-align: center;
-  }
+ .card-quarto {
+   flex-direction: column; 
+   align-items: center;
+   text-align: center;
+ }
 
-  .info-quarto {
-    align-items: center;
-  }
+ .info-quarto {
+   align-items: center;
+ }
 
-  .carousel-wrapper .slick-prev {
+ .carousel-wrapper .slick-prev {
   left: 10px;
 }
 
@@ -308,6 +307,3 @@
 }
 
 }
-
-  
-

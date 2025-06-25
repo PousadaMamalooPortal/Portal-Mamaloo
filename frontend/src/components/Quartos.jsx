@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/Quartos.css";
-import { URL_API } from '../Api';    
+import { URL_API } from '../Api'; // Ajustado para '../api'
 
 export default function PaginaQuartos() {
   const [quartos, setQuartos] = useState([]);
@@ -19,29 +19,26 @@ export default function PaginaQuartos() {
 
         const data = await response.json();
 
-        const formattedData = data.map(item => {
-          const defaultItens = ["TV de tela plana", "Ar-condicionado", "WiFi gratuito"];
-          
-          // Imagens temporarias para o carrossel
-          const defaultLocalImages = [
-            "/assets/quartos/mamaloo-quarto-deluxe.jpg",
-            "/assets/quartos/mamaloo-quarto-quadruplo.jpg",
-            "/assets/quartos/mamaloo-quarto-triplo.jpg",
-          ];
-          
+        const defaultItens = ["TV de tela plana", "Ar-condicionado", "WiFi gratuito"];
+        
+        const defaultLocalImages = [
+          "/assets/quartos/mamaloo-quarto-deluxe.jpg",
+          "/assets/quartos/mamaloo-quarto-quadruplo.jpg",
+          "/assets/quartos/mamaloo-quarto-triplo.jpg",
+        ];
+        
+        let formattedData = data.map(item => {
           let imagensDoQuarto = [];
           if (Array.isArray(item.imagemQuartos) && item.imagemQuartos.length > 0) {
               imagensDoQuarto = item.imagemQuartos;
           } else if (typeof item.imagemQuartos === 'string' && item.imagemQuartos.trim() !== '') {
               imagensDoQuarto = item.imagemQuartos.split(',').map(img => img.trim());
           }
-
           
           if (imagensDoQuarto.length === 0) {
               imagensDoQuarto = defaultLocalImages;
           }
           
-
           return {
             id: item.IdQuarto, 
             nome: item.NomeQuarto, 
@@ -50,6 +47,7 @@ export default function PaginaQuartos() {
             preco: item.ValorQuarto,
             promocao: item.promocao || "", 
             itens: item.itens && item.itens.length > 0 ? item.itens : defaultItens, 
+            capacidade: item.CapacidadeQuarto, 
           };
         });
 
@@ -86,7 +84,6 @@ export default function PaginaQuartos() {
             <div key={quarto.id} className="card-quarto">
               <div className="carousel-wrapper">
                 <Slider {...settings}>
-                  
                   {quarto.imagens.map((src, i) => (
                     <img 
                       key={i} 
@@ -105,6 +102,12 @@ export default function PaginaQuartos() {
                   ))}
                 </ul>
                 <p className="descricao">{quarto.descricao}</p>
+                {/* --- MUDANÇA AQUI: Capacidade abaixo da descrição --- */}
+                {quarto.capacidade && (
+                  <p className="capacidade-quarto">
+                    Capacidade: {quarto.capacidade} pessoa{quarto.capacidade > 1 ? 's' : ''}
+                  </p>
+                )}
                 <div className="precos">
                   {quarto.promocao ? (
                     <>
