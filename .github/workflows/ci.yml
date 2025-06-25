@@ -90,8 +90,8 @@ jobs:
             git pull origin main
 
             echo "Reiniciando containers Docker"
-            docker-compose -f docker-compose.yml .env down --remove-orphans
-            docker-compose -f docker-compose.yml .env -d
+            docker-compose -f docker-compose.yml --env-file .env down --remove-orphans
+            docker-compose -f docker-compose.yml --env-file .env up -d
 
             echo "✅ Deploy concluído com sucesso!"
           EOF
