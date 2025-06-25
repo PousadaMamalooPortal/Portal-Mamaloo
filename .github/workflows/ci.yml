@@ -21,7 +21,7 @@ jobs:
 
       - name: Deploy via SSH
         run: |
-          ssh ${{ secrets.USER_SERVIDOR }}@${{ secrets.IP_SERVIDOR }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USER_SERVIDOR }}@${{ secrets.IP_SERVIDOR }} << 'EOF'
             set -e
 
             echo "Conectado ao servidor"
