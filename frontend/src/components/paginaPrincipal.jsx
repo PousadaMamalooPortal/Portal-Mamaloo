@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ComentarioCard from './cardComentario';
 import '../styles/paginaPrincipal.css'; 
 import logo from '../assets/mamaloo-recepcao.jpg';
-import { URL_API } from '../Api'; 
+import { URL_API } from '../Api'; // Importa a URL_API (caminho ajustado para '../api')
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 
 const PaginaPrincipal = () => {
   const [quartos, setQuartos] = useState([]);
+  const navigate = useNavigate(); // Inicializa o useNavigate
 
   useEffect(() => {
     async function fetchQuartos() {
@@ -16,7 +18,6 @@ const PaginaPrincipal = () => {
         }
         const data = await response.json();
 
-       
         const defaultLocalImages = [
           "/assets/quartos/mamaloo-quarto-quadruplo.jpg",
           "/assets/quartos/mamaloo-quarto-triplo.jpg",
@@ -24,7 +25,6 @@ const PaginaPrincipal = () => {
         ];
 
         const formattedQuartos = data.map((item, index) => { 
-          
           const imagemPrincipal = (item.imagemQuartos && item.imagemQuartos.length > 0) 
                                 ? item.imagemQuartos[0] 
                                 : defaultLocalImages[index % defaultLocalImages.length];
@@ -33,7 +33,6 @@ const PaginaPrincipal = () => {
             id: item.IdQuarto,         
             nome: item.NomeQuarto,     
             imagemPrincipal: imagemPrincipal, 
-           
           };
         });
         setQuartos(formattedQuartos);
@@ -45,6 +44,11 @@ const PaginaPrincipal = () => {
 
     fetchQuartos();
   }, []); 
+
+  // --- NOVA FUNÇÃO: Redirecionar para a página de quartos ---
+  const handleVerQuartoClick = () => {
+    navigate('/quartos'); // Redireciona para a rota /quartos
+  };
 
   return (
     <div className="pagina-principal">
@@ -87,7 +91,8 @@ const PaginaPrincipal = () => {
                 <img src={quarto.imagemPrincipal} alt={quarto.nome} /> 
                 <div className="room-info">
                   <h3>{quarto.nome}</h3> 
-                  <button>Ver quarto</button>
+                  {/* --- MUDANÇA AQUI: Botão com onClick para redirecionar --- */}
+                  <button onClick={handleVerQuartoClick}>Ver quarto</button>
                 </div>
               </div>
             ))
