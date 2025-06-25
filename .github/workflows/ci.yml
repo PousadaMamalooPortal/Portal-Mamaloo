@@ -27,6 +27,9 @@ jobs:
             echo "Conectado ao servidor"
             cd /home/mamalooportal/Portal-Mamaloo
 
+            echo "Marcando repositório como seguro"
+            git config --global --add safe.directory /home/mamalooportal/Portal-Mamaloo
+
             echo "Atualizando código do repositório"
             git fetch origin main
             git checkout main
