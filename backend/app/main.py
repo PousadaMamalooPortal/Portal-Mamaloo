@@ -1,12 +1,11 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware  # Importe o middleware CORS
 from fastapi.openapi.utils import get_openapi
 from app.routers import auth, administradores, quartos, pontos_turisticos, avaliacoes
 from app.database import init_db
 from fastapi.staticfiles import StaticFiles
 import os
-# Por (novo):
 from contextlib import asynccontextmanager
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -27,6 +26,13 @@ app = FastAPI(
     ]
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
 
 def custom_openapi():
     if app.openapi_schema:
@@ -39,7 +45,6 @@ def custom_openapi():
         routes=app.routes,
     )
     
-    # Adicionando a logo e configurações de tema
     openapi_schema["info"]["x-logo"] = {
         "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRWmxw9kQfZj-3Roe7XE6LliSkTFfmRzBd0w&s",
         "altText": "Pousada Mamaloo Logo"
@@ -50,15 +55,9 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
-# @app.on_event("startup")
-# def on_startup():
-#     init_db()
-
-
 @app.get("/", tags=["Inicial"])
 async def health_check():
     return {"status": "Funcionando"}
-
 
 # Cria o diretório se não existir
 os.makedirs("uploads/quartos", exist_ok=True)
