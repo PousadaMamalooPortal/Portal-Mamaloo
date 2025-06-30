@@ -43,7 +43,6 @@ async def criar_quarto(
     valorpromocaoquarto: Optional[float] = Form(None),
     imagens: Optional[List[UploadFile]] = File(None),  # Corrigido aqui
     db: Session = Depends(get_db),
-    current_admin: Administrador = Depends(obter_atual_administrador)
 ):
     db_quarto = QuartoModel(
         NomeQuarto=nomequarto,
@@ -78,7 +77,6 @@ async def adicionar_imagem_quarto(
     quarto_id: int,
     imagem: UploadFile = File(...),
     db: Session = Depends(get_db),
-    current_admin: Administrador = Depends(obter_atual_administrador)
 ):
     quarto = db.query(QuartoModel).filter_by(IdQuarto=quarto_id).first()
     if not quarto:
@@ -108,7 +106,6 @@ def atualizar_quarto(
     quarto_id: int, 
     quarto_update: QuartoUpdate, 
     db: Session = Depends(get_db), 
-    current_admin: Administrador = Depends(obter_atual_administrador)
 ):
     db_quarto = db.query(QuartoModel).filter_by(IdQuarto=quarto_id).first()
     if not db_quarto:
@@ -127,7 +124,6 @@ def atualizar_quarto(
 def deletar_imagem(
     imagem_id: int,
     db: Session = Depends(get_db),
-    current_admin: Administrador = Depends(obter_atual_administrador)
 ):
     imagem = db.query(QuartoImagem).filter_by(IdImagem=imagem_id).first()
     if not imagem:
