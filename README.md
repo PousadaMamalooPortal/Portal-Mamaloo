@@ -108,7 +108,7 @@ docker-compose up -d --build
   <tr>
     <td align="center">
       <a href="https://github.com/gustavoataidez" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/116861543?v=4" alt="Gustavo Ataide" width="100"><br>
+        <img src="https://avatars.githubusercontent.com/u/119441489?v=4" alt="Gustavo Ataide" width="100"><br>
         <strong>Gustavo Ataide</strong>
       </a>
     </td>
