@@ -1,14 +1,6 @@
-# 🌐 Portal Mamaloo - Fullstack Application
+# 🌐 Portal Mamaloo
 
 Este repositório contém uma aplicação full-stack da pousada **Mamaloo**, combinando tecnologias modernas no backend e frontend para fornecer uma interface eficiente e escalável.
-
-O projeto utiliza:
-
-- **FastAPI** (Python) no backend  
-- **React.js + Vite** no frontend  
-- **PostgreSQL** como banco de dados  
-- **Docker** para isolamento de ambientes  
-- **GitHub Actions** para deploy automático
 
 ---
 
@@ -88,7 +80,47 @@ docker-compose up -d --build
 - **Backend:** [http://localhost:8000](http://localhost:8000)  
 - **Banco de Dados:** disponível na porta `5432`  
   - Use ferramentas como **pgAdmin** ou **DBeaver** para se conectar
+ 
+---
+## Autores
 
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://github.com/farias-alan" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/131487024?v=4" alt="Antonio Alan" width="100"><br>
+        <strong>Antonio Alan</strong>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Adenilson666" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/113057115?v=4" alt="Adenilson Silva" width="100"><br>
+        <strong>Adenilson Silva</strong>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/caymiferreira" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/118706075?v=4" alt="Caymi Ferreira" width="100"><br>
+        <strong>Caymi Ferreira</strong>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/gustavoataidez" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/116861543?v=4" alt="Gustavo Ataide" width="100"><br>
+        <strong>Gustavo Ataide</strong>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/account" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/119441082?v=4" alt="Hebert Ivison" width="100"><br>
+        <strong>Hebert Ivison</strong>
+      </a>
+    </td>
+  </tr>
+</table>
+<hr/>
 
 
 
