@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.schemas import Avaliacao, AvaliacaoCreate, AvaliacaoUpdate, Administrador
+from app.schemas import Avaliacao, AvaliacaoCreate, AvaliacaoUpdate
 from app.models import Avaliacao as AvaliacaoModel
-from app.auth import obter_atual_administrador
 
 router = APIRouter(prefix="/avaliacoes", tags=["Avaliações"])
 
@@ -27,7 +26,7 @@ def criar(avaliacao: AvaliacaoCreate, db: Session = Depends(get_db)):
     return db_avaliacao
 
 @router.put("/{avaliacao_id}", response_model=Avaliacao)
-def update(avaliacao_id: int, avaliacao_update: AvaliacaoUpdate, db: Session = Depends(get_db), current_admin: Administrador = Depends(obter_atual_administrador)):
+def update(avaliacao_id: int, avaliacao_update: AvaliacaoUpdate, db: Session = Depends(get_db)):
     db_avaliacao = db.query(AvaliacaoModel).filter_by(idavaliacao=avaliacao_id).first()
     if not db_avaliacao:
         raise HTTPException(status_code=404, detail="Avaliação não encontrada")
@@ -35,3 +34,13 @@ def update(avaliacao_id: int, avaliacao_update: AvaliacaoUpdate, db: Session = D
     db.commit()
     db.refresh(db_avaliacao)
     return db_avaliacao
+
+@router.delete("/{avaliacao_id}", response_model=dict)
+def deletar_avaliacao(avaliacao_id: int, db: Session = Depends(get_db)):
+    avaliacao = db.query(AvaliacaoModel).filter_by(idavaliacao=avaliacao_id).first()
+    if not avaliacao:
+        raise HTTPException(status_code=404, detail="Avaliação não encontrada")
+    
+    db.delete(avaliacao)
+    db.commit()
+    return {"message": "Avaliação deletada com sucesso"}

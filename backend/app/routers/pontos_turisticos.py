@@ -70,8 +70,7 @@ async def atualizar_ponto(
 @router.delete("/{ponto_id}", response_model=dict)
 def deletar_ponto(
     ponto_id: int,
-    db: Session = Depends(get_db),
-    current_admin: Administrador = Depends(obter_atual_administrador)
+    db: Session = Depends(get_db)
 ):
     ponto = db.query(PontoModel).filter_by(idpontoturistico=ponto_id).first()
     if not ponto:
