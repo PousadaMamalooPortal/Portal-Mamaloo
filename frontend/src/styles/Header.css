@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 50px; 
+  padding: 0px 50px;
   background-color: #D9D9D9;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   font-family: 'Montserrat', sans-serif;
@@ -20,7 +20,7 @@
 .logo-container .logo {
   width: 150px;
   height: 150px;
-  object-fit: contain; 
+  object-fit: contain;
 }
 
 .nav .nav-list {
@@ -31,15 +31,51 @@
 
 .nav .nav-list li a {
   text-decoration: none;
-  color: #4B3527;
+  color: #4B3527; /* Cor padrão */
   font-weight: bold;
   font-size: 16px;
+  transition: color 0.3s ease; /* Transição para a cor do texto */
+  padding-bottom: 5px; /* Aumenta o padding para dar espaço à barra */
+  position: relative; /* Essencial para posicionar a barra ::after */
+}
+
+/* Estilo para o link ativo */
+.nav .nav-list li a.active-link {
+  color: #d38a46; /* Cor laranja quando ativo */
+  /* border-bottom removido daqui */
+}
+
+/* Pseudo-elemento que será a barra animada */
+.nav .nav-list li a::after {
+  content: ''; /* Conteúdo obrigatório para pseudo-elemento */
+  display: block; /* Para que possa ter width e height */
+  position: absolute; /* Posição absoluta em relação ao link pai */
+  bottom: 0; /* Alinha na parte inferior do link */
+  left: 0; /* Começa à esquerda do link */
+  width: 100%; /* Largura total do link */
+  height: 2px; /* Espessura da barra */
+  background: #d38a46; /* Cor da barra (laranja) */
+  transform: scaleX(0); /* Inicialmente escondido (largura 0) */
+  transform-origin: center; /* A barra crescerá do centro para fora */
+  transition: transform 0.3s ease-out; /* Transição suave para a animação */
+}
+
+/* Ativa a animação da barra quando o link está ativo */
+.nav .nav-list li a.active-link::after {
+  transform: scaleX(1); /* Faz a barra crescer para a largura total */
+}
+
+/* Também ative a animação da barra no hover para consistência */
+.nav .nav-list li a:hover::after {
+  transform: scaleX(1); /* A barra cresce no hover */
 }
 
 .nav .nav-list li a:hover {
-  color: #d38a46; 
+  color: #d38a46; /* Mantém a cor no hover */
 }
 
+
+/* Media queries existentes */
 
 @media(max-width: 1250px){
   .header {
@@ -47,40 +83,39 @@
   }
 }
 
-
 @media (max-width: 768px) {
   .header {
-    width: 90%;  
-    padding: 0 20px;  
-    height: 70px;  
+    width: 90%;   
+    padding: 0 20px;   
+    height: 70px;   
   }
 
   .logo-container .logo {
-    width: 100px;  
+    width: 100px;   
     height: 100px;
   }
 
   .nav .nav-list {
-    flex-direction: row;  
+    flex-direction: row;   
     align-items: center; 
     gap: 10px;
   }
 
   .nav .nav-list li a {
     font-size: 14px; 
+    padding-bottom: 2px; 
   }
 }
 
 @media(max-width: 540px){
-  
-
   .nav .nav-list li a {
     font-size: 12px; 
     text-align: left;
+    padding-bottom: 1px; 
   }
   
   .logo-container .logo {
-    width: 80px;  
+    width: 80px;   
     height: 80px;
   }
 
@@ -91,32 +126,27 @@
     gap: 8px;
     padding-left: 10px;
   }
-
 }
 
 @media(max-width: 390px){
-  
-
   .nav .nav-list li a {
     font-size: 11px; 
+    padding-bottom: 1px; 
   }
   
   .logo-container .logo {
-    width: 70px;  
+    width: 70px;   
     height: 70px;
   }
 
  .nav .nav-list {
     gap: 5px;
-   
   }
-
 }
 
 @media(max-width: 360px){
-
   .logo-container .logo {
-    width: 60px;  
+    width: 60px;   
     height: 60px;
   }
 }
