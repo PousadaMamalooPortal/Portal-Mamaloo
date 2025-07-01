@@ -41,3 +41,42 @@ async def criar_ponto(
     db.commit()
     db.refresh(db_ponto)
     return db_ponto
+
+@router.put("/{ponto_id}", response_model=PontoTuristico)
+async def atualizar_ponto(
+    ponto_id: int,
+    nomepontoturistico: str = Form(...),
+    descricaopontoturistico: str = Form(...),
+    imagem: UploadFile = File(None),
+    db: Session = Depends(get_db),
+    current_admin: Administrador = Depends(obter_atual_administrador)
+):
+    ponto = db.query(PontoModel).filter_by(idpontoturistico=ponto_id).first()
+    if not ponto:
+        raise HTTPException(status_code=404, detail="Ponto turístico não encontrado")
+    
+    imagem_url = ponto.imagem_url
+    if imagem:
+        imagem_url = save_uploaded_file(imagem, "ponto_turistico")
+    
+    ponto.nomepontoturistico = nomepontoturistico
+    ponto.descricaopontoturistico = descricaopontoturistico
+    ponto.imagem_url = imagem_url
+    
+    db.commit()
+    db.refresh(ponto)
+    return ponto
+
+@router.delete("/{ponto_id}", response_model=dict)
+def deletar_ponto(
+    ponto_id: int,
+    db: Session = Depends(get_db),
+    current_admin: Administrador = Depends(obter_atual_administrador)
+):
+    ponto = db.query(PontoModel).filter_by(idpontoturistico=ponto_id).first()
+    if not ponto:
+        raise HTTPException(status_code=404, detail="Ponto turístico não encontrado")
+    
+    db.delete(ponto)
+    db.commit()
+    return {"message": "Ponto turístico deletado com sucesso"}
