@@ -139,3 +139,32 @@ def deletar_imagem(
     db.delete(imagem)
     db.commit()
     return {"message": "Imagem removida com sucesso"}
+
+@router.delete("/{quarto_id}", response_model=dict)
+def deletar_quarto(
+    quarto_id: int,
+    db: Session = Depends(get_db),
+    current_admin: Administrador = Depends(obter_atual_administrador)
+):
+    # Verifica se o quarto existe
+    quarto = db.query(QuartoModel).filter_by(IdQuarto=quarto_id).first()
+    if not quarto:
+        raise HTTPException(status_code=404, detail="Quarto não encontrado")
+    
+    # Primeiro deleta todas as imagens associadas ao quarto
+    imagens = db.query(QuartoImagem).filter_by(IdQuarto=quarto_id).all()
+    for imagem in imagens:
+        # Remove o arquivo físico
+        try:
+            if os.path.exists(imagem.caminhoImagem.lstrip('/')):
+                os.remove(imagem.caminhoImagem.lstrip('/'))
+        except Exception as e:
+            print(f"Erro ao remover arquivo: {e}")
+        
+        db.delete(imagem)
+    
+    # Depois deleta o quarto
+    db.delete(quarto)
+    db.commit()
+    
+    return {"message": "Quarto e suas imagens foram deletados com sucesso"}
