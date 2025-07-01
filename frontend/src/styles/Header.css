@@ -31,51 +31,51 @@
 
 .nav .nav-list li a {
   text-decoration: none;
-  color: #4B3527; /* Cor padrão */
+  color: #4B3527; 
   font-weight: bold;
   font-size: 16px;
-  transition: color 0.3s ease; /* Transição para a cor do texto */
-  padding-bottom: 5px; /* Aumenta o padding para dar espaço à barra */
-  position: relative; /* Essencial para posicionar a barra ::after */
+  transition: color 0.3s ease; 
+  padding-bottom: 5px; 
+  position: relative; 
 }
 
-/* Estilo para o link ativo */
+
 .nav .nav-list li a.active-link {
-  color: #d38a46; /* Cor laranja quando ativo */
-  /* border-bottom removido daqui */
+  color: #d38a46; 
+  
 }
 
-/* Pseudo-elemento que será a barra animada */
+
 .nav .nav-list li a::after {
-  content: ''; /* Conteúdo obrigatório para pseudo-elemento */
-  display: block; /* Para que possa ter width e height */
-  position: absolute; /* Posição absoluta em relação ao link pai */
-  bottom: 0; /* Alinha na parte inferior do link */
-  left: 0; /* Começa à esquerda do link */
-  width: 100%; /* Largura total do link */
-  height: 2px; /* Espessura da barra */
-  background: #d38a46; /* Cor da barra (laranja) */
-  transform: scaleX(0); /* Inicialmente escondido (largura 0) */
-  transform-origin: center; /* A barra crescerá do centro para fora */
-  transition: transform 0.3s ease-out; /* Transição suave para a animação */
+  content: ''; 
+  display: block; 
+  position: absolute; 
+  bottom: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 2px; 
+  background: #d38a46;
+  transform: scaleX(0); 
+  transform-origin: center; 
+  transition: transform 0.3s ease-out; 
 }
 
-/* Ativa a animação da barra quando o link está ativo */
+
 .nav .nav-list li a.active-link::after {
-  transform: scaleX(1); /* Faz a barra crescer para a largura total */
+  transform: scaleX(1); 
 }
 
-/* Também ative a animação da barra no hover para consistência */
+
 .nav .nav-list li a:hover::after {
-  transform: scaleX(1); /* A barra cresce no hover */
+  transform: scaleX(1); 
 }
 
 .nav .nav-list li a:hover {
-  color: #d38a46; /* Mantém a cor no hover */
+  color: #d38a46; 
 }
 
 
-/* Media queries existentes */
+
 
 @media(max-width: 1250px){
   .header {
