@@ -24,8 +24,7 @@ async def criar_ponto(
     nomepontoturistico: str = Form(...),
     descricaopontoturistico: str = Form(...),
     imagem: UploadFile = File(None),
-    db: Session = Depends(get_db),
-    current_admin: Administrador = Depends(obter_atual_administrador)
+    db: Session = Depends(get_db)
 ):
     imagem_url = None
     if imagem:
@@ -48,8 +47,7 @@ async def atualizar_ponto(
     nomepontoturistico: str = Form(...),
     descricaopontoturistico: str = Form(...),
     imagem: UploadFile = File(None),
-    db: Session = Depends(get_db),
-    current_admin: Administrador = Depends(obter_atual_administrador)
+    db: Session = Depends(get_db)
 ):
     ponto = db.query(PontoModel).filter_by(idpontoturistico=ponto_id).first()
     if not ponto:

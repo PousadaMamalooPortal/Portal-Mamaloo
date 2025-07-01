@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas import Quarto, QuartoCreate, QuartoUpdate, Administrador, QuartoImagem as QuartoImagemModel
 from app.models import Quarto as QuartoModel
-from app.auth import obter_atual_administrador
 from app.file_uploads import save_uploaded_file
 import os 
 
@@ -143,8 +142,7 @@ def deletar_imagem(
 @router.delete("/{quarto_id}", response_model=dict)
 def deletar_quarto(
     quarto_id: int,
-    db: Session = Depends(get_db),
-    current_admin: Administrador = Depends(obter_atual_administrador)
+    db: Session = Depends(get_db)
 ):
     # Verifica se o quarto existe
     quarto = db.query(QuartoModel).filter_by(IdQuarto=quarto_id).first()
