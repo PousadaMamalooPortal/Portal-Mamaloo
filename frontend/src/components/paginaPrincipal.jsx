@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ComentarioCard from './cardComentario';
 import '../styles/paginaPrincipal.css'; 
 import logo from '../assets/mamaloo-recepcao.jpg';
-import { URL_API } from '../Api'; // Importa a URL_API (caminho ajustado para '../api')
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { URL_API } from '../Api'; 
+import { useNavigate } from 'react-router-dom'; 
 
 const PaginaPrincipal = () => {
   const [quartos, setQuartos] = useState([]);
-  const navigate = useNavigate(); // Inicializa o useNavigate
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     async function fetchQuartos() {
@@ -45,9 +45,9 @@ const PaginaPrincipal = () => {
     fetchQuartos();
   }, []); 
 
-  // --- NOVA FUNÇÃO: Redirecionar para a página de quartos ---
+  
   const handleVerQuartoClick = () => {
-    navigate('/quartos'); // Redireciona para a rota /quartos
+    navigate('/quartos'); 
   };
 
   return (
@@ -61,16 +61,10 @@ const PaginaPrincipal = () => {
           <div className="text">
             <h2>Por que escolher a Mamaloo Pousada?</h2>
             <p>
-              Se você busca conforto e praticidade em Maceió, a Mamaloo Pousada é a escolha ideal.
-              Com quartos equipados com ar-condicionado, TV de tela plana e banheiro privativo, 
-              oferecemos uma estadia aconchegante e funcional. Algumas unidades contam com cozinha 
-              compacta para maior comodidade.
+              Um espaço acolhedor, criado com carinho para quem valoriza conforto, hospitalidade e boas experiências. Localizada em Maceió, a Mamaloo nasceu da paixão por receber bem. O nome é a união de “mãe” com “Lu”, homenagem à esposa do fundador. Inspirada nas vivências internacionais do Volney, nosso café da manhã é servido à mesa, trazendo um toque especial à sua estadia. Descubra uma pousada onde cada detalhe foi pensado para que você se sinta em casa.
             </p>
             <p>
-              Nosso café da manhã variado, Wi-Fi gratuito e estacionamento privativo garantem uma 
-              experiência completa. Estamos próximos das belas praias de Cruz das Almas e Jatiúca, 
-              além de atrações como as Piscinas Naturais de Pajuçara e o Farol de Maceió. O Aeroporto 
-              Internacional está a apenas 23 km de distância.
+             Além do ambiente familiar e acolhedor, a Mamaloo está situada próxima às belas praias de Cruz das Almas e Jatiúca, com fácil acesso a pontos turísticos, restaurantes e serviços locais. Os quartos são espaçosos, confortáveis e pensados para oferecer praticidade, com Wi-Fi gratuito, ar-condicionado e estacionamento privativo — tudo para tornar sua experiência ainda mais completa.
             </p>
             <p>
               Seja a lazer ou negócios, hospede-se na Mamaloo Pousada e aproveite o melhor de Maceió!

@@ -8,7 +8,7 @@ const ComentarioCard = () => {
   const comentariosPorPagina = 4;
 
   useEffect(() => {
-    // Dados reais dos comentários fornecidos
+    
     const mockData = [
       {
         nome: 'Carlos',
@@ -48,44 +48,44 @@ const ComentarioCard = () => {
       {
         nome: 'Júlio César A',
         texto: 'Muito atenciosos, gentis, o café é de uma fartura e qualidade ímpares, quarto confortável, localização excelente e preços bons. Recomedadíssima! Voltarei tão logo seja possível.',
-        data: '2024-01-04', // Ajustei o formato da data para 'AAAA-MM-DD' para consistência
+        data: '2024-01-04', 
         origem: 'TripAdvisor',
         linkOrigem: 'https://www.tripadvisor.com.br/Profile/j_lioc_sara2024?fid=ae88a9ec-431b-4a02-a0cf-68e889c848ac',
       },
       {
         nome: 'Nalvabt',
         texto: 'Ser recebido por amigos é o sentimento. Os donos moram na pousada e cuidam do estabelecimento como extensão do lar. O contato é sempre muito próximo inclusive no café onde somos servidos a mesa, de acordo com nossa necessidade.',
-        data: '2024-01', // Se a data for apenas mês/ano, considere ajustar o display
+        data: '2024-01', 
         origem: 'TripAdvisor',
         linkOrigem: 'https://www.tripadvisor.com.br/Profile/nalvabt?fid=0ef0d7eb-0a37-4a2d-b66d-7f7265deb139',
       },
       {
-        nome: 'rubem stefano',
+        nome: 'Rubem Stefano',
         texto: 'Local impecável, atendimento fantástico, ambiente familiar!',
         data: '2025-02',
         origem: 'Google Reviews',
-        linkOrigem: 'https://maps.app.goo.gl/nU9zLfz8umbRdJnR6', // Link do Google Reviews
+        linkOrigem: 'https://maps.app.goo.gl/nU9zLfz8umbRdJnR6', 
       },
       {
         nome: 'Leandro Jose',
         texto: 'Dentre todos os estados do Nordeste que tive a oportunidade de visitar, esta foi, sem dúvida, a melhor pousada em que me hospedei. Atendimento impecável e qualidade excepcional em cada detalhe. Uma experiência realmente memorável!',
         data: '2025-06',
         origem: 'Google Reviews',
-        linkOrigem: 'https://maps.app.goo.gl/N6uydKKrhAUbHdRx8', // Link do Google Reviews
+        linkOrigem: 'https://maps.app.goo.gl/N6uydKKrhAUbHdRx8', 
       },
       {
         nome: 'Marcela Reis',
         texto: 'A Mamaloo Pousada é muito familiar e aconchegante. Os donos e funcionários fazem-nos sentir em casa. Sempre que vou à Maceió fico lá porque o atendimento é espetacular. Agradeço demais pelo carinho! Vocês fazem nossa estadia muito especial!',
         data: '2025-06',
         origem: 'Google Reviews',
-        linkOrigem: 'https://maps.app.goo.gl/Jm2pcYegkNTZaHGg9', // Link do Google Reviews
+        linkOrigem: 'https://maps.app.goo.gl/Jm2pcYegkNTZaHGg9', 
       },
       {
         nome: 'Adalberto Ikegami',
         texto: 'Pousada bem localizada para quem busca acessar as praias do norte, fora do centro mas não muito distante, vários ótimos restaurantes próximos a menos de 1km de distância…',
         data: '2024-07',
         origem: 'Google Reviews',
-        linkOrigem: 'https://maps.app.goo.gl/8fCu42MCY9mM3hxd6', // Link do Google Reviews
+        linkOrigem: 'https://maps.app.goo.gl/8fCu42MCY9mM3hxd6', 
       },
     ];
 
