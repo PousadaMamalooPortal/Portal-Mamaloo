@@ -198,7 +198,7 @@ html, body {
 }
 
 button {
-  background-color: #4B3527;
+  background-color: #d38a46;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -210,7 +210,7 @@ button {
 }
 
 button:hover {
-  background-color: #6f4f37;
+  background-color: #daa97c;
 }
 
 .map-container {

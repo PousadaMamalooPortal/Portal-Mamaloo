@@ -67,8 +67,8 @@
 
 /* botão */
 .btn-mapa {
-  background-color: white;
-  color: #4B3527;
+  background-color: #d38a46;
+  color: white;
   padding: 14px 32px;
   border: none;
   border-radius: 8px;
@@ -81,7 +81,7 @@
 }
 
 .btn-mapa:hover {
-  background-color: #ddd;
+  background-color: #daa97c;
 }
 
 @media (min-width: 1025px) and (max-width: 1200px){

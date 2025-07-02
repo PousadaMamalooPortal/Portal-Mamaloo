@@ -115,9 +115,11 @@
 
 .precos {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
+  flex-direction: column; /* Altera para coluna (empilha) */
+  align-items: center; /* Centraliza horizontalmente (para itens empilhados) */
+  gap: 5px; /* Reduz o gap entre os preços empilhados */
   margin-bottom: 12px;
+  text-align: center; /* Garante que o texto dentro seja centralizado */
 }
 
 .preco-original {
@@ -140,8 +142,8 @@
 
 .btn-reservar {
   align-self:center;
-  background-color: #fff;
-  color: #4B3527;
+  background-color: #d38a46;
+  color: white;
   padding: 15px 20px;
   font-weight: bold;
   border: none;
@@ -153,8 +155,31 @@
 }
 
 .btn-reservar:hover {
-  background-color: #ddd;
+  background-color: #daa97c;
 }
+
+
+
+.capacidade-quarto {
+  font-size: 16px;
+  margin-top: -8px; 
+  margin-bottom: 12px; 
+  color: #f0f0f0;
+  display: flex; 
+  align-items: left; 
+  justify-content: left; 
+}
+
+
+.icone-capacidade {
+  width: 20px; 
+  height: 20px;
+  margin-right: 8px; 
+  object-fit: contain;
+  filter: brightness(0) invert(1); 
+}
+
+
 
 @media (min-width: 1025px) and (max-width: 1200px) {
 

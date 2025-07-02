@@ -3,10 +3,47 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/Quartos.css";
-import { URL_API } from '../Api'; // Ajustado para '../api'
+import { URL_API } from '../Api'; 
+
+
+import IconePessoa from '/assets/icones/mamaloo-icone-pessoa.png'; // Caminho direto da pasta public
 
 export default function PaginaQuartos() {
   const [quartos, setQuartos] = useState([]);
+
+  // --- NOVO: Mapa de imagens locais por nome exato do quarto ---
+  // Mapeia o nome do quarto (em caixa baixa e sem acentos para maior robustez)
+  // para o array de URLs das imagens locais.
+  const roomImagePathsMap = {
+    "quarto triplo luxo": [
+      "/assets/quartos/t1.jpg",
+      "/assets/quartos/t2.jpg",
+      "/assets/quartos/t3.jpg",
+    ],
+    "estudio deluxe": [
+      "/assets/quartos/d1.jpg",
+      "/assets/quartos/d2.jpg",
+      "/assets/quartos/d3.jpg",
+    ],
+    "quarto quadruplo de luxo": [
+      "/assets/quartos/q1.jpg",
+      "/assets/quartos/q2.jpg",
+      "/assets/quartos/q3.jpg",
+    ],
+    // Adicione um placeholder genérico caso um nome não seja encontrado
+    "default": [
+      "/assets/quartos/mamaloo-quarto-deluxe.jpg",
+      "/assets/quartos/mamaloo-quarto-quadruplo.jpg",
+      "/assets/quartos/mamaloo-quarto-triplo.jpg",
+    ]
+  };
+
+  // Função auxiliar para normalizar nomes de quarto para a chave do mapa
+  const normalizeRoomName = (name) => {
+    if (!name) return '';
+    return name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos e minúsculas
+  };
+
 
   useEffect(() => {
     async function fetchQuartos() {
@@ -21,31 +58,26 @@ export default function PaginaQuartos() {
 
         const defaultItens = ["TV de tela plana", "Ar-condicionado", "WiFi gratuito"];
         
-        const defaultLocalImages = [
-          "/assets/quartos/mamaloo-quarto-deluxe.jpg",
-          "/assets/quartos/mamaloo-quarto-quadruplo.jpg",
-          "/assets/quartos/mamaloo-quarto-triplo.jpg",
-        ];
-        
         let formattedData = data.map(item => {
           let imagensDoQuarto = [];
-          if (Array.isArray(item.imagemQuartos) && item.imagemQuartos.length > 0) {
-              imagensDoQuarto = item.imagemQuartos;
-          } else if (typeof item.imagemQuartos === 'string' && item.imagemQuartos.trim() !== '') {
-              imagensDoQuarto = item.imagemQuartos.split(',').map(img => img.trim());
-          }
-          
-          if (imagensDoQuarto.length === 0) {
-              imagensDoQuarto = defaultLocalImages;
-          }
-          
+          const nomeDoQuartoNormalizado = normalizeRoomName(item.NomeQuarto);
+
+          // Tenta pegar as imagens do mapa local
+          imagensDoQuarto = roomImagePathsMap[nomeDoQuartoNormalizado] || roomImagePathsMap["default"];
+
+          // Se a API ainda estiver enviando imagens (e elas estiverem corretas), você pode priorizá-las
+          // Se a API enviar URLs válidas e você quiser usá-las:
+          // if (Array.isArray(item.imagemQuartos) && item.imagemQuartos.length > 0 && item.imagemQuartos[0].includes('http')) {
+          //     imagensDoQuarto = item.imagemQuartos;
+          // }
+
           return {
             id: item.IdQuarto, 
             nome: item.NomeQuarto, 
             imagens: imagensDoQuarto, 
             descricao: item.descricaoQuarto,
             preco: item.ValorQuarto,
-            promocao: item.promocao || "", 
+            promocao: item.valorPromocaoQuarto || "",
             itens: item.itens && item.itens.length > 0 ? item.itens : defaultItens, 
             capacidade: item.CapacidadeQuarto, 
           };
@@ -61,11 +93,16 @@ export default function PaginaQuartos() {
     fetchQuartos();
   }, []);
 
-  const formatarPreco = (valor) =>
-    parseFloat(valor).toLocaleString("pt-BR", {
+  const formatarPreco = (valor) => {
+    const numericValue = parseFloat(valor);
+    if (isNaN(numericValue)) {
+        return "R$ 0,00"; 
+    }
+    return numericValue.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
     });
+  };
 
   const settings = {
     dots: true,
@@ -102,19 +139,25 @@ export default function PaginaQuartos() {
                   ))}
                 </ul>
                 <p className="descricao">{quarto.descricao}</p>
-                {/* --- MUDANÇA AQUI: Capacidade abaixo da descrição --- */}
+                
                 {quarto.capacidade && (
                   <p className="capacidade-quarto">
-                    Capacidade: {quarto.capacidade} pessoa{quarto.capacidade > 1 ? 's' : ''}
+                    <img 
+                        src={IconePessoa} 
+                        alt="Capacidade de pessoas" 
+                        className="icone-capacidade" 
+                    /> 
+                    Até {quarto.capacidade} pessoa{quarto.capacidade > 1 ? 's' : ''}
                   </p>
                 )}
                 <div className="precos">
-                  {quarto.promocao ? (
+                  <span className="a-partir-de">Diária a partir de </span>
+                  {quarto.promocao ? ( 
                     <>
                       <span className="preco-original">{formatarPreco(quarto.preco)}</span>
                       <span className="preco-promocional">{formatarPreco(quarto.promocao)}</span>
                     </>
-                  ) : (
+                  ) : ( 
                     <span className="preco-unico">{formatarPreco(quarto.preco)}</span>
                   )}
                 </div>

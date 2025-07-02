@@ -6,50 +6,50 @@ function Atracoes() {
   const [atracoes, setAtracoes] = useState([]);
 
   
-  const orderedLocalImages = [
-    '/public/assets/atracoes/mamaloo-atracoes-pajucara.jpg',
-    '/public/assets/atracoes/mamaloo-atracoes-pv.jpg',
-    '/public/assets/atracoes/mamaloo-atracoes-marco.jpeg',
-    '/public/assets/atracoes/mamaloo-atracoes-pavilhao.jpg',
-    '/public/assets/atracoes/mamaloo-atracoes-museu.jpeg',
-  ];
+  const localImageMap = {
+    "Praia de Ponta Verde": "/assets/atracoes/mamaloo-atracoes-pv.jpg",
+    "Marco dos Corais": "/assets/atracoes/mamaloo-atracoes-marco.jpeg",
+    "Pavilhão do Artesanato": "/assets/atracoes/mamaloo-atracoes-pavilhao.jpg",
+    "Piscinas Naturais de Pajuçara": "/assets/atracoes/mamaloo-atracoes-pajucara.jpg",
+    
+  };
 
   useEffect(() => {
     async function fetchAtracoes() {
       try {
-        const response = await fetch(`${URL_API}/pontos-turisticos/`);
+        const response = await fetch(`${URL_API}/pontos-turisticos/`); 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
 
-        const formattedData = data.map((item, index) => {
-         
-          const imagemParaExibir = orderedLocalImages[index % orderedLocalImages.length];
+        const formattedData = data.map((item) => {
+          
+          const imagemParaExibir = localImageMap[item.nomepontoturistico] || "/assets/placeholder-atracao.jpg"; // Substitua por um placeholder genérico se quiser
 
           return {
-            id: item.idpontoturistico,
-            titulo: item.nomepontoturistico,
-            descricao: item.descricaopontoturistico,
+            id: item.idpontoturistico, 
+            titulo: item.nomepontoturistico, 
+            descricao: item.descricaopontoturistico, 
             imagem: imagemParaExibir, 
-            mapa: item.mapa || `https://www.google.com/maps?q=${encodeURIComponent(item.nomepontoturistico || '')}`, // Garante que o mapa tenha um valor
+            mapa: item.mapa || `https://www.google.com/maps?q=${encodeURIComponent(item.nomepontoturistico || '')}`, 
           };
         });
 
-        setAtracoes(formattedData);
+        setAtracoes(formattedData); 
       } catch (error) {
         console.error('Erro ao buscar atrações:', error);
         setAtracoes([]); 
       }
     }
 
-    fetchAtracoes();
+    fetchAtracoes(); 
   }, []);
 
   return (
     <div className="atracoes-container">
       <main className="atracoes-main">
-        {atracoes.length > 0 ? (
+        {atracoes.length > 0 ? ( 
           atracoes.map((item) => (
             <section key={item.id} className="atracao-card">
               <div className="atracao-content">
