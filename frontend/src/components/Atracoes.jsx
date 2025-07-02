@@ -5,13 +5,12 @@ import { URL_API } from '../Api';
 function Atracoes() {
   const [atracoes, setAtracoes] = useState([]);
 
-  
+  // Mapa de imagens locais para fallback
   const localImageMap = {
     "Praia de Ponta Verde": "/assets/atracoes/mamaloo-atracoes-pv.jpg",
     "Marco dos Corais": "/assets/atracoes/mamaloo-atracoes-marco.jpeg",
     "Pavilhão do Artesanato": "/assets/atracoes/mamaloo-atracoes-pavilhao.jpg",
     "Piscinas Naturais de Pajuçara": "/assets/atracoes/mamaloo-atracoes-pajucara.jpg",
-    
   };
 
   useEffect(() => {
@@ -24,8 +23,15 @@ function Atracoes() {
         const data = await response.json();
 
         const formattedData = data.map((item) => {
+          // Verifica se existe imagem_url na API e constrói o caminho completo
+          const imagemAPI = item.imagem_url 
+            ? `${URL_API}${item.imagem_url}`
+            : null;
           
-          const imagemParaExibir = localImageMap[item.nomepontoturistico] || "/assets/placeholder-atracao.jpg"; // Substitua por um placeholder genérico se quiser
+          // Usa a imagem da API se existir, senão usa a local, senão usa placeholder
+          const imagemParaExibir = imagemAPI || 
+                                 localImageMap[item.nomepontoturistico] || 
+                                 "/assets/placeholder-atracao.jpg";
 
           return {
             id: item.idpontoturistico, 
@@ -57,6 +63,11 @@ function Atracoes() {
                   src={item.imagem} 
                   alt={item.titulo}
                   className="atracao-imagem"
+                  onError={(e) => {
+                    // Fallback para imagem local se a da API falhar ao carregar
+                    const fallbackImage = localImageMap[item.titulo] || "/assets/placeholder-atracao.jpg";
+                    e.target.src = fallbackImage;
+                  }}
                 />
                 <div className="atracao-texto-container">
                   <h2 className="atracao-titulo">{item.titulo}</h2>

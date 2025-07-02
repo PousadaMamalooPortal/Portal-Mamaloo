@@ -71,9 +71,8 @@ def save_uploaded_file(file: UploadFile, tipo: str) -> str:
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     base_name, file_ext = sanitize_filename(file.filename)
     
-    # Usa a extensão correta baseada no content-type (evita problemas com extensões falsas)
     correct_ext = ALLOWED_IMAGE_TYPES[file.content_type]
-    if file_ext[1:] != correct_ext:  # Remove o ponto da extensão
+    if file_ext[1:] != correct_ext:  
         file_ext = f".{correct_ext}"
     
     # Monta o nome final do arquivo
