@@ -3,7 +3,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/Quartos.css";
-import { URL_API } from '../Api'; // Ajustado para '../api'
+import { URL_API } from '../Api'; 
+
+
+import IconePessoa from '/assets/icones/mamaloo-icone-pessoa.png'; // Caminho direto da pasta public
 
 export default function PaginaQuartos() {
   const [quartos, setQuartos] = useState([]);
@@ -45,7 +48,7 @@ export default function PaginaQuartos() {
             imagens: imagensDoQuarto, 
             descricao: item.descricaoQuarto,
             preco: item.ValorQuarto,
-            promocao: item.promocao || "", 
+            promocao: item.valorPromocaoQuarto || "",
             itens: item.itens && item.itens.length > 0 ? item.itens : defaultItens, 
             capacidade: item.CapacidadeQuarto, 
           };
@@ -61,11 +64,16 @@ export default function PaginaQuartos() {
     fetchQuartos();
   }, []);
 
-  const formatarPreco = (valor) =>
-    parseFloat(valor).toLocaleString("pt-BR", {
+  const formatarPreco = (valor) => {
+    const numericValue = parseFloat(valor);
+    if (isNaN(numericValue)) {
+        return "R$ 0,00"; 
+    }
+    return numericValue.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
     });
+  };
 
   const settings = {
     dots: true,
@@ -102,19 +110,24 @@ export default function PaginaQuartos() {
                   ))}
                 </ul>
                 <p className="descricao">{quarto.descricao}</p>
-                {/* --- MUDANÇA AQUI: Capacidade abaixo da descrição --- */}
+               
                 {quarto.capacidade && (
                   <p className="capacidade-quarto">
-                    Capacidade: {quarto.capacidade} pessoa{quarto.capacidade > 1 ? 's' : ''}
+                    <img 
+                        src={IconePessoa} 
+                        alt="Capacidade de pessoas" 
+                        className="icone-capacidade" 
+                    /> 
+                    {quarto.capacidade} pessoa{quarto.capacidade > 1 ? 's' : ''}
                   </p>
                 )}
                 <div className="precos">
-                  {quarto.promocao ? (
+                  {quarto.promocao ? ( 
                     <>
                       <span className="preco-original">{formatarPreco(quarto.preco)}</span>
                       <span className="preco-promocional">{formatarPreco(quarto.promocao)}</span>
                     </>
-                  ) : (
+                  ) : ( 
                     <span className="preco-unico">{formatarPreco(quarto.preco)}</span>
                   )}
                 </div>
