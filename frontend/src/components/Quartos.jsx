@@ -4,16 +4,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/Quartos.css";
 import { URL_API } from '../Api'; 
-
-
-import IconePessoa from '/assets/icones/mamaloo-icone-pessoa.png'; // Caminho direto da pasta public
+import IconePessoa from '/assets/icones/mamaloo-icone-pessoa.png';
 
 export default function PaginaQuartos() {
   const [quartos, setQuartos] = useState([]);
 
-  // --- NOVO: Mapa de imagens locais por nome exato do quarto ---
-  // Mapeia o nome do quarto (em caixa baixa e sem acentos para maior robustez)
-  // para o array de URLs das imagens locais.
+  // Mapa de imagens locais por nome do quarto
   const roomImagePathsMap = {
     "quarto triplo luxo": [
       "/assets/quartos/t1.jpg",
@@ -30,7 +26,6 @@ export default function PaginaQuartos() {
       "/assets/quartos/q2.jpg",
       "/assets/quartos/q3.jpg",
     ],
-    // Adicione um placeholder genérico caso um nome não seja encontrado
     "default": [
       "/assets/quartos/mamaloo-quarto-deluxe.jpg",
       "/assets/quartos/mamaloo-quarto-quadruplo.jpg",
@@ -38,38 +33,38 @@ export default function PaginaQuartos() {
     ]
   };
 
-  // Função auxiliar para normalizar nomes de quarto para a chave do mapa
   const normalizeRoomName = (name) => {
     if (!name) return '';
-    return name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos e minúsculas
+    return name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   };
-
 
   useEffect(() => {
     async function fetchQuartos() {
       try {
         const response = await fetch(`${URL_API}/quartos/`);
-
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-
         const defaultItens = ["TV de tela plana", "Ar-condicionado", "WiFi gratuito"];
         
-        let formattedData = data.map(item => {
-          let imagensDoQuarto = [];
+        const formattedData = data.map(item => {
           const nomeDoQuartoNormalizado = normalizeRoomName(item.NomeQuarto);
-
-          // Tenta pegar as imagens do mapa local
-          imagensDoQuarto = roomImagePathsMap[nomeDoQuartoNormalizado] || roomImagePathsMap["default"];
-
-          // Se a API ainda estiver enviando imagens (e elas estiverem corretas), você pode priorizá-las
-          // Se a API enviar URLs válidas e você quiser usá-las:
-          // if (Array.isArray(item.imagemQuartos) && item.imagemQuartos.length > 0 && item.imagemQuartos[0].includes('http')) {
-          //     imagensDoQuarto = item.imagemQuartos;
-          // }
+          
+          // Primeiro tenta usar as imagens da API (se existirem)
+          let imagensDoQuarto = [];
+          if (Array.isArray(item.imagens) && item.imagens.length > 0) {
+            imagensDoQuarto = item.imagens.map(img => 
+              `${URL_API}${img.caminhoImagem}`
+            );
+          }
+          
+          // Se não tiver imagens da API, usa as locais
+          if (imagensDoQuarto.length === 0) {
+            imagensDoQuarto = roomImagePathsMap[nomeDoQuartoNormalizado] || 
+                             roomImagePathsMap["default"];
+          }
 
           return {
             id: item.IdQuarto, 
@@ -126,7 +121,14 @@ export default function PaginaQuartos() {
                       key={i} 
                       src={src} 
                       alt={`${quarto.nome} - Imagem ${i + 1}`} 
-                      className="imagem-quarto" 
+                      className="imagem-quarto"
+                      onError={(e) => {
+                        // Fallback para imagens locais se a da API falhar
+                        const nomeNormalizado = normalizeRoomName(quarto.nome);
+                        const fallbackImages = roomImagePathsMap[nomeNormalizado] || 
+                                              roomImagePathsMap["default"];
+                        e.target.src = fallbackImages[i] || fallbackImages[0];
+                      }}
                     />
                   ))}
                 </Slider>
@@ -134,7 +136,7 @@ export default function PaginaQuartos() {
               <div className="info-quarto">
                 <h3>{quarto.nome}</h3>
                 <ul className="icones-itens">
-                  {quarto.itens && quarto.itens.length > 0 && quarto.itens.map((item, i) => (
+                  {quarto.itens && quarto.itens.map((item, i) => (
                     <li key={i}>{item}</li>
                   ))}
                 </ul>
