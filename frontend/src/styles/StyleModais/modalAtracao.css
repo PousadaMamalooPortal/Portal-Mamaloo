@@ -27,7 +27,7 @@
   width: 480px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 12px; 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -39,12 +39,24 @@
   border-radius: 5px;
   font-size: 14px;
   box-sizing: border-box;
+  margin-top: 0;
 }
 
 .modal-atracao textarea {
   resize: vertical;
   min-height: 60px;
 }
+
+
+.modal-atracao label {
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  display: block;
+  color: #4B3527;
+  font-size: 14px;
+}
+
 
 .modal-atracao .botoes {
   display: flex;
@@ -86,6 +98,23 @@
   background-color: #3a281d;
   transform: scale(1.03);
 }
+
+
+.imagem-preview {
+  margin-top: 10px;
+  text-align: center;
+}
+.imagem-preview p {
+  font-weight: bold;
+  color: #4B3527;
+  margin-bottom: 5px;
+}
+.imagem-preview img {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+}
+
 
 @media (max-width: 600px) {
   .modal-atracao {
