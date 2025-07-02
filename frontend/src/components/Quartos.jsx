@@ -11,6 +11,40 @@ import IconePessoa from '/assets/icones/mamaloo-icone-pessoa.png'; // Caminho di
 export default function PaginaQuartos() {
   const [quartos, setQuartos] = useState([]);
 
+  // --- NOVO: Mapa de imagens locais por nome exato do quarto ---
+  // Mapeia o nome do quarto (em caixa baixa e sem acentos para maior robustez)
+  // para o array de URLs das imagens locais.
+  const roomImagePathsMap = {
+    "quarto triplo luxo": [
+      "/assets/quartos/t1.jpg",
+      "/assets/quartos/t2.jpg",
+      "/assets/quartos/t3.jpg",
+    ],
+    "estudio deluxe": [
+      "/assets/quartos/d1.jpg",
+      "/assets/quartos/d2.jpg",
+      "/assets/quartos/d3.jpg",
+    ],
+    "quarto quadruplo de luxo": [
+      "/assets/quartos/q1.jpg",
+      "/assets/quartos/q2.jpg",
+      "/assets/quartos/q3.jpg",
+    ],
+    // Adicione um placeholder genérico caso um nome não seja encontrado
+    "default": [
+      "/assets/quartos/mamaloo-quarto-deluxe.jpg",
+      "/assets/quartos/mamaloo-quarto-quadruplo.jpg",
+      "/assets/quartos/mamaloo-quarto-triplo.jpg",
+    ]
+  };
+
+  // Função auxiliar para normalizar nomes de quarto para a chave do mapa
+  const normalizeRoomName = (name) => {
+    if (!name) return '';
+    return name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos e minúsculas
+  };
+
+
   useEffect(() => {
     async function fetchQuartos() {
       try {
@@ -24,24 +58,19 @@ export default function PaginaQuartos() {
 
         const defaultItens = ["TV de tela plana", "Ar-condicionado", "WiFi gratuito"];
         
-        const defaultLocalImages = [
-          "/assets/quartos/mamaloo-quarto-deluxe.jpg",
-          "/assets/quartos/mamaloo-quarto-quadruplo.jpg",
-          "/assets/quartos/mamaloo-quarto-triplo.jpg",
-        ];
-        
         let formattedData = data.map(item => {
           let imagensDoQuarto = [];
-          if (Array.isArray(item.imagemQuartos) && item.imagemQuartos.length > 0) {
-              imagensDoQuarto = item.imagemQuartos;
-          } else if (typeof item.imagemQuartos === 'string' && item.imagemQuartos.trim() !== '') {
-              imagensDoQuarto = item.imagemQuartos.split(',').map(img => img.trim());
-          }
-          
-          if (imagensDoQuarto.length === 0) {
-              imagensDoQuarto = defaultLocalImages;
-          }
-          
+          const nomeDoQuartoNormalizado = normalizeRoomName(item.NomeQuarto);
+
+          // Tenta pegar as imagens do mapa local
+          imagensDoQuarto = roomImagePathsMap[nomeDoQuartoNormalizado] || roomImagePathsMap["default"];
+
+          // Se a API ainda estiver enviando imagens (e elas estiverem corretas), você pode priorizá-las
+          // Se a API enviar URLs válidas e você quiser usá-las:
+          // if (Array.isArray(item.imagemQuartos) && item.imagemQuartos.length > 0 && item.imagemQuartos[0].includes('http')) {
+          //     imagensDoQuarto = item.imagemQuartos;
+          // }
+
           return {
             id: item.IdQuarto, 
             nome: item.NomeQuarto, 
@@ -110,7 +139,7 @@ export default function PaginaQuartos() {
                   ))}
                 </ul>
                 <p className="descricao">{quarto.descricao}</p>
-               
+                
                 {quarto.capacidade && (
                   <p className="capacidade-quarto">
                     <img 
@@ -118,10 +147,11 @@ export default function PaginaQuartos() {
                         alt="Capacidade de pessoas" 
                         className="icone-capacidade" 
                     /> 
-                    {quarto.capacidade} pessoa{quarto.capacidade > 1 ? 's' : ''}
+                    Até {quarto.capacidade} pessoa{quarto.capacidade > 1 ? 's' : ''}
                   </p>
                 )}
                 <div className="precos">
+                  <span className="a-partir-de">Diária a partir de </span>
                   {quarto.promocao ? ( 
                     <>
                       <span className="preco-original">{formatarPreco(quarto.preco)}</span>

@@ -8,9 +8,34 @@ function AvaliacoesAdm() {
   const [respostaAbertaId, setRespostaAbertaId] = useState(null); 
   const [respostaTexto, setRespostaTexto] = useState('');
 
+  
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      return {
+        'Authorization': `Bearer ${token}` 
+      };
+    }
+    return {}; 
+  };
+
+ 
+  const formatarData = (dataString) => {
+    if (!dataString) return '';
+    const date = new Date(dataString);
+   
+    if (isNaN(date.getTime())) {
+      return dataString; 
+    }
+    const dia = String(date.getDate()).padStart(2, '0');
+    const mes = String(date.getMonth() + 1).padStart(2, '0');
+    const ano = date.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  };
+
   async function fetchComentarios() {
     try {
-      const response = await fetch(`${URL_API}/avaliacoes`); 
+      const response = await fetch(`${URL_API}/avaliacoes`, { headers: getAuthHeaders() }); 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -23,7 +48,14 @@ function AvaliacoesAdm() {
         data: item.dataavaliacao, 
         resposta: item.respostaavaliacao || null, 
       }));
-      setComentarios(formattedComentarios);
+      
+      const sortedComentarios = formattedComentarios.sort((a, b) => {
+        const dateA = new Date(a.data);
+        const dateB = new Date(b.data);
+        return dateB.getTime() - dateA.getTime(); 
+      });
+      
+      setComentarios(sortedComentarios);
     } catch (error) {
       console.error('Erro ao buscar avaliações:', error);
       setComentarios([]); 
@@ -53,12 +85,16 @@ function AvaliacoesAdm() {
     try {
       const response = await fetch(`${URL_API}/avaliacoes/${idToDelete}`, { 
         method: 'DELETE',
+        headers: getAuthHeaders(), 
       });
-      if (!response.ok && response.status !== 204) 
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok && response.status !== 204) { 
+        let errorBody = await response.text();
+        try { errorBody = JSON.parse(errorBody).detail || errorBody; } catch (e) {}
+        throw new Error(`HTTP error! status: ${response.status}. Detalhes: ${errorBody}`);
+      }
 
-      setComentarios(prev => prev.filter(c => c.id !== idToDelete));
       alert("Avaliação deletada com sucesso!");
+      fetchComentarios(); 
     } catch (error) {
       console.error('Erro ao deletar avaliação:', error);
       alert('Erro ao deletar avaliação. Verifique o console.');
@@ -83,20 +119,23 @@ function AvaliacoesAdm() {
         idavaliacao: comentarioOriginal.id,
         nomeavaliacao: comentarioOriginal.nome,
         comentarioavaliacao: comentarioOriginal.comentarioavaliacao || comentarioOriginal.texto,
-        dataavaliacao: comentarioOriginal.data,
+        dataavaliacao: comentarioOriginal.data, // Envia a data original no formato da API
         respostaavaliacao: novaResposta === '' ? null : novaResposta, 
       };
 
       const response = await fetch(`${URL_API}/avaliacoes/${idToRespond}`, { 
         method: 'PUT', 
         headers: {
+          ...getAuthHeaders(), 
           'Content-Type': 'application/json', 
         },
         body: JSON.stringify(payload), 
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        let errorBody = await response.text();
+        try { errorBody = JSON.parse(errorBody).detail || errorBody; } catch (e) {}
+        throw new Error(`HTTP error! status: ${response.status}. Detalhes: ${errorBody}`);
       }
 
       const updatedData = await response.json(); 
@@ -109,7 +148,8 @@ function AvaliacoesAdm() {
         resposta: updatedData.respostaavaliacao,
       };
 
-      setComentarios(prev => prev.map(c => (c.id === idToRespond ? updatedComentario : c)));
+      fetchComentarios(); 
+
       setRespostaAbertaId(null); 
       setRespostaTexto(''); 
       alert("Resposta atualizada com sucesso!"); 
@@ -127,17 +167,17 @@ function AvaliacoesAdm() {
       <div className="comentarios-admin-lista">
         {comentarios.map((c) => ( 
           <div key={c.id} className="comentario-admin-box"> 
-            <div className="comentario-admin-topo">
+            <div className="comentario-topo">
               <img
                 src="/assets/icones/mamaloo-icone-perfil.png"
                 alt="avatar"
               />
               <div>
                 <strong>{c.nome}</strong>
-                <div className="comentario-data">{c.data}</div>
+                
+                <span className="data-comentario">{formatarData(c.data)}</span>
               </div>
               <div className="comentario-botoes">
-                
                 {(!c.resposta || respostaAbertaId === c.id) && (
                   <button
                     onClick={() => handleToggleResposta(c.id)}
@@ -147,7 +187,6 @@ function AvaliacoesAdm() {
                     {respostaAbertaId === c.id ? '✕' : '↩'} 
                   </button>
                 )}
-                
                 {c.resposta && respostaAbertaId !== c.id && (
                   <button
                     className="btn-editar-resposta"
@@ -164,7 +203,6 @@ function AvaliacoesAdm() {
             </div>
             <p>{c.texto}</p>
 
-            
             {c.resposta && respostaAbertaId !== c.id && (
               <div className="resposta-admin">
                 <div className="resposta-admin-topo">
@@ -181,8 +219,7 @@ function AvaliacoesAdm() {
               </div>
             )}
 
-           
-            {respostaAbertaId === c.id && (
+            {respostaAbertaId === c.id && ( 
               <div className="resposta-formulario">
                 <textarea
                   placeholder={c.resposta ? "Edite sua resposta..." : "Digite sua resposta..."}

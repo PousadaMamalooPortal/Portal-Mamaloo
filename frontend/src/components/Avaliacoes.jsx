@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { URL_API } from '../Api.js'; 
+import { URL_API } from '../Api'; 
 import '../styles/Avaliacoes.css';
 
 function Avaliacoes() {
@@ -11,48 +11,65 @@ function Avaliacoes() {
     return hoje.toISOString().slice(0, 10);
   });
 
-  useEffect(() => {
-    async function fetchComentarios() {
-      try {
-        
-        const response = await fetch(`${URL_API}/avaliacoes`);
-        
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        
-        const formattedData = data.map(item => ({
-          idavaliacao: item.idavaliacao,
-          nome: item.nomeavaliacao,
-          texto: item.comentarioavaliacao,
-          data: item.dataavaliacao,
-          resposta: item.respostaavaliacao,
-        }));
-        setComentarios(formattedData);
-      } catch (error) {
-        console.error('Erro ao buscar avaliações:', error);
-      }
+  
+  const formatarData = (dataString) => {
+    if (!dataString) return '';
+    const date = new Date(dataString);
+    
+    if (isNaN(date.getTime())) {
+      return dataString; 
     }
+    const dia = String(date.getDate()).padStart(2, '0');
+    const mes = String(date.getMonth() + 1).padStart(2, '0'); 
+    const ano = date.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  };
+
+  async function fetchComentarios() {
+    try {
+      const response = await fetch(`${URL_API}/avaliacoes`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      
+      const formattedData = data.map(item => ({
+        idavaliacao: item.idavaliacao,
+        nome: item.nomeavaliacao,
+        texto: item.comentarioavaliacao,
+        data: item.dataavaliacao,
+        resposta: item.respostaavaliacao,
+      }));
+      
+      
+      const sortedComentarios = formattedData.sort((a, b) => {
+        const dateA = new Date(a.data);
+        const dateB = new Date(b.data);
+        return dateB.getTime() - dateA.getTime();
+      });
+      
+      setComentarios(sortedComentarios);
+    } catch (error) {
+      console.error('Erro ao buscar avaliações:', error);
+      setComentarios([]); 
+    }
+  }
+
+  useEffect(() => {
     fetchComentarios();
   }, []);
 
   const enviarComentario = async () => {
     if (!novoComentarioTexto.trim()) return;
-
     
     const payload = {
       nomeavaliacao: nomeUsuario.trim() || 'Anônimo',
       comentarioavaliacao: novoComentarioTexto.trim(),
-      dataavaliacao: dataComentario,
-      respostaavaliacao: '', 
+      dataavaliacao: dataComentario, 
+      respostaavaliacao: null, 
     };
 
     try {
-      
       const response = await fetch(`${URL_API}/avaliacoes`, {
         method: 'POST',
         headers: {
@@ -61,13 +78,13 @@ function Avaliacoes() {
         body: JSON.stringify(payload), 
       });
 
-      
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        let errorBody = await response.text();
+        try { errorBody = JSON.parse(errorBody).detail || errorBody; } catch (e) {}
+        throw new Error(`HTTP error! status: ${response.status}. Detalhes: ${errorBody}`);
       }
 
       const responseData = await response.json();
-      
       
       const newComment = {
         idavaliacao: responseData.idavaliacao,
@@ -76,14 +93,15 @@ function Avaliacoes() {
         data: responseData.dataavaliacao,
         resposta: responseData.respostaavaliacao,
       };
-      setComentarios(prev => [...prev, newComment]);
       
+      setComentarios(prev => [newComment, ...prev]); 
       
       setNovoComentarioTexto('');
       setNomeUsuario('');
       setDataComentario(new Date().toISOString().slice(0, 10)); 
     } catch (error) {
       console.error('Erro ao enviar avaliação:', error);
+      alert(`Erro ao enviar avaliação: ${error.message || 'Ocorreu um erro.'}`);
     }
   };
 
@@ -122,32 +140,36 @@ function Avaliacoes() {
         </div>
 
         <div className="comentarios-lista">
-          {comentarios.map((c) => (
-            <div key={c.idavaliacao} className="comentario-box"> 
-              <div className="comentario-topo">
-                <img
-                  src="/assets/icones/mamaloo-icone-perfil.png"
-                  alt="avatar"
-                />
-                <strong>{c.nome}</strong>
-                <span className="data-comentario">{c.data}</span>
-              </div>
-              <p>{c.texto}</p>
-              {typeof c.resposta === 'string' && c.resposta.trim() !== '' && (
-                <div className="resposta-box">
-                  <div className="resposta-header">
-                    <img
-                      src="/assets/icones/mamaloo-icone-perfil.png"
-                      alt="Logo Mamaloo"
-                      className="resposta-logo"
-                    />
-                    <strong className="resposta-nome">Mamaloo Pousada</strong>
-                  </div>
-                  <p className="resposta-texto">{c.resposta}</p>
+          {comentarios.length > 0 ? ( 
+            comentarios.map((c) => (
+              <div key={c.idavaliacao} className="comentario-box"> 
+                <div className="comentario-topo">
+                  <img
+                    src="/assets/icones/mamaloo-icone-perfil.png"
+                    alt="avatar"
+                  />
+                  <strong>{c.nome}</strong>
+                  <span className="data-comentario">{formatarData(c.data)}</span> 
                 </div>
-              )}
-            </div>
-          ))}
+                <p>{c.texto}</p>
+                {typeof c.resposta === 'string' && c.resposta.trim() !== '' && (
+                  <div className="resposta-box">
+                    <div className="resposta-header">
+                      <img
+                        src="/assets/icones/mamaloo-icone-perfil.png"
+                        alt="Logo Mamaloo"
+                        className="resposta-logo"
+                      />
+                      <strong className="resposta-nome">Mamaloo Pousada</strong>
+                    </div>
+                    <p className="resposta-texto">{c.resposta}</p>
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className="mensagem-sem-comentarios">Nenhum comentário disponível.</p>
+          )}
         </div>
       </div>
     </>
