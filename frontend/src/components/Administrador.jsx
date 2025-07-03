@@ -267,100 +267,82 @@ export default function Administrador() {
     
     let response;
     const headers = getAuthHeaders(); 
-
+  
     if (modoSubModal === "adicionar") {
-        
-        const formData = new FormData();
-        formData.append('nomequarto', dadosDoModal.titulo);
-        formData.append('descricaoquarto', dadosDoModal.descricao);
-        formData.append('capacidadequarto', Number(dadosDoModal.capacidade));
-        formData.append('valorquarto', Number(dadosDoModal.valor));           
-        formData.append('valorpromocaoquarto', Number(dadosDoModal.promocao) || 0);
-
-        if (dadosDoModal.novasImagens && dadosDoModal.novasImagens.length > 0) { 
-            dadosDoModal.novasImagens.forEach((file) => {
-                formData.append('imagens', file); 
-            });
-        }
-
-        response = await fetch(`${URL_API}/quartos/`, {
-            method: 'POST',
-            headers: headers, 
-            body: formData,
-        });
-
-        if (!response.ok) {
-            let errorBody = await response.text();
-            try {
-                errorBody = JSON.parse(errorBody).detail || errorBody;
-            } catch (e) { /* ignore if not JSON */ }
-            throw new Error(`Erro ao adicionar quarto: status ${response.status}. Detalhes: ${errorBody}`);
-        }
-        const result = await response.json();
-        console.log('Quarto adicionado com sucesso:', result);
-        alert('Quarto adicionado com sucesso!');
-        
-        fetchAllQuartos(); 
+      // ... (mantenha o código existente para POST)
         
     } else if (modoSubModal === "editar") {
-        
-        const jsonBody = {
-            nomequarto: dadosDoModal.titulo,
-            descricaoquarto: dadosDoModal.descricao,
-            capacidadequarto: Number(dadosDoModal.capacidade), 
-            valorquarto: Number(dadosDoModal.valor),           
-            valorpromocaoquarto: Number(dadosDoModal.promocao) || 0, 
-        };
-
+      // CORREÇÃO: Usar os nomes exatos dos campos que a API espera
+      const jsonBody = {
+        NomeQuarto: dadosDoModal.titulo,
+        descricaoQuarto: dadosDoModal.descricao,
+        CapacidadeQuarto: Number(dadosDoModal.capacidade), 
+        ValorQuarto: Number(dadosDoModal.valor),           
+        valorPromocaoQuarto: Number(dadosDoModal.promocao) || 0, 
+      };
+  
+      try {
         response = await fetch(`${URL_API}/quartos/${dadosDoModal.id}`, {
-            method: 'PUT',
-            headers: {
-                ...headers, 
-                'Content-Type': 'application/json', 
-            },
-            body: JSON.stringify(jsonBody), 
+          method: 'PUT',
+          headers: {
+            ...headers, 
+            'Content-Type': 'application/json', 
+          },
+          body: JSON.stringify(jsonBody), 
         });
-
+  
         if (!response.ok) {
-            let errorBody = await response.text();
-            try {
-                errorBody = JSON.parse(errorBody).detail || errorBody;
-            } catch (e) { /* ignore if not JSON */ }
-            throw new Error(`Erro ao atualizar quarto: status ${response.status}. Detalhes: ${errorBody}`);
+          let errorBody = await response.text();
+          try {
+            errorBody = JSON.parse(errorBody).detail || errorBody;
+          } catch (e) {
+            throw new Error(`Erro ao atualizar quarto: ${errorBody}`);
+          }
+          throw new Error(`Erro ao atualizar quarto: status ${response.status}. Detalhes: ${errorBody}`);
         }
+  
         const result = await response.json();
         console.log('Quarto atualizado com sucesso:', result);
         alert('Quarto atualizado com sucesso!');
-
-        
+  
+        // Adicionar novas imagens (se houver)
         if (dadosDoModal.novasImagens && dadosDoModal.novasImagens.length > 0) { 
-            dadosDoModal.novasImagens.forEach(async (file) => { 
-                const imageFormData = new FormData();
-                imageFormData.append('imagem', file); 
-
-                try {
-                    const imageResponse = await fetch(`${URL_API}/quartos/${dadosDoModal.id}/imagens`, {
-                        method: 'POST',
-                        headers: headers, 
-                        body: imageFormData,
-                    });
-
-                    if (!imageResponse.ok) {
-                        console.error(`Erro ao adicionar nova imagem ${file.name} ao quarto:`, imageResponse.status);
-                        alert(`Quarto atualizado, mas falha ao enviar imagem ${file.name}.`);
-                    } else {
-                        console.log(`Nova imagem ${file.name} adicionada ao quarto com sucesso!`);
-                    }
-                } catch (imageError) {
-                    console.error(`Erro ao enviar nova imagem ${file.name} do quarto:`, imageError);
-                    alert(`Quarto atualizado, mas falha ao enviar nova imagem.`);
-                }
-            });
+          await Promise.all(dadosDoModal.novasImagens.map(async (file) => { 
+            const imageFormData = new FormData();
+            imageFormData.append('imagem', file); 
+  
+            try {
+              const imageResponse = await fetch(`${URL_API}/quartos/${dadosDoModal.id}/imagens`, {
+                method: 'POST',
+                headers: headers, 
+                body: imageFormData,
+              });
+  
+              if (!imageResponse.ok) {
+                console.error(`Erro ao adicionar imagem ${file.name}:`, imageResponse.status);
+                return Promise.reject(`Falha ao enviar imagem ${file.name}`);
+              }
+              console.log(`Imagem ${file.name} adicionada com sucesso!`);
+              return true;
+            } catch (imageError) {
+              console.error(`Erro ao enviar imagem ${file.name}:`, imageError);
+              return Promise.reject(`Erro no envio da imagem ${file.name}`);
+            }
+          })).catch(e => {
+            alert(`Quarto atualizado, mas houve problemas com algumas imagens: ${e}`);
+          });
         }
-        fetchAllQuartos(); 
+        
+        fetchAllQuartos();
+        
+      } catch (error) {
+        console.error('Erro na operação:', error);
+        alert(`Erro: ${error.message}`);
+        setModalAberto(true); // Reabre o modal em caso de erro
+      }
     }
   };
-
+  
   const CardItem = ({ id, nome, onEdit, onDelete }) => (
     <div className="card-item">
       <span>{nome}</span>
