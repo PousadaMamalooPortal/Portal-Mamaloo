@@ -3,6 +3,7 @@ import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Rotas from './Rotas';
+import Scroll from './Scroll';
 
 function AppWrapper() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function AppWrapper() {
 function App() {
   return (
     <Router>
+      <Scroll /> 
       <AppWrapper />
     </Router>
   );

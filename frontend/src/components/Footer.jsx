@@ -33,7 +33,7 @@ const Footer = () => {
               <img src="/assets/icones/mamaloo-icone-email.png" alt="Email" className="icone-social" />
             </a>
            
-            <a href="https://api.whatsapp.com/send?phone=558232971407" target="_blank" rel="noopener noreferrer" className="icone-social-wrapper">
+            <a href="https://api.whatsapp.com/send?phone=5582981815454" target="_blank" rel="noopener noreferrer" className="icone-social-wrapper">
               <img src="/assets/icones/mamaloo-icone-whats.png" alt="WhatsApp" className="icone-social" />
             </a>
           </div>
