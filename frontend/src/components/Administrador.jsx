@@ -269,7 +269,38 @@ export default function Administrador() {
     const headers = getAuthHeaders(); 
   
     if (modoSubModal === "adicionar") {
-      // ... (mantenha o código existente para POST)
+      
+      const formData = new FormData();
+      formData.append('nomequarto', dadosDoModal.titulo);
+      formData.append('descricaoquarto', dadosDoModal.descricao);
+      formData.append('capacidadequarto', Number(dadosDoModal.capacidade));
+      formData.append('valorquarto', Number(dadosDoModal.valor));           
+      formData.append('valorpromocaoquarto', Number(dadosDoModal.promocao) || 0);
+
+      if (dadosDoModal.novasImagens && dadosDoModal.novasImagens.length > 0) { 
+          dadosDoModal.novasImagens.forEach((file) => {
+              formData.append('imagens', file); 
+          });
+      }
+
+      response = await fetch(`${URL_API}/quartos/`, {
+          method: 'POST',
+          headers: headers, 
+          body: formData,
+      });
+
+      if (!response.ok) {
+          let errorBody = await response.text();
+          try {
+              errorBody = JSON.parse(errorBody).detail || errorBody;
+          } catch (e) { /* ignore if not JSON */ }
+          throw new Error(`Erro ao adicionar quarto: status ${response.status}. Detalhes: ${errorBody}`);
+      }
+      const result = await response.json();
+      console.log('Quarto adicionado com sucesso:', result);
+      alert('Quarto adicionado com sucesso!');
+      
+      fetchAllQuartos(); 
         
     } else if (modoSubModal === "editar") {
       // CORREÇÃO: Usar os nomes exatos dos campos que a API espera
@@ -342,7 +373,7 @@ export default function Administrador() {
       }
     }
   };
-  
+
   const CardItem = ({ id, nome, onEdit, onDelete }) => (
     <div className="card-item">
       <span>{nome}</span>
